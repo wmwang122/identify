@@ -10,21 +10,13 @@ const GOOGLE_CLIENT_ID = "121479668229-t5j82jrbi9oejh7c8avada226s75bopn.apps.goo
 const Skeleton = ({ userId, handleLogin, handleLogout }) => {
   return (
     <>
-      {userId ? (
-        <GoogleLogout
-          clientId={GOOGLE_CLIENT_ID}
-          buttonText="Logout"
-          onLogoutSuccess={handleLogout}
-          onFailure={(err) => console.log(err)}
-        />
-      ) : (
-        <GoogleLogin
-          clientId={GOOGLE_CLIENT_ID}
-          buttonText="Login"
-          onSuccess={handleLogin}
-          onFailure={(err) => console.log(err)}
-        />
-      )}
+      <div>
+        {userId? (<div><h1>You are logged in</h1></div>):
+        (<div><div id="login">
+          <h1>First, log in to spotify</h1>
+          <a href="/api/login">Log in</a>
+        </div></div>)}
+      </div>
       <h1>Identify is a super cool game!!!! so true</h1>
       <h2> What you need to change in this skeleton</h2>
       <ul>

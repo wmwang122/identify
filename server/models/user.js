@@ -5,6 +5,7 @@ const UserSchema = new mongoose.Schema({
   spotifyid: String,
   bio: String,
   pfp: String,
+  gamesplayed: Number,
   friends: [String],
 });
 
