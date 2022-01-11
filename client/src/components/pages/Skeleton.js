@@ -25,7 +25,7 @@ const Skeleton = ({ userId, handleLogin, handleLogout }) => {
           onFailure={(err) => console.log(err)}
         />
       )}
-      <h1>Identify is a super cool game!!!!</h1>
+      <h1>Identify is a super cool game!!!! so true</h1>
       <h2> What you need to change in this skeleton</h2>
       <ul>
         <li>
