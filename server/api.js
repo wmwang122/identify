@@ -30,10 +30,8 @@ var client_id = 'b84e6bd6a87c4f93928c36e67f599187'; // Your client id
 var client_secret = 'ee9a960c35b94c37a22920c96805b12b'; // Your secret
 var redirect_uri = 'http://localhost:5000/api/callback'; // Your redirect uri
 
-//router.post("/login", auth.login);
 router.use(cors());
 router.use(cookieParser());
-router.post("/logout", auth.logout);
 router.get("/whoami", (req, res) => {
   if (!req.user) {
     // not logged in
@@ -111,7 +109,7 @@ router.get('/callback', function(req, res) {
 
     request.post(authOptions, function(error, response, body) {
       if (!error && response.statusCode === 200) {
-
+        
         var access_token = body.access_token,
             refresh_token = body.refresh_token;
 
@@ -164,6 +162,7 @@ router.get('/refresh_token', function(req, res) {
     }
   });
 });
+router.post("/logout", auth.logout);
 router.all("*", (req, res) => {
   console.log(`API route not found: ${req.method} ${req.url}`);
   res.status(404).send({ msg: "API route not found" });

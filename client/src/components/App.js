@@ -41,7 +41,7 @@ const App = () => {
   return (
     <>
       <Router>
-        <Skeleton path="/" handleLogin={handleLogin} handleLogout={handleLogout} userId={userId} />
+        <Skeleton path="/" handleLogin={handleLogin} handleLogout={handleLogout} userId={userId}/>
         <NotFound default />
       </Router>
     </>

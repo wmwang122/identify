@@ -1,0 +1,11 @@
+@import "./Skeleton.css";
+
+label {
+  display: block;
+  font: 1rem;
+}
+
+input,
+label {
+  margin: 0.4rem 0;
+}

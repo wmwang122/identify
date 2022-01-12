@@ -7,28 +7,30 @@ const NavBar = () => {
     return (
 
         <div class="nav-list-container">
-            <ul class="nav-list">
-                <li class="nav-item">
-                    <a href="#"> identify </a>
-                </li>
-            </ul>
-            
+
+            <div class="nav-title">
+                Identify
+            </div>
+
+
           <ul class="nav-list">
             <li class="nav-item">
-              <a href="#"> how to play </a>
+              <a href="howtoplay"> how to play </a>
             </li>
-                
+
           </ul>
           <ul class="nav-list">
             <li class="nav-item">
-              <a href="#"> profile </a>
+              <a href="profile"> profile </a>
             </li>
-          </ul>
+        </ul>
+
           <ul class="nav-list">
             <li class="nav-item">
-              <a href="#"> logout </a>
+              <a href="logout"> logout </a>
             </li>
-          </ul>
+        </ul>
+
         </div>
     );
     };

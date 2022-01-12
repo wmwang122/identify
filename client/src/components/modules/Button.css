@@ -1,0 +1,38 @@
+.Button-container {
+  background-color: var(--turqoise);
+  padding: var(--s);
+  margin: 0;
+}
+
+.NavBar-title {
+  color: var(--black);
+  font-size: 35px;
+  margin: 1;
+}
+
+.NavBar-linkContainer {
+  margin-left: var(--l);
+}
+
+.NavBar-link,
+.NavBar-link:visited {
+  color: var(--white);
+  opacity: 0.6;
+  text-decoration: none;
+}
+
+.NavBar-link:hover {
+  opacity: 0.8;
+}
+
+.NavBar-link.NavBar-login {
+  opacity: 1;
+}
+
+.NavBar-link + .NavBar-link {
+  margin-left: var(--m);
+}
+
+.NavBar-link {
+  color: var (--black);
+}
