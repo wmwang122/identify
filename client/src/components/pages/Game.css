@@ -1,0 +1,42 @@
+.game-panel {
+  background-color: #b2ffa8;
+  border: none;
+  color: black;
+  padding: 500px, 400px;
+  text-align: left;
+  text-decoration: none;
+  display: inline-block;
+  width: 1383px;
+  height: 370px;
+  top: 149px;
+  left: 27px;
+  margin: 20px;
+  font-size: 32px;
+  border-radius: 100px;
+}
+
+.create-game-box {
+  width: 540px;
+  height: 106px;
+  top: 40px;
+  left: 117px;
+  font-size: 80px;
+}
+
+.join-game-box {
+  width: 454px;
+  height: 106px;
+  top: 40px;
+  left: 827px;
+  font-size: 80px;
+}
+
+/*li {
+  border: 2px solid #b2ffa8;
+  padding: 10px 200px;
+}
+
+ul {
+  display: flex;
+  list-style: none;
+}*/
