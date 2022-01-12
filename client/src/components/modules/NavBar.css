@@ -36,3 +36,7 @@
 .NavBar-link {
     color: var (--black);
 }
+
+.NavBar-button {
+    color: black;
+}
