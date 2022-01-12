@@ -1,11 +1,13 @@
 .NavBar-container {
-  padding: var(--s) var(--m);
-  background-color: var(--primary);
+  background-color: var(--turqoise);
+  padding: var(--s);
+  margin: 0;
 }
 
 .NavBar-title {
-  color: var(--white);
-  font-size: 20px;
+  color: var(--black);
+  font-size: 35px;
+  margin: 1;
 }
 
 .NavBar-linkContainer {
@@ -23,6 +25,14 @@
   opacity: 0.8;
 }
 
+.NavBar-link.NavBar-login {
+  opacity: 1;
+}
+
 .NavBar-link + .NavBar-link {
   margin-left: var(--m);
+}
+
+.NavBar-link {
+    color: var (--black);
 }
