@@ -19,10 +19,10 @@
 @import url("https://fonts.googleapis.com/css2?family=Comfortaa:wght@300&family=Open+Sans:wght@300;500&family=Red+Hat+Text:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap");
 
 :root {
-  --lightgreen: #F0FFE8;
-  --turqoise: #86E7B8;
+  --lightgreen: #f0ffe8;
+  --turqoise: #b2fad7;
   --brightgreen: #b2ffa8;
-  --lightblue: #B2F7EF;
+  --lightblue: #b2f7ef;
   --black: #000000;
   --white: #fff;
 
@@ -69,7 +69,7 @@ form {
   display: inline-block;
 }
 .u-flex-alignVertical {
-  flex-direction: column; 
+  flex-direction: column;
 }
 
 .u-bold {
@@ -104,5 +104,3 @@ form {
   left: 0px;
   right: 0px;
 }
-
-

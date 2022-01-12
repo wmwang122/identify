@@ -11,7 +11,8 @@ const NavBar = () => {
       <ul class="nav-list">
         <li class="nav-item">
           <a href="howtoplay"> how to play </a>
-        </li>
+              </li>
+              
       </ul>
       <ul class="nav-list">
         <li class="nav-item">

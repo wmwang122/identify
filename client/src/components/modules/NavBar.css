@@ -68,5 +68,6 @@
     color: black;
 }
 
-.nav-item: first-child{
+.nav-list :first-child {
+    justify-content: flex-start;
 }
