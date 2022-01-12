@@ -47,14 +47,19 @@
     color: black;
     font-size: 35px;
     justify-content: flex-start;
+    margin-left: 1rem;
 }
 
 .nav-list-container{
     display: flex;
     background: turquoise;
     margin: 0;
-    justify-content: flex-end;
     align-items: center;
+    justify-content: space-between;
+}
+
+.nav-elements{
+  display: flex;
 }
 
 
@@ -68,6 +73,5 @@
     color: black;
 }
 
-.nav-list :first-child {
-    justify-content: flex-start;
+.nav-item: first-child{
 }
