@@ -1,0 +1,30 @@
+.blue-backing{
+    background-color: var(--lightblue);
+    border-radius: 64px;
+    margin-top: 32px;
+}
+
+.home-instructions{
+    display: flex;
+    justify-content: space-around;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.home-instruction{
+    display: flex;
+    margin-right: 2rem;
+    margin-left: 2rem;
+    align-items: center;
+    justify-content: center;
+}
+
+.home-circle{
+    height: 30px;
+    width: 30px;
+    border-radius: 15px;
+    text-align: center;
+    vertical-align: middle;
+    line-height: 30px;
+    margin-right: 10px;
+}

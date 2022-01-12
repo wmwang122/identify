@@ -22,6 +22,8 @@
   --lightgreen: #F0FFE8;
   --turqoise: #86E7B8;
   --brightgreen: #b2ffa8;
+  --turquoisegreen: #93ff96;
+  --lightbrightgreen: #d0ffb7;
   --lightblue: #B2F7EF;
   --black: #000000;
   --white: #fff;
@@ -44,6 +46,11 @@ form {
   flex-grow: 1;
 }
 
+.u-font {
+  font-family: "Red Hat Text", sans-serif;
+  font-weight: 300;
+}
+
 .u-flex {
   display: flex;
 }
@@ -55,6 +62,22 @@ form {
 
 .u-background-lightgreen {
   background-color: var(--lightgreen);
+}
+
+.u-background-turquoise {
+  background-color: var(--turqoise);
+}
+
+.u-background-turquoisegreen {
+  background-color: var(--turquoisegreen);
+}
+
+.u-background-brightgreen {
+  background-color: var(--brightgreen);
+}
+
+.u-background-lightbrightgreen {
+  background-color: var(--lightbrightgreen);
 }
 
 .u-flex-justifyCenter {
