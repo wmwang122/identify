@@ -77,6 +77,7 @@ router.get("/login", function(req, res) {
       redirect_uri: redirect_uri,
       state: state
     }));
+  auth.login;
 });
 router.get('/callback', function(req, res) {
 
