@@ -34,9 +34,39 @@
 }
 
 .NavBar-link {
-    color: var (--black);
+  color: var (--black);
 }
 
 .NavBar-button {
+  color: black;
+  margin-left: auto;
+  margin-right: 0;
+}
+
+.nav-title{
     color: black;
+    font-size: 35px;
+    justify-content: flex-start;
+}
+
+.nav-list-container{
+    display: flex;
+    background: turquoise;
+    margin: 0;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+
+.nav-item {
+    list-style: none;
+    margin-right: 2rem;
+}
+
+.nav-item a{
+    text-decoration: none;
+    color: black;
+}
+
+.nav-item: first-child{
 }
