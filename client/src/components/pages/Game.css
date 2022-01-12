@@ -16,6 +16,10 @@
 }
 
 .create-game-box {
+  box-sizing: border-box;
+  text-align: left;
+  text-decoration: none;
+  display: inline-block;
   width: 540px;
   height: 106px;
   top: 40px;
@@ -24,6 +28,10 @@
 }
 
 .join-game-box {
+  box-sizing: border-box;
+  text-align: left;
+  text-decoration: none;
+  display: inline-block;
   width: 454px;
   height: 106px;
   top: 40px;
@@ -31,12 +39,12 @@
   font-size: 80px;
 }
 
-/*li {
+li {
   border: 2px solid #b2ffa8;
-  padding: 10px 200px;
+  padding: 10px 400px 10px 10px;
 }
 
 ul {
   display: flex;
   list-style: none;
-}*/
+}
