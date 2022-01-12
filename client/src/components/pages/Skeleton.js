@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import GoogleLogin, { GoogleLogout } from "react-google-login";
+import NavBar from "../modules/NavBar.js";
 
 import "../../utilities.css";
 import "./Skeleton.css";
@@ -10,6 +11,9 @@ const GOOGLE_CLIENT_ID = "121479668229-t5j82jrbi9oejh7c8avada226s75bopn.apps.goo
 const Skeleton = ({ userId, handleLogin, handleLogout }) => {
   return (
     <>
+      <div>
+        <NavBar />
+      </div>
       <div>
         {userId? (<div><h1>You are logged in</h1></div>):
         (<div><div id="login">
