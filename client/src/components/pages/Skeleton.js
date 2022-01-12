@@ -11,18 +11,36 @@ const GOOGLE_CLIENT_ID = "121479668229-t5j82jrbi9oejh7c8avada226s75bopn.apps.goo
 const Skeleton = ({ userId, handleLogin, handleLogout }) => {
   return (
     <>
-      <NavBar/>
+      <NavBar />
       <div className="u-flex u-flex-alignCenter u-flex-alignVertical">
-        <img className="logo" src="/logo.png" height = "300px" width = "300px"/>
-        {userId? (<div><h1>You are logged in</h1></div>):
-        (<div><div id="login">
-            <h1>First, log in to spotify</h1>
-            <div className="login-button">
-              <a href="/api/login">LOGIN TO PLAY</a>
-              </div>
-        </div></div>)}
-      <h1>Identify is a super cool game!!!! so true</h1>
-      <h2> What you need to change in this skeleton</h2>
+        <img src="/logo.png" height="250px" width="250px" className="blue-backing" />
+        <h1 className="u-font">"Imagine Dragons!"</h1>
+        <div className="home-instructions">
+          <div className="home-instruction">
+            <div className="home-circle u-background-turquoise">1</div>connect
+          </div>
+          <div className="home-instruction">
+            <div className="home-circle u-background-turquoisegreen">2</div>listen
+          </div>
+          <div className="home-instruction">
+            <div className="home-circle u-background-brightgreen">3</div>guess
+          </div>
+          <div className="home-instruction">
+            <div className="home-circle u-background-lightbrightgreen">4</div>win
+          </div>
+        </div>
+        {userId ? (
+          <div>
+            <h1>You are logged in</h1>
+          </div>
+        ) : (
+          <div>
+            <div id="login">
+              <h1 className="u-font">First, log in to spotify</h1>
+              <a href="/api/login">Log in</a>
+            </div>
+          </div>
+        )}
       </div>
     </>
   );
