@@ -5,34 +5,21 @@ import "./NavBar.css";
 
 const NavBar = () => {
     return (
-
-        <div class="nav-list-container">
-            <div class="nav-title">
-                Identify
-            </div>
-
-
-          <ul class="nav-list">
-            <li class="nav-item">
-              <a href="howtoplay"> how to play </a>
-            </li>
-
-          </ul>
-          <ul class="nav-list">
-            <li class="nav-item">
-              <a href="profile"> profile </a>
-            </li>
-        </ul>
-
-          <ul class="nav-list">
-            <li class="nav-item">
-              <a href="logout"> logout </a>
-            </li>
-        </ul>
-
+      <nav className="NavBar-container">
+        <div className="NavBar-title u-inlineBlock">identify</div>
+        <div className="NavBar-linkContainer u-inlineBlock body">
+          <Link to="/howtoplay" className="NavBar-link NavBar-button">
+            how to play
+          </Link>
+          <Link to="/profile" className="NavBar-link">
+            profile
+          </Link>
+          <Link to="/logout" className="NavBar-link">
+            log out
+          </Link>
         </div>
+      </nav>
     );
-    };
-
+};
 
 export default NavBar;
