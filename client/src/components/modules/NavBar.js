@@ -8,21 +8,21 @@ const NavBar = () => {
     <div class="nav-list-container">
       <div class="nav-title">identify</div>
       <div class="nav-elements">
-        <ul class="nav-list">
-          <li class="nav-item">
-            <a href="howtoplay"> how to play </a>
-          </li>
+      <ul class="nav-item">
+          <Link to="/howtoplay">
+            how to play
+          </Link>
         </ul>
-        <ul class="nav-list">
-          <li class="nav-item">
-            <a href="profile"> profile </a>
-          </li>
+        <ul class="nav-item">
+          <Link to="/profile">
+            profile
+          </Link>
         </ul>
 
-        <ul class="nav-list">
-          <li class="nav-item">
-            <a href="logout"> logout </a>
-          </li>
+        <ul className="nav-item">
+          <Link to="/logout">
+            logout
+          </Link>
         </ul>
       </div>
     </div>

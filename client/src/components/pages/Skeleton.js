@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import GoogleLogin, { GoogleLogout } from "react-google-login";
 import NavBar from "../modules/NavBar.js";
 import Home from "./Home.js";
+import Game from "./Game.js";
 
 import "../../utilities.css";
 //import "./Skeleton.css";
@@ -14,6 +15,7 @@ const Skeleton = ({ userId, handleLogin, handleLogout }) => {
     <>
       <NavBar />
       <Home userId={userId} />
+      <Game userId={userId} />
     </>
   );
 };
