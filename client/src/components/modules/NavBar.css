@@ -1,12 +1,12 @@
 .NavBar-container {
   background-color: var(--turqoise);
-  padding: var(--s);
+  padding: var(--s) var(--s);
   margin: 0;
 }
 
 .NavBar-title {
   color: var(--black);
-  font-size: 35px;
+  font-size: 50px;
   margin: 1;
 }
 
@@ -45,7 +45,7 @@
 
 .nav-title{
     color: black;
-    font-size: 35px;
+    font-size: 50px;
     justify-content: flex-start;
     margin-left: 1rem;
 }
@@ -66,7 +66,7 @@
 .nav-item {
     list-style: none;
     margin-right: 2rem;
-    font-size: 30px;
+    font-size: 25px;
 }
 
 .nav-item a{

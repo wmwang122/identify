@@ -39,8 +39,10 @@
     display: inline-block;
     font-size: 32px;
     border-radius: 32px;
+    display: flex;
 
 }
 .login-button a {
     text-decoration:none;
+    color: black;
 }
