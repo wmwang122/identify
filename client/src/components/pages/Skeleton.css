@@ -37,5 +37,10 @@
     text-align: center;
     text-decoration: none;
     display: inline-block;
-    font-size: 16px;
+    font-size: 32px;
+    border-radius: 32px;
+
+}
+.login-button a {
+    text-decoration:none;
 }

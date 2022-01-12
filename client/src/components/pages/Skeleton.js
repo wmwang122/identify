@@ -36,10 +36,12 @@ const Skeleton = ({ userId, handleLogin, handleLogout }) => {
         ) : (
           <div>
             <div id="login">
-                <h1 className="u-font">First, log in to spotify</h1>
-                <div className="login-button">
-                  <a href="/api/login">Log in</a>
-                  </div>
+              <h1 className="u-font">First, log in to spotify</h1>
+              <div className="login-button">
+                <a href="/api/login">
+                  LOGIN TO PLAY
+                </a>
+              </div>
             </div>
           </div>
         )}
