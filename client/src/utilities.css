@@ -52,6 +52,10 @@ form {
   flex-direction: column;
 }
 
+.u-background-lightgreen {
+  background-color: var(--lightgreen);
+}
+
 .u-flex-justifyCenter {
   justify-content: center;
 }
@@ -62,6 +66,9 @@ form {
 
 .u-inlineBlock {
   display: inline-block;
+}
+.u-flex-alignVertical {
+  flex-direction: column; 
 }
 
 .u-bold {
@@ -89,3 +96,12 @@ form {
 .u-link:hover {
   color: var(--primary--dim);
 }
+.u-spanning {
+  position: absolute;
+  top: 0px;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
+}
+
+
