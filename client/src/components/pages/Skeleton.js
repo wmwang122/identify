@@ -13,11 +13,13 @@ const Skeleton = ({ userId, handleLogin, handleLogout }) => {
     <>
       <NavBar/>
       <div className="u-flex u-flex-alignCenter u-flex-alignVertical">
-        <img src="/logo.png" height = "200px" width = "200px"/>
+        <img className="logo" src="/logo.png" height = "300px" width = "300px"/>
         {userId? (<div><h1>You are logged in</h1></div>):
         (<div><div id="login">
-          <h1>First, log in to spotify</h1>
-          <a href="/api/login">Log in</a>
+            <h1>First, log in to spotify</h1>
+            <div className="login-button">
+              <a href="/api/login">LOGIN TO PLAY</a>
+              </div>
         </div></div>)}
       <h1>Identify is a super cool game!!!! so true</h1>
       <h2> What you need to change in this skeleton</h2>

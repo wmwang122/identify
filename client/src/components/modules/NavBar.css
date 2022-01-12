@@ -66,6 +66,7 @@
 .nav-item {
     list-style: none;
     margin-right: 2rem;
+    font-size: 22px;
 }
 
 .nav-item a{
