@@ -2,7 +2,8 @@ const mongoose = require("mongoose");
 
 const UserSchema = new mongoose.Schema({
   name: String,
-  spotifyid: String,
+  spotifyId: String,
+  refreshToken: String,
   bio: String,
   pfp: String,
   gamesplayed: Number,

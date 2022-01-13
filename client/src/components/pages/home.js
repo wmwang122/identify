@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import "../../utilities.css";
 import "./Home.css";
 
-const Home = (userId) => {
+const Home = (props) => {
     return (<div className="u-flex u-flex-alignCenter u-flex-alignVertical">
         <img src="/logo.png" height="250px" width="250px" className="blue-backing" />
         <h1 className="u-font">"Imagine Dragons!"</h1>
@@ -38,11 +38,12 @@ const Home = (userId) => {
         )*/}
         <div id="login">
             <h2 className="u-font u-textCenter">First, log in to spotify</h2>
-            <div className="login-button">
-            <a href="/api/login">
+            <div className="login-button u-pointer" onClick={props.handleLogin}>
                 LOGIN TO PLAY
-            </a>
             </div>
+        </div>
+        <div>
+            You are currently logged in as:
         </div>
     </div>);
 };
