@@ -82,9 +82,9 @@ router.get("/whoami", (req, res) => {
     // not logged in
     return res.send({});
   }
-
-  res.send(req.user);
+  res.send(req.user.name);
 });
+
 
 router.post("/initsocket", (req, res) => {
   // do nothing if user not logged in
