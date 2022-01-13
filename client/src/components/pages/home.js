@@ -15,7 +15,9 @@ const Home = (props) => {
   );
   return (
     <div className="u-flex u-flex-alignCenter u-flex-alignVertical">
-      <img src="/logo.png" height="250px" width="250px" className="blue-backing" />
+    <div className="logo-backing">
+        <img src="logo.png" height="225px" width="225px"/>
+    </div>
       <h1 className="u-font">"Imagine Dragons!"</h1>
       <div className="home-instructions">
         <div className="home-instruction">

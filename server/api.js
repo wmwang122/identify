@@ -92,11 +92,16 @@ router.post("/initsocket", (req, res) => {
   res.send({});
 });
 
-// |------------------------------|
-// | write your API methods below!|
-// |------------------------------|
-
-// anything else falls to this "not found" case
+router.post("/bioUpdate",(req,res) => {
+  if(req.body.id){
+    User.findOne({_id: req.body.id}).then((user) => {
+      user.bio = req.body.content;
+      user.save().then((value) => {
+        console.log(value.bio);
+      });
+    });
+  }
+});
 
 router.all("*", (req, res) => {
   console.log(`API route not found: ${req.method} ${req.url}`);
