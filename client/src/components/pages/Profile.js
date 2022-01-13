@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import "./Skeleton.css";
 import ProfilePic from "./ProfileComponents/ProfilePic.js"
 import Biography from "./ProfileComponents/Biography.js"
 import SongList from "./ProfileComponents/SongList.js"
