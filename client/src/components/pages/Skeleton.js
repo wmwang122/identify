@@ -13,7 +13,7 @@ const GOOGLE_CLIENT_ID = "121479668229-t5j82jrbi9oejh7c8avada226s75bopn.apps.goo
 const Skeleton = ({ userId, handleLogin, handleLogout }) => {
   return (
     <>
-      <NavBar />
+      <NavBar userId={userId} handleLogin = {handleLogin} handleLogout = {handleLogout}/>
       <Home userId={userId} handleLogin = {handleLogin} handleLogout = {handleLogout}/>
       <Game userId={userId} />
     </>
