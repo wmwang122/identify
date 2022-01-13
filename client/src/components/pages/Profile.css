@@ -1,0 +1,18 @@
+.profile-container-1 {
+    display: flex;
+    flex-wrap: nowrap;
+    align-content: flex-start;
+}
+.pfp-container {
+    margin-left: 3rem;
+    margin-right: 3rem;
+    margin-top: 2rem;
+    border-radius: 30px;
+}
+.bio-container {
+    margin-top: 2rem;
+}
+.profile-title {
+    font-size: 34px;
+    margin-bottom: 0.5rem;
+}

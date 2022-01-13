@@ -5,8 +5,8 @@ import "./Home.css";
 const Home = (props) => {
   var homeButton = props.userId ? (
     <>
-      <div className="login-button">get You're logged in!</div>
-      <div>You are currently logged in as: {JSON.stringify(props.userId)}</div>
+      <div className="login-button">You're logged in!</div>
+      <div>You are currently logged in as: {props.userId}</div>
     </>
   ) : (
     <div className="login-button u-pointer" onClick={props.handleLogin}>
