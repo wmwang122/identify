@@ -16,3 +16,7 @@
     font-size: 34px;
     margin-bottom: 0.5rem;
 }
+.newBio-button {
+    font-size: 14px;
+    padding: var(--s) var(--m);
+  }

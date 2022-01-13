@@ -1,7 +1,12 @@
-.blue-backing {
-  background-color: var(--lightblue);
+.logo-backing {
+  display: flex;
+  background-color: var(--brightgreen);
   border-radius: 64px;
   margin-top: 32px;
+  height: 250px;
+  width: 250px;
+  justify-content: center;
+  align-items: center;
 }
 
 .home-instructions {

@@ -48,7 +48,16 @@
     font-size: 34px;
     justify-content: flex-start;
     margin-left: 1rem;
+    text-decoration: none;
 }
+.nav-title a {
+  color: black;
+  font-size: 34px;
+  justify-content: flex-start;
+  margin-left: 1rem;
+  text-decoration: none;
+}
+
 
 .nav-list-container{
     display: flex;

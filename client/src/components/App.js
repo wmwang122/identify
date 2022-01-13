@@ -49,13 +49,17 @@ const App = () => {
     post("/api/logout");
   };
 
+  const handleBioUpdate = (value) => {
+    post("/api/bioUpdate",{content: value, id: userId});
+  };
+
   return (
     <>
       <NavBar handleLogin={handleLogin} handleLogout={handleLogout} userId={userId}/>
       <Router>
         <Home path="/" handleLogin={handleLogin} handleLogout={handleLogout} userId={userId}/>
-        <Game path="/lobby" handleLogin={handleLogin} handleLogout={handleLogout} userId={userId} />
-        <Profile path="/profile" userId={userId}/>
+        <Game path="/lobby" userId={userId} />
+        <Profile path="/profile" userId={userId} onSubmit={handleBioUpdate}/>
         <NotFound default />
         <HowToPlay path="/howtoplay" userId={userId}/>
       </Router>
