@@ -5,6 +5,7 @@ import Game from "./pages/Game.js";
 import NavBar from "./modules/NavBar.js";
 import Home from "./pages/Home.js";
 import Profile from "./pages/Profile.js";
+import HowToPlay from "./pages/howtoplay.js"
 
 import "../utilities.css";
 
@@ -56,6 +57,7 @@ const App = () => {
         <Game path="/lobby" handleLogin={handleLogin} handleLogout={handleLogout} userId={userId} />
         <Profile path="/profile" userId={userId}/>
         <NotFound default />
+        <HowToPlay path="/howtoplay" userId={userId}/>
       </Router>
     </>
   );
