@@ -3,7 +3,7 @@ import { Link } from "@reach/router";
 
 import "./NavBar.css";
 
-const NavBar = () => {
+const NavBar = (props) => {
   return (
     <div className="nav-list-container">
       <div className="nav-title">Identify</div>
@@ -19,10 +19,8 @@ const NavBar = () => {
           </Link>
         </ul>
 
-        <ul className="nav-item">
-          <Link to="/logout">
-            logout
-          </Link>
+        <ul className="nav-item u-pointer" onClick={props.handleLogout}>
+          logout
         </ul>
       </div>
     </div>
