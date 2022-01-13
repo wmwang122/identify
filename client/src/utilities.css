@@ -127,3 +127,7 @@ form {
   left: 0px;
   right: 0px;
 }
+
+.u-pointer {
+  cursor: pointer;
+}
