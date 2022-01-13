@@ -7,10 +7,8 @@ const Game = (userId) => {
     <div className="u-flex u-flex-alignCenter u-flex-alignVertical">
       <div id="Game">
         <div className="game-panel">
-          <ul>
-            <li>Create a Game</li>
-            <li>Join a Game</li>
-          </ul>
+          <div className="create-game-box">Create a Game</div>
+          <div className="join-game-box">Join a Game</div>
         </div>
       </div>
     </div>
