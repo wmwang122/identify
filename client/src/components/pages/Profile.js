@@ -16,6 +16,8 @@ const Profile = (props) => {
             get("/api/whoami").then((user) => {
                 setUserName(user.name);
                 setBio(user.bio);
+                console.log("set name and bio");
+                console.log(JSON.stringify(user));
             });
         }
         return () => { isMounted = false };
@@ -25,7 +27,7 @@ const Profile = (props) => {
     };
     const handleSubmit = (event) => {
         event.preventDefault();
-        props.onSubmit(value);
+        props.onSubmit({v: value});
         setBio(value);  
         setValue("");
         toggleBioEdit(!bioEditOn);
@@ -34,24 +36,20 @@ const Profile = (props) => {
         setValue(bio);
         toggleBioEdit(!bioEditOn);
     }
-    const bioField = bioEditOn?(<><input
+    const bioField = bioEditOn?(<div className="bio-subContainer"><textarea
         type="text"
-        //placeholder={props.defaultText}
         value={value}
         onChange={handleChange}
-        className="NewPostInput-input"
     />
-    <button
-        type="submit"
-        className="newBio-button"
+    <div
+        className="submitBioEdit-button u-background-turquoise u-pointer"
         onClick={handleSubmit}
-    >
-        Done
-    </button></>):(<><div>{bio}</div><button
-                        type="button"
-                        onClick={handleBioEdit}
-                    >Edit Bio
-                    </button></>);
+    >Done</div></div>):
+    (<div className="bio-subContainer">
+        <div className="bio-Content">{bio}</div>
+        <div className="editBio-button u-background-turquoise u-pointer"
+            onClick={handleBioEdit}>
+            Edit Bio</div></div>);
     return(
         <div>
             <div className="profile-container-1">

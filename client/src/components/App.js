@@ -49,7 +49,7 @@ const App = () => {
   };
 
   const handleBioUpdate = (value) => {
-    post("/api/bioUpdate",{content: value, id: userId});
+    post("/api/bioUpdate",{content: value.v, id: userId});
   };
 
   return (
