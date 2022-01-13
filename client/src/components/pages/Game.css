@@ -5,7 +5,8 @@
   padding: 500px, 400px;
   text-align: left;
   text-decoration: none;
-  display: inline-block;
+  /*display: inline-block;*/
+  display: flex;
   width: 1383px;
   height: 370px;
   top: 149px;
