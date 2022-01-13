@@ -82,7 +82,10 @@ router.get("/whoami", (req, res) => {
     // not logged in
     return res.send({});
   }
-  res.send(req.user);
+  User.findOne({_id: req.user._id}).then((user) => {
+    req.user = user;
+    res.send(req.user);
+  });
 });
 
 
@@ -102,7 +105,7 @@ router.post("/bioUpdate",(req,res) => {
     });
   }
 });
-
+  
 router.all("*", (req, res) => {
   console.log(`API route not found: ${req.method} ${req.url}`);
   res.status(404).send({ msg: "API route not found" });
