@@ -24,17 +24,24 @@ const App = () => {
     });
   }, []);
 
-  const handleLogin = (res) => {
-    console.log(`Logged in as ${res.profileObj.name}`);
-    const userToken = res.tokenObj.id_token;
-    post("/api/login", { token: userToken }).then((user) => {
-      setUserId(user._id);
-      post("/api/initsocket", { socketid: socket.id });
+  const componentDidMount = () => {
+    get("/api/whoami").then((user)=> {
+      if(user._id){
+        setUserId(user._id);
+      }
     });
+  }
+
+  const handleLogin = () => {
+    get("/api/spotifyLogin").then((data) => {
+      console.log((data))
+      window.location.href = data.url
+    })
   };
 
   const handleLogout = () => {
     setUserId(undefined);
+    console.log("logging out")
     post("/api/logout");
   };
 

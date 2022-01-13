@@ -14,7 +14,7 @@ const Skeleton = ({ userId, handleLogin, handleLogout }) => {
   return (
     <>
       <NavBar />
-      <Home userId={userId} />
+      <Home userId={userId} handleLogin = {handleLogin} handleLogout = {handleLogout}/>
       <Game userId={userId} />
     </>
   );
