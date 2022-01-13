@@ -5,7 +5,8 @@ import Game from "./pages/Game.js";
 import NavBar from "./modules/NavBar.js";
 import Home from "./pages/Home.js";
 import Profile from "./pages/Profile.js";
-import HowToPlay from "./pages/howtoplay.js"
+import HowToPlay from "./pages/howtoplay.js";
+import InGame from "./pages/InGame.js";
 
 import "../utilities.css";
 
@@ -62,6 +63,7 @@ const App = () => {
         <Profile path="/profile" userId={userId} onSubmit={handleBioUpdate}/>
         <NotFound default />
         <HowToPlay path="/howtoplay" userId={userId}/>
+        <InGame path="/gametesting" userId={userId}/>
       </Router>
     </>
   );

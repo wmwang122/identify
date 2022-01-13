@@ -105,6 +105,12 @@ router.post("/bioUpdate",(req,res) => {
     });
   }
 });
+
+router.get("/userLookup",(req,res) => {
+  User.findOne({_id: req.query._id}).then((user) => {
+    res.send(user);
+  });
+});
   
 router.all("*", (req, res) => {
   console.log(`API route not found: ${req.method} ${req.url}`);

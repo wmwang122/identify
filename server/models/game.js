@@ -5,6 +5,9 @@ const Settings = new mongoose.Schema({
 const GameSchema = new mongoose.Schema({
   creator_name: String,
   settings: String, //probably needs the Settings subschema
+  songList: Array[String],
+  currentSong: Number,
+  timeStamp: Number,
   participants: Array[String],
 });
 
