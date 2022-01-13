@@ -1,9 +1,5 @@
 import React, { Component, useEffect, useState } from "react";
 import { Router } from "@reach/router";
-import ProfilePic from "./ProfileComponents/ProfilePic.js";
-import Biography from "./ProfileComponents/Biography.js";
-import SongList from "./ProfileComponents/SongList.js";
-import SpotifyLink from "./ProfileComponents/SpotifyLink.js";
 import "../../utilities.css";
 import "./Profile.css";
 import { get, post } from "../../utilities.js";
