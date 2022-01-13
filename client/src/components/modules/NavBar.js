@@ -4,6 +4,11 @@ import { Link } from "@reach/router";
 import "./NavBar.css";
 
 const NavBar = (props) => {
+  var toggleState = props.userId?(<ul className="nav-item u-pointer" onClick={props.handleLogout}>
+  logout
+</ul>):(<ul className="nav-item u-pointer" onClick={props.handleLogin}>
+  login
+</ul>);
   return (
     <div className="nav-list-container">
       <div className="nav-title">Identify</div>
@@ -18,10 +23,7 @@ const NavBar = (props) => {
             profile
           </Link>
         </ul>
-
-        <ul className="nav-item u-pointer" onClick={props.handleLogout}>
-          logout
-        </ul>
+        {toggleState}
       </div>
     </div>
   );

@@ -49,7 +49,7 @@ const App = () => {
 
   return (
     <>
-      <NavBar/>
+      <NavBar handleLogin={handleLogin} handleLogout={handleLogout} userId={userId}/>
       <Router>
         <Home path="/" handleLogin={handleLogin} handleLogout={handleLogout} userId={userId}/>
         <Game path="/lobby" handleLogin={handleLogin} handleLogout={handleLogout} userId={userId} />
