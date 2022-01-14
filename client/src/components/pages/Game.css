@@ -14,13 +14,15 @@
   margin: 20px;
   font-size: 32px;
   border-radius: 100px;
+  justify-content: space-evenly;
 }
 
 .create-game-box {
   box-sizing: border-box;
   text-align: center;
   text-decoration: none;
-  display: inline-block;
+  /*display: inline-block;*/
+  display: flex;
   width: 540px;
   height: 106px;
   top: 40px;
@@ -32,7 +34,8 @@
   box-sizing: border-box;
   text-align: center;
   text-decoration: none;
-  display: inline-block;
+  /*display: inline-block;*/
+  display: flex;
   width: 454px;
   height: 106px;
   top: 40px;
