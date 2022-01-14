@@ -36,7 +36,7 @@
   box-sizing: border-box;
   text-align: center;
   text-decoration: none;
-  /*display: inline-block;*/
+ /* display: inline-block;*/
   display: flex;
   width: 454px;
   height: 106px;
@@ -44,6 +44,8 @@
   left: 827px;
   font-size: 80px;
   position: absolute;
+  flex-direction: column;
+  align-items: center;
 }
 
 .create-button {
@@ -104,6 +106,8 @@
   top: 0px;
   border: 3px solid #000000;
 }
+
+
 
 /*li {
   border: 2px solid #b2ffa8;
