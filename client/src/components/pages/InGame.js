@@ -15,9 +15,17 @@ const InGame = (props) => {
     }]);
     const [userBuzz, setUserBuzz] = useState(null);
     const [userWhoBuzzed, setUserWhoBuzzed] = useState(null);
+    const [gameCode, setGameCode] = useState("TEST");
     const handleBuzz = (event) => {
         setUserBuzz(props.userId);
     }
+    useEffect(()=>{
+        post("/api/gameInitiate",{code: gameCode});
+        get("/api/getGame").then((currentBuzz)=>{
+            if(currentBuzz)
+                setUserWhoBuzzed(currentBuzz); //doesn't work. userBuzz is not initialized the the useEffect kills currentBuzz. TODO
+        });
+    },[]);
     useEffect(()=>{
         let isMounted = true;
         if(userBuzz){
@@ -25,15 +33,17 @@ const InGame = (props) => {
                 get("/api/userLookup",{_id: userBuzz}).then((user) => {
                     setUserWhoBuzzed(user.name);
                     post("/api/buzz",{name: user.name});
+                    post("/api/gameUpdateBuzz",{code: gameCode, buzz: userWhoBuzzed});
                 });
             }
         }
         return () => { isMounted = false };
-    },[userBuzz]);
+    },[userBuzz, userWhoBuzzed]);
 
     useEffect(() =>{
         const buzzCallback = (value) =>{
             setUserWhoBuzzed(value);
+            //setUserBuzz(value);
         };
         socket.on("buzz",buzzCallback);
         return () =>{
