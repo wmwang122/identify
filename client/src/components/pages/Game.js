@@ -34,6 +34,7 @@ const Game = (props) => {
           <div className="join-game-box">Join a Game</div>
           {createButton}
           {optionsButton}
+          <div className="rand-line"></div>
         </div>
       </div>
     </div>
