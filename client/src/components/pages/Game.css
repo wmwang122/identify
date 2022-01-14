@@ -15,6 +15,7 @@
   font-size: 32px;
   border-radius: 100px;
   justify-content: space-evenly;
+  position: absolute;
 }
 
 .create-game-box {
@@ -28,6 +29,7 @@
   top: 40px;
   left: 117px;
   font-size: 80px;
+  position: absolute;
 }
 
 .join-game-box {
@@ -41,6 +43,66 @@
   top: 40px;
   left: 827px;
   font-size: 80px;
+  position: absolute;
+}
+
+.create-button {
+  background-color: #86e7b8;
+  border: none;
+  color: black;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 36px;
+  height: 90px;
+  width: 270px;
+  left: 52px;
+  top: 211px;
+  border-radius: 45px;
+  position: absolute;
+}
+
+.options-button {
+  position: absolute;
+  width: 370px;
+  height: 90px;
+  left: 355px;
+  top: 211px;
+  font-size: 36px;
+  background: #86e7b8;
+  border-radius: 45px;
+  text-align: center;
+  display: inline-block;
+  text-decoration: none;
+}
+
+.options-text {
+  position: absolute;
+  width: 296px;
+  height: 48px;
+  left: 36.5px;
+  top: 21px;
+  font-size: 36px;
+  line-height: 48px;
+}
+
+.create-text {
+  position: absolute;
+  width: 211px;
+  height: 48px;
+  left: 30px;
+  top: 21px;
+  font-size: 36px;
+  line-height: 48px;
+}
+
+.rand-line {
+  position: absolute;
+  width: 0px;
+  height: 364.58px;
+  left: 758px;
+  top: 0px;
+  border: 3px solid #000000;
 }
 
 /*li {
