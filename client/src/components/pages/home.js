@@ -1,12 +1,13 @@
 import React, { Component, useEffect } from "react";
 import "../../utilities.css";
 import "./Home.css";
+import Name from "./name.js";
 
 const Home = (props) => {
   var homeButton = props.userId ? (
     <>
       <div className="login-button">You're logged in!</div>
-      <div>You are currently logged in as: {props.userId}</div>
+      <div>You are currently logged in as: <Name /></div>
     </>
   ) : (
     <div className="login-button u-pointer" onClick={props.handleLogin}>

@@ -7,6 +7,7 @@ import Home from "./pages/Home.js";
 import Profile from "./pages/Profile.js";
 import HowToPlay from "./pages/howtoplay.js";
 import InGame from "./pages/InGame.js";
+import Name from "./pages/name.js";
 
 import "../utilities.css";
 
