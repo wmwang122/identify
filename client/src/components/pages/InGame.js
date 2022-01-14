@@ -3,6 +3,8 @@ import "../../utilities.css";
 import "./InGame.css";
 import GamePlayer from "./InGameComponents/GamePlayer.js";
 import {get, post} from "../../utilities.js";
+import { socket } from "../../client-socket.js";
+
 
 
 const InGame = (props) => {
@@ -23,11 +25,22 @@ const InGame = (props) => {
             if(isMounted){
                 get("/api/userLookup",{_id: userBuzz}).then((user) => {
                     setUserWhoBuzzed(user.name);
+                    props.buzzed(user.name);
                 });
             }
         }
         return () => { isMounted = false };
     },[userBuzz]);
+
+    useEffect(() =>{
+        const buzzCallback = (value) =>{
+            setUserWhoBuzzed(value.user);
+        };
+        socket.on("buzz",buzzCallback);
+        return () =>{
+            socket.off("buzz",buzzCallback);
+        };
+    },[])
     var whoBuzzed=userBuzz?(
         <div>
             {userWhoBuzzed} has buzzed!

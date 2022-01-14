@@ -54,6 +54,10 @@ const App = () => {
     post("/api/bioUpdate",{content: value.v, id: userId});
   };
 
+  const handleBuzz = (value) => {
+    post("/api/buzz",{user: value});
+  };
+
   return (
     <>
       <NavBar handleLogin={handleLogin} handleLogout={handleLogout} userId={userId}/>
@@ -63,7 +67,7 @@ const App = () => {
         <Profile path="/profile" userId={userId} onSubmit={handleBioUpdate}/>
         <NotFound default />
         <HowToPlay path="/howtoplay" userId={userId}/>
-        <InGame path="/gametesting" userId={userId}/>
+        <InGame path="/gametesting" userId={userId} buzzed={handleBuzz}/>
       </Router>
     </>
   );

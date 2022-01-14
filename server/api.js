@@ -111,6 +111,10 @@ router.get("/userLookup",(req,res) => {
     res.send(user);
   });
 });
+
+router.post("/buzz",(req,res) => {
+  socketManager.getIo().emit("buzz",req.body);
+});
   
 router.all("*", (req, res) => {
   console.log(`API route not found: ${req.method} ${req.url}`);
