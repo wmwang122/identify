@@ -13,8 +13,8 @@ const InGame = (props) => {
         _id: "61df83b4d87ebc594c8a6bc6",
         score: 0,
     }]);
-    const [userBuzz, setUserBuzz] = useState(null);
-    const [userWhoBuzzed, setUserWhoBuzzed] = useState(null);
+    const [userBuzz, setUserBuzz] = useState(null); 
+   // const [userWhoBuzzed, setUserWhoBuzzed] = useState(null); unnecesssary, just returns name instead of id
     const handleBuzz = (event) => {
         setUserBuzz(props.userId);
     }

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import "../../utilities.css";
 import "./Game.css";
+import GameCodeInput from "./GameCodeInput.js";
 
 const Game = (userId) => {
   return (
@@ -9,6 +10,7 @@ const Game = (userId) => {
         <div className="game-panel">
           <div className="create-game-box">Create a Game</div>
           <div className="join-game-box">Join a Game</div>
+          <GameCodeInput />
         </div>
       </div>
     </div>
