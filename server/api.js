@@ -11,6 +11,7 @@ const express = require("express");
 
 // import models so we can interact with the database
 const User = require("./models/user");
+const GameSchema = require("./models/game");
 
 // import authentication library
 const auth = require("./auth");
@@ -128,8 +129,33 @@ router.post("/buzz",(req,res) => {
   socketManager.getIo().emit("buzz",req.body.name);
 });
 
-router.post("/gameUpdate",(req,res) => {
-  
+router.post("/gameInitiate",(req,res) =>{
+  GameSchema.countDocuments({gameCode: req.body.code}, function (err,count){
+    if(count===0){
+      const game = new GameSchema({
+        currentBuzz: "",
+        gameCode: req.body.code,
+      });
+      game.save();
+    }
+  });
+});
+
+router.get("/getGame",(req,res) =>{
+  GameSchema.findOne({gameCode: req.query.code}).then((game)=>{
+    if(game && game.currentBuzz)
+      res.send(game.currentBuzz); //temp
+  });
+});
+
+router.post("/gameUpdateBuzz",(req,res) => {
+  console.log("Received:" + JSON.stringify(req.body));
+  GameSchema.findOne({gameCode: req.body.code}).then((game)=>{
+    if(game){
+      game.currentBuzz = req.body.buzz;
+      game.save();
+    }
+  });
 });
   
   
