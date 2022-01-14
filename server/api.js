@@ -115,6 +115,7 @@ router.post("/pfpUpdate", (req, res) => {
       });
     });
   }
+});
 router.get("/userLookup",(req,res) => {
   User.findOne({_id: req.query._id}).then((user) => {
     res.send(user);
