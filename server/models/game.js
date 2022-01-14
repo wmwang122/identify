@@ -8,6 +8,7 @@ const GameSchema = new mongoose.Schema({
   songList: Array[String],
   currentSong: Number,
   timeStamp: Number,
+  currentBuzz: String,
   participants: Array[String],
 });
 

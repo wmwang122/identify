@@ -113,7 +113,13 @@ router.get("/userLookup",(req,res) => {
 });
 
 router.post("/buzz",(req,res) => {
-  socketManager.getIo().emit("buzz",req.body);
+  console.log("hi10");
+  console.log(JSON.stringify(req.body));
+  socketManager.getIo().emit("buzz",req.body.name);
+});
+
+router.post("/gameUpdate",(req,res) => {
+  
 });
   
 router.all("*", (req, res) => {
