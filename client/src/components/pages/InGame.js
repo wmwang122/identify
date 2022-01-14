@@ -15,7 +15,6 @@ const InGame = (props) => {
     }]);
     const [userBuzz, setUserBuzz] = useState(null);
     const [userWhoBuzzed, setUserWhoBuzzed] = useState(null);
-    console.log(JSON.stringify(userData));
     const handleBuzz = (event) => {
         setUserBuzz(props.userId);
     }
@@ -25,7 +24,7 @@ const InGame = (props) => {
             if(isMounted){
                 get("/api/userLookup",{_id: userBuzz}).then((user) => {
                     setUserWhoBuzzed(user.name);
-                    props.buzzed(user.name);
+                    post("/api/buzz",{name: user.name});
                 });
             }
         }
@@ -34,7 +33,7 @@ const InGame = (props) => {
 
     useEffect(() =>{
         const buzzCallback = (value) =>{
-            setUserWhoBuzzed(value.user);
+            setUserWhoBuzzed(value);
         };
         socket.on("buzz",buzzCallback);
         return () =>{
@@ -47,7 +46,7 @@ const InGame = (props) => {
         </div>
     ):(
         <div>
-
+            No one has buzzed!
         </div>
     );
   return (

@@ -54,9 +54,6 @@ const App = () => {
     post("/api/bioUpdate",{content: value.v, id: userId});
   };
 
-  const handleBuzz = (value) => {
-    post("/api/buzz",{user: value});
-  };
 
   return (
     <>
@@ -67,7 +64,7 @@ const App = () => {
         <Profile path="/profile" userId={userId} onSubmit={handleBioUpdate}/>
         <NotFound default />
         <HowToPlay path="/howtoplay" userId={userId}/>
-        <InGame path="/gametesting" userId={userId} buzzed={handleBuzz}/>
+        <InGame path="/gametesting" userId={userId}/>
       </Router>
     </>
   );
