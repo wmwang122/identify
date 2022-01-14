@@ -32,8 +32,13 @@ const Game = (props) => {
       <div id="Game">
         <div className="game-panel">
           <div className="create-game-box">Create a Game</div>
-          <div className="join-game-box">Join a Game</div>
-          <GameCodeInput />
+          <div className="join-game-box">
+            <div> Join a Game </div>
+            <div className="enterGameCode"> enter game code: </div>
+            <div className="enterCode-button">
+              <GameCodeInput />
+            </div>
+          </div>
           {createButton}
           {optionsButton}
           <div className="rand-line"></div>
