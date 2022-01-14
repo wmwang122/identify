@@ -106,7 +106,6 @@ router.post("/bioUpdate",(req,res) => {
   }
 });
 
-<<<<<<< HEAD
 router.post("/pfpUpdate", (req, res) => {
   if (req.body.id) {
     User.findOne({ _id: req.body.id }).then((user) => {
@@ -116,7 +115,7 @@ router.post("/pfpUpdate", (req, res) => {
       });
     });
   }
-=======
+});
 router.get("/userLookup",(req,res) => {
   User.findOne({_id: req.query._id}).then((user) => {
     res.send(user);
@@ -131,7 +130,6 @@ router.post("/buzz",(req,res) => {
 
 router.post("/gameUpdate",(req,res) => {
   
->>>>>>> 68232e68c14d0c994f3dc128f748a6536948e6c5
 });
   
   
