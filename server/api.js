@@ -106,15 +106,17 @@ router.post("/bioUpdate",(req,res) => {
   }
 });
 
-router.get("/userLookup",(req,res) => {
-  User.findOne({_id: req.query._id}).then((user) => {
-    res.send(user);
-  });
+router.post("/pfpUpdate", (req, res) => {
+  if (req.body.id) {
+    User.findOne({ _id: req.body.id }).then((user) => {
+      user.pfp = req.body.content;
+      user.save().then((value) => {
+        console.log(value.pfp);
+      });
+    });
+  }
 });
-
-router.post("/buzz",(req,res) => {
-  socketManager.getIo().emit("buzz",req.body);
-});
+  
   
 router.all("*", (req, res) => {
   console.log(`API route not found: ${req.method} ${req.url}`);

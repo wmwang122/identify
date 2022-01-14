@@ -23,9 +23,7 @@ const Name = (props) => {
 
  
   return (
-    <div>{userName}</div>
-   
-          
+    <div>{userName}</div>      
   );
 }; 
 

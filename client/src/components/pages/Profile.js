@@ -8,6 +8,7 @@ import {get, post} from "../../utilities.js";
 const Profile = (props) => {
     const [userName, setUserName] = useState("");
     const [bio, setBio] = useState("");
+    const [pfp, setPfp] = useState("");
     const [value, setValue] = useState("");
     const [bioEditOn, toggleBioEdit] = useState(false);
     useEffect(() => {
@@ -16,7 +17,8 @@ const Profile = (props) => {
             get("/api/whoami").then((user) => {
                 setUserName(user.name);
                 setBio(user.bio);
-                console.log("set name and bio");
+                setPfp(user.pfp);
+                console.log("set name and bio and pfp");
                 console.log(JSON.stringify(user));
             });
         }

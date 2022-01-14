@@ -17,9 +17,14 @@ const NavBar = (props) => {
         </Link>
         </div>
       <div className="nav-elements">
+        <ul className="nav-item">
+          <Link to="/lobby">
+            play a game
+          </Link>
+      </ul>
       <ul className="nav-item">
           <Link to="/howtoplay">
-            how to play
+            instructions
           </Link>
         </ul>
         <ul className="nav-item">

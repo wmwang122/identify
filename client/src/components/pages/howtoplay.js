@@ -27,6 +27,7 @@ const HowToPlay = (props) => {
               6. you will earn ten points per correct answer and lose five points for each incorrect
               answer{" "}
             </div>
+            <div> 7. glhf! don't die and don't do drugs :)</div>
           </div>
         </div>
       </div>
