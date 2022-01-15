@@ -4,8 +4,6 @@ import "./Home.css";
 import { Router } from "@reach/router";
 import { get, post } from "../../utilities.js";
 
-
-
 const Name = (props) => {
   const [userName, setUserName] = useState("");
   useEffect(() => {
@@ -19,12 +17,8 @@ const Name = (props) => {
       isMounted = false;
     };
   }, []);
-    
 
- 
-  return (
-    <div>{userName}</div>      
-  );
-}; 
+  return <div>{userName}</div>;
+};
 
 export default Name;
