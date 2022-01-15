@@ -26,7 +26,7 @@ const socketManager = require("./server-socket");
 
 const spotifyApi = new SpotifyWebApi({
   clientId: 'b84e6bd6a87c4f93928c36e67f599187',
-  clientSecret: 'ee9a960c35b94c37a22920c96805b12b',
+  clientSecret: '8a3349b63932454bb357f04367474560',
   redirectUri: 'http://localhost:5000/api/callback',
 });
 
