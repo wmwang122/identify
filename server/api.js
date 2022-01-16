@@ -124,12 +124,11 @@ router.get("/userLookup",(req,res) => {
 });
 
 router.post("/buzz",(req,res) => {
-  console.log("hi10");
-  console.log(JSON.stringify(req.body));
-  socketManager.getIo().emit("buzz",req.body.name);
+  console.log("hello");
+  socketManager.getIo().emit("buzz", req.body.userId);
 });
 
-router.post("/gameInitiate",(req,res) =>{
+/*router.post("/gameInitiate",(req,res) =>{
   GameSchema.countDocuments({gameCode: req.body.code}, function (err,count){
     if(count===0){
       const game = new GameSchema({
@@ -139,12 +138,29 @@ router.post("/gameInitiate",(req,res) =>{
       game.save();
     }
   });
+});*/
+
+router.post("/newGame", (req, res) => {
+  const game = new GameSchema({
+    gameCode: req.body.code,
+  });
+  game.save();
 });
 
-router.get("/getGame",(req,res) =>{
+/*router.get("/getGame",(req,res) =>{
   GameSchema.findOne({gameCode: req.query.code}).then((game)=>{
     if(game && game.currentBuzz)
       res.send(game.currentBuzz); //temp
+  });
+});*/
+
+router.get("/getGame", (req, res) => {
+  GameSchema.findOne({ gameCode: req.query.gameCode }).then((game) => {
+    if (game != null) {
+      res.send({status: "Game found"})
+    } else {
+      res.send({status: "No game"})
+    }
   });
 });
 

@@ -1,13 +1,16 @@
 import React, { Component, useEffect } from "react";
 import "../../utilities.css";
 import "./Home.css";
-import Name from "./name.js";
+import Name from "./Name.js";
 
 const Home = (props) => {
   var homeButton = props.userId ? (
     <>
       <div className="login-button">You are logged in!</div>
-      <div> Welcome <Name/> </div>
+      <div>
+        {" "}
+        Welcome <Name />{" "}
+      </div>
     </>
   ) : (
     <div className="login-button u-pointer" onClick={props.handleLogin}>
@@ -16,9 +19,9 @@ const Home = (props) => {
   );
   return (
     <div className="u-flex u-flex-alignCenter u-flex-alignVertical">
-    <div className="logo-backing">
-        <img src="logo.png" height="225px" width="225px"/>
-    </div>
+      <div className="logo-backing">
+        <img src="logo.png" height="225px" width="225px" />
+      </div>
       <h1 className="u-font">"Imagine Dragons!"</h1>
       <div className="home-instructions">
         <div className="home-instruction">

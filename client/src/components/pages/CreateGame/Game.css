@@ -68,7 +68,7 @@
   position: absolute;
   width: 370px;
   height: 90px;
-  left: 355px;
+  left: 400px;
   top: 211px;
   font-size: 36px;
   background: #86e7b8;
@@ -76,6 +76,7 @@
   text-align: center;
   display: flex;
   text-decoration: none;
+  color:black;
 }
 
 .options-text {
