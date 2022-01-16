@@ -8,6 +8,7 @@ const CreateGame = (props) => {
 
     const startGame = () => {
       console.log("Game will be started!")
+      
     }
 
     return (

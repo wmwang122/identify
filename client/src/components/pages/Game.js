@@ -4,9 +4,10 @@ import "./Game.css";
 import GameCodeInput from "./GameCodeInput.js";
 import Name from "./name.js";
 import CreateGame from "./GameComponents/CreateGame";
+import AdvancedOptions from "./GameComponents/AdvancedOptions";
 
 const Game = (props) => {
-  var optionsButton = props.userId ? (
+/*   var optionsButton = props.userId ? (
     <>
       <div className="options-button">
         <div className="options-text">Advanced Options</div>
@@ -16,7 +17,7 @@ const Game = (props) => {
     <div className="options-button u-pointer" onClick={props.userId}>
       <div className="options-text">Advanced Options</div>
     </div>
-  );
+  ); */
   return (
     <div className="u-flex u-flex-alignCenter u-flex-alignVertical">
       <div id="Game">
@@ -30,7 +31,7 @@ const Game = (props) => {
             </div>
           </div>
           <CreateGame/>
-          {optionsButton}
+          <AdvancedOptions/>
           <div className="rand-line"></div>
         </div>
       </div>
