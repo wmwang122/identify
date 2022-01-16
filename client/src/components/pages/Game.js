@@ -12,18 +12,18 @@ const Game = (props) => {
       </div>
     </>
   ) : (
-    <div className="create-button u-pointer" onClick={props.handleLogin}>
+    <div className="create-button u-pointer" onClick={props.userId}>
       <div className="create-text">Quick Create</div>
     </div>
   );
   var optionsButton = props.userId ? (
     <>
-      <div className="options-text">
+      <div className="options-button">
         <div className="options-text">Advanced Options</div>
       </div>
     </>
   ) : (
-    <div className="options-button u-pointer" onClick={props.handleLogin}>
+    <div className="options-button u-pointer" onClick={props.userId}>
       <div className="options-text">Advanced Options</div>
     </div>
   );
