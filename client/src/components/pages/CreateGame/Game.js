@@ -16,7 +16,7 @@ const Game = (props) => {
     <div className="options-button u-pointer" onClick={props.userId}>
       <div className="options-text">Advanced Options</div>
     </div>
-  );*/
+  );
 
   const Game = (props) => {
   var createButton =  (
