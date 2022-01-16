@@ -8,7 +8,8 @@
   /*display: inline-block;*/
   display: flex;
   width: 1383px;
-  height: 370px;
+  /*height: 370px;*/
+  height: 100px;
   top: 149px;
   left: 27px;
   margin: 20px;

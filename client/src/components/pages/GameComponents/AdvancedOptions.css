@@ -34,10 +34,12 @@
     display: flex;
     position: absolute;
     width: 1383px;
+    height: 1000px;
     max-height: 0px;
     left: 28px;
     top: 561px;
     border-radius: 100px;
+    visibility: visible;
   }
 
   .options-panel-open {
@@ -55,6 +57,7 @@
     left: 28px;
     top: 561px;
     border-radius: 100px;
+    visibility: visible;
   }
 
   p,
