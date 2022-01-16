@@ -54,7 +54,7 @@
   color: black;
   text-align: center;
   text-decoration: none;
-  display: inline-block;
+  display: flex;
   font-size: 36px;
   height: 90px;
   width: 270px;
@@ -74,7 +74,7 @@
   background: #86e7b8;
   border-radius: 45px;
   text-align: center;
-  display: inline-block;
+  display: flex;
   text-decoration: none;
   color:black;
 }
@@ -87,6 +87,7 @@
   top: 21px;
   font-size: 36px;
   line-height: 48px;
+  display: flex;
 }
 
 .create-text {
@@ -97,6 +98,7 @@
   top: 21px;
   font-size: 36px;
   line-height: 48px;
+  display: flex;
 }
 
 .rand-line {
@@ -106,6 +108,7 @@
   left: 758px;
   top: 0px;
   border: 3px solid #000000;
+  display: flex;
 }
 
 
