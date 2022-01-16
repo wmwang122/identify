@@ -7,3 +7,34 @@ input,
 label {
   margin: 0.4rem 0;
 }
+
+.create-text {
+  position: absolute;
+  width: 211px;
+  height: 48px;
+  left: 30px;
+  top: 21px;
+  font-size: 36px;
+  line-height: 48px;
+  display: flex;
+}
+
+.create-button {
+  background-color: #86e7b8;
+  border: none;
+  color: black;
+  text-align: center;
+  text-decoration: none;
+  display: flex;
+  font-size: 36px;
+  height: 90px;
+  width: 270px;
+  left: 52px;
+  top: 211px;
+  border-radius: 45px;
+  position: absolute;
+}
+
+.create-button a {
+  text-decoration: none;
+}

@@ -3,19 +3,9 @@ import "../../utilities.css";
 import "./Game.css";
 import GameCodeInput from "./GameCodeInput.js";
 import Name from "./name.js";
+import CreateGame from "./GameComponents/CreateGame";
 
 const Game = (props) => {
-  var createButton = props.userId ? (
-    <>
-      <div className="create-button">
-        <div className="create-text">Quick Create</div>
-      </div>
-    </>
-  ) : (
-    <div className="create-button u-pointer" onClick={props.userId}>
-      <div className="create-text">Quick Create</div>
-    </div>
-  );
   var optionsButton = props.userId ? (
     <>
       <div className="options-button">
@@ -39,7 +29,7 @@ const Game = (props) => {
               <GameCodeInput />
             </div>
           </div>
-          {createButton}
+          <CreateGame/>
           {optionsButton}
           <div className="rand-line"></div>
         </div>
