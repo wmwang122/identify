@@ -14,10 +14,19 @@ const InGame = (props) => {
         score: 0,
     }]);
     const [userBuzz, setUserBuzz] = useState(null); 
-   // const [userWhoBuzzed, setUserWhoBuzzed] = useState(null); unnecesssary, just returns name instead of id
+    const [userWhoBuzzed, setUserWhoBuzzed] = useState(null); //unnecesssary, just returns name instead of id
     const handleBuzz = (event) => {
-        setUserBuzz(props.userId);
+        post("/api/buzz", { userId: props.userId });
+        console.log("person buzzed");
     }
+
+        useEffect(() => {
+          console.log("useeffect");
+          socket.on("buzz", newBuzz);
+          return () => {
+            socket.off("buzz", newBuzz);
+          };
+        }, []);
   /*  useEffect(()=>{
         post("/api/gameInitiate",{code: gameCode});
         get("/api/getGame").then((currentBuzz)=>{
@@ -25,7 +34,7 @@ const InGame = (props) => {
                 setUserWhoBuzzed(currentBuzz); //doesn't work. userBuzz is not initialized the the useEffect kills currentBuzz. TODO
         });
     },[]);*/
-    useEffect(()=>{
+  /*  useEffect(()=>{
         let isMounted = true;
         if(userBuzz){
             if(isMounted){
@@ -37,9 +46,9 @@ const InGame = (props) => {
             }
         }
         return () => { isMounted = false };
-    },[userBuzz, userWhoBuzzed]);
+    },[userBuzz, userWhoBuzzed]);*/
 
-    useEffect(() =>{
+ /*   useEffect(() =>{
         const buzzCallback = (value) =>{
             setUserWhoBuzzed(value);
             //setUserBuzz(value);
@@ -48,10 +57,20 @@ const InGame = (props) => {
         return () =>{
             socket.off("buzz",buzzCallback);
         };
-    },[])
+    },[])*/
+
+    const newBuzz = (userId) => {
+        console.log("im sad");
+        setUserBuzz(userId);
+
+
+    }
+
+
+
     var whoBuzzed=userBuzz?(
         <div>
-            {userWhoBuzzed} has buzzed!
+            {userBuzz} has buzzed!
         </div>
     ):(
         <div>

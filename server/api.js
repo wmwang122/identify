@@ -124,9 +124,8 @@ router.get("/userLookup",(req,res) => {
 });
 
 router.post("/buzz",(req,res) => {
-  console.log("hi10");
-  console.log(JSON.stringify(req.body));
-  socketManager.getIo().emit("buzz",req.body.name);
+  console.log("hello");
+  socketManager.getIo().emit("buzz", req.body.userId);
 });
 
 /*router.post("/gameInitiate",(req,res) =>{
