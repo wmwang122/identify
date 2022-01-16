@@ -18,13 +18,13 @@ const InGame = (props) => {
     const handleBuzz = (event) => {
         setUserBuzz(props.userId);
     }
-    useEffect(()=>{
+  /*  useEffect(()=>{
         post("/api/gameInitiate",{code: gameCode});
         get("/api/getGame").then((currentBuzz)=>{
             if(currentBuzz)
                 setUserWhoBuzzed(currentBuzz); //doesn't work. userBuzz is not initialized the the useEffect kills currentBuzz. TODO
         });
-    },[]);
+    },[]);*/
     useEffect(()=>{
         let isMounted = true;
         if(userBuzz){

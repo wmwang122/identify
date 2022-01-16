@@ -1,10 +1,10 @@
 import React, { Component, useEffect } from "react";
-import "../../utilities.css";
+import "../../../utilities.css";
 import "./Game.css";
 import GameCodeInput from "./GameCodeInput.js";
-import Name from "./name.js";
+import Name from "../Name.js";
 
-const Game = (props) => {
+/*const Game = (props) => {
   var createButton = props.userId ? (
     <>
       <div className="create-button">
@@ -26,12 +26,29 @@ const Game = (props) => {
     <div className="options-button u-pointer" onClick={props.handleLogin}>
       <div className="options-text">Advanced Options</div>
     </div>
-  );
+  );*/
+
+  const Game = (props) => {
+  var createButton =  (
+    <>
+      <div className="create-button">
+        <div className="create-text">Quick Create</div>
+      </div>
+    </>
+  ) 
+  var optionsButton =  (
+    <>
+      <div className="options-text">
+        <div className="options-text">Advanced Options</div>
+      </div>
+    </>
+  ) 
+    
   return (
     <div className="u-flex u-flex-alignCenter u-flex-alignVertical">
       <div id="Game">
         <div className="game-panel">
-          <div className="create-game-box">Create a Game</div>
+          <div linkclassName="create-game-box">Create a Game</div>
           <div className="join-game-box">
             <div> Join a Game </div>
             <div className="enterGameCode"> enter game code: </div>
@@ -40,7 +57,7 @@ const Game = (props) => {
             </div>
           </div>
           {createButton}
-          {optionsButton}
+          <div>{optionsButton} </div>
           <div className="rand-line"></div>
         </div>
       </div>

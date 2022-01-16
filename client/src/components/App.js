@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { Router } from "@reach/router";
 import NotFound from "./pages/NotFound.js";
-import Game from "./pages/Game.js";
+import Game from "./pages/CreateGame/Game.js";
 import NavBar from "./modules/NavBar.js";
 import Home from "./pages/Home.js";
 import Profile from "./pages/Profile.js";
 import HowToPlay from "./pages/howtoplay.js";
 import InGame from "./pages/InGame.js";
+import NewGame from "./pages/CreateGame/NewGame.js";
 
 import "../utilities.css";
 
@@ -55,6 +56,9 @@ const App = () => {
   };
 
 
+
+
+
   return (
     <>
       <NavBar handleLogin={handleLogin} handleLogout={handleLogout} userId={userId}/>
@@ -64,7 +68,10 @@ const App = () => {
         <Profile path="/profile" userId={userId} onSubmit={handleBioUpdate}/>
         <NotFound default />
         <HowToPlay path="/howtoplay" userId={userId}/>
-        <InGame path="/gametesting" userId={userId}/>
+        <InGame path="/gametesting" userId={userId} />
+        <NewGame path="/NewGame" userId={userId} />
+        {/* <AdvancedOptions path="/game-options" userId={userId}/> */}
+
       </Router>
     </>
   );
