@@ -45,6 +45,10 @@ const App = () => {
     })
   };
 
+  const handleCreate = () => {
+    console.log("clicked!")
+  };
+
   const handleLogout = () => {
     setUserId(undefined);
     console.log("logging out")

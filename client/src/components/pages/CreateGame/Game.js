@@ -2,20 +2,10 @@ import React, { Component, useEffect } from "react";
 import "../../../utilities.css";
 import "./Game.css";
 import GameCodeInput from "./GameCodeInput.js";
-import Name from "../Name.js";
+import Name from "./name.js";
+import CreateGame from "./GameComponents/CreateGame";
 
-/*const Game = (props) => {
-  var createButton = props.userId ? (
-    <>
-      <div className="create-button">
-        <div className="create-text">Quick Create</div>
-      </div>
-    </>
-  ) : (
-    <div className="create-button u-pointer" onClick={props.userId}>
-      <div className="create-text">Quick Create</div>
-    </div>
-  );
+const Game = (props) => {
   var optionsButton = props.userId ? (
     <>
       <div className="options-button">
@@ -56,8 +46,8 @@ import Name from "../Name.js";
               <GameCodeInput />
             </div>
           </div>
-          {createButton}
-          <div>{optionsButton} </div>
+          <CreateGame/>
+          {optionsButton}
           <div className="rand-line"></div>
         </div>
       </div>

@@ -1,10 +1,24 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
+import "./CreateGame.css";
+import { Link } from "@reach/router";
+
+
 
 const CreateGame = (props) => {
-  return (
-    <div>
-      <h1>Code: </h1>
-      <input type="text" id="name" name="name" required minlength="4" maxlength="8" size="10" />
-    </div>
-  );
-};
+
+    const startGame = () => {
+      console.log("Game will be started!")
+    }
+
+    return (
+      <div className="create-button u-pointer" >
+        <div className="create-text" onClick={startGame}>
+          <Link to="/gametesting">
+            Quick Create
+          </Link>
+          </div>
+      </div>
+    );
+}
+
+export default CreateGame;
