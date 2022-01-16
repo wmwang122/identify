@@ -2,10 +2,9 @@ import React, { Component, useEffect } from "react";
 import "../../../utilities.css";
 import "./Game.css";
 import GameCodeInput from "./GameCodeInput.js";
-import Name from "./name.js";
-import CreateGame from "./GameComponents/CreateGame";
+import CreateGame from "../GameComponents/CreateGame";
 
-const Game = (props) => {
+/*const Game = (props) => {
   var optionsButton = props.userId ? (
     <>
       <div className="options-button">
@@ -16,7 +15,7 @@ const Game = (props) => {
     <div className="options-button u-pointer" onClick={props.userId}>
       <div className="options-text">Advanced Options</div>
     </div>
-  );
+  );*/
 
   const Game = (props) => {
   var createButton =  (
