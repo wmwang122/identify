@@ -25,6 +25,9 @@ const InGame = (props) => {
   };
 
   useEffect(() => {
+    get("/api/testPlaylists").then((body) =>{
+      console.log(JSON.stringify(body));
+    });
     console.log("useeffect");
     socket.on("buzz", newBuzz);
     return () => {
@@ -73,9 +76,6 @@ const InGame = (props) => {
         {whoBuzzed}
       </div>
       <Countdown time={5} userExists={userBuzz ? true : false} end={handleTimerEnd} />
-      <div>
-        <button>Add me to game</button>
-      </div>
     </div>
   );
 };

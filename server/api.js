@@ -25,9 +25,9 @@ const SpotifyWebApi = require('spotify-web-api-node');
 const socketManager = require("./server-socket");
 
 const spotifyApi = new SpotifyWebApi({
-  clientId: 'b84e6bd6a87c4f93928c36e67f599187',
-  clientSecret: '8a3349b63932454bb357f04367474560',
-  redirectUri: 'http://localhost:5000/api/callback',
+  clientId: process.env.SPOTIFY_API_ID,
+  clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
+  redirectUri:  process.env.CALLBACK_URI,
 });
 
 router.get('/spotifyLogin', (req, res) => {
@@ -50,6 +50,25 @@ router.get('/playlists', async (req, res) => {
       console.log("Access Token Refreshed!");
       loggedInSpotifyApi.setAccessToken(data.body['access_token']);
       const result = await loggedInSpotifyApi.getUserPlaylists();
+      res.status(200).send(result.body);
+    })
+  } catch (err) {
+    res.status(400).send(err);
+  }
+});
+
+router.get('/testPlaylists', async (req, res) => {
+  try {
+    const loggedInSpotifyApi = new SpotifyWebApi({
+      clientId: process.env.SPOTIFY_API_ID,
+      clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
+      redirectUri: process.env.CALLBACK_URI,
+    });
+    loggedInSpotifyApi.setRefreshToken(req.user.refreshToken);
+    loggedInSpotifyApi.refreshAccessToken().then(async (data) => {
+      console.log("Access Token Refreshed!");
+      loggedInSpotifyApi.setAccessToken(data.body['access_token']);
+      const result = await loggedInSpotifyApi.getAlbums(['5U4W9E5WsYb2jUQWePT8Xm', '3KyVcddATClQKIdtaap4bV']);
       res.status(200).send(result.body);
     })
   } catch (err) {
@@ -173,7 +192,6 @@ router.post("/gameUpdateBuzz",(req,res) => {
     }
   });
 });
-  
   
 router.all("*", (req, res) => {
   console.log(`API route not found: ${req.method} ${req.url}`);
