@@ -5,7 +5,8 @@ import GamePlayer from "./GamePlayer.js";
 import Countdown from "./Countdown.js";
 import { get, post } from "../../../utilities.js";
 import { socket } from "../../../client-socket.js";
-//import SongPlayer from "./SongPlayer.js";
+import SongPlayer from "./SongPlayer.js";
+import InputAnswer from "./InputAnswer.js";
 
 const InGame = (props) => {
   const [currentSong, setCurrentSong] = useState(null);
@@ -72,6 +73,15 @@ const InGame = (props) => {
   }, [myAudio]);
 
   var whoBuzzed = userBuzz ? <div>{userWhoBuzzed} has buzzed!</div> : <div>No one has buzzed!</div>;
+  var textBox =
+    userBuzz === props.userId ? (
+      <div>
+        <InputAnswer />
+      </div>
+    ) : (
+      <div> hi </div>
+    );
+
   return (
     <div className="inGame-container">
       <div className="inGame-container-left">
@@ -91,6 +101,7 @@ const InGame = (props) => {
           buzz
         </div>
         {whoBuzzed}
+        {textBox}
       </div>
       <Countdown time={5} userExists={userBuzz ? true : false} end={handleTimerEnd} />
     </div>
