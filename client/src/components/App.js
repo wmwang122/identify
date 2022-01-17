@@ -6,7 +6,7 @@ import NavBar from "./modules/NavBar.js";
 import Home from "./pages/Home.js";
 import Profile from "./pages/Profile.js";
 import HowToPlay from "./pages/howtoplay.js";
-import InGame from "./pages/InGame.js";
+import InGame from "./pages/InGameComponents/InGame.js";
 import NewGame from "./pages/CreateGame/NewGame.js";
 
 import "../utilities.css";
