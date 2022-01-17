@@ -56,7 +56,7 @@ const InGame = (props) => {
 
   var whoBuzzed = userBuzz ? <div>{userWhoBuzzed} has buzzed!</div> : <div>No one has buzzed!</div>;
 
-  var textBox = (userBuzz === props.userId) ? <InputAnswer.js/> : <div> </div>;
+  var textBox = (userBuzz === props.userId) ? <div><InputAnswer.js/> </div> : <div> hi </div>;
 
   return (
     <div className="inGame-container">
