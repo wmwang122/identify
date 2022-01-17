@@ -1,6 +1,5 @@
 import React, { Component, useEffect, useState } from "react";
 import "../../utilities.css";
-import "./Home.css";
 import { Router } from "@reach/router";
 import { get, post } from "../../utilities.js";
 
