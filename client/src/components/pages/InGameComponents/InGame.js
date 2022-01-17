@@ -5,7 +5,7 @@ import GamePlayer from "./GamePlayer.js";
 import Countdown from "./Countdown.js";
 import { get, post } from "../../../utilities.js";
 import { socket } from "../../../client-socket.js";
-import SongPlayer from "./SongPlayer.js";
+//import SongPlayer from "./SongPlayer.js";
 
 const InGame = (props) => {
   const [currentSong, setCurrentSong] = useState(null);
@@ -19,6 +19,8 @@ const InGame = (props) => {
   const [userWhoBuzzed, setUserWhoBuzzed] = useState(null); //unnecesssary, just returns name instead of id
   const [trackList, setTrackList] = useState(null);
   const [trackNum, setTrackNum] = useState(1);
+  const [myAudio, setMyAudio] = useState(null);
+  const [playingNum, setPlayingNum] = useState(null);
 
   var temp = false;
   const handleBuzz = (event) => {
@@ -53,8 +55,23 @@ const InGame = (props) => {
     console.log(trackNum);
   };
 
-  var whoBuzzed = userBuzz ? <div>{userWhoBuzzed} has buzzed!</div> : <div>No one has buzzed!</div>;
+  useEffect(() => {
+    if (trackNum && trackList && (!playingNum || playingNum != trackNum)) {
+      setPlayingNum(trackNum);
+      if (myAudio) {
+        myAudio.pause();
+      }
+      setMyAudio(new Audio(trackList[trackNum].preview_url));
+    }
+  }, [trackNum, trackList, playingNum]);
+  useEffect(() => {
+    if (myAudio) {
+      console.log("hi!" + playingNum);
+      myAudio.play();
+    }
+  }, [myAudio]);
 
+  var whoBuzzed = userBuzz ? <div>{userWhoBuzzed} has buzzed!</div> : <div>No one has buzzed!</div>;
   return (
     <div className="inGame-container">
       <div className="inGame-container-left">
@@ -67,7 +84,6 @@ const InGame = (props) => {
       </div>
       <div className="inGame-container-right">
         <div>Room name</div>
-        {<SongPlayer tracks={trackList} num={trackNum} />}
         <div
           className="game-buzzer u-background-brightgreen u-pointer u-noSelect"
           onClick={handleBuzz}

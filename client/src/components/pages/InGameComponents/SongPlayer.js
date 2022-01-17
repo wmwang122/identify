@@ -6,22 +6,25 @@ import "./GamePlayer.css";
 const SongPlayer = (props) => {
   const [source, setSource] = useState(null);
   const [num, setNum] = useState(null);
+  const [myAudio, setMyAudio] = useState(null);
   useEffect(() => {
+    console.log("num");
     setSource(props.tracks);
     setNum(props.num);
-    console.log("why");
-  }, []);
+  }, [props]);
   const comp =
     num && source ? (
-      <audio controls="controls">
-        <source src={source[num].preview_url} type="audio/mpeg" />
-        ßß
-      </audio>
+      <>
+        <div>{num}</div>
+        <audio controls="controls">
+          <source src={source[num].preview_url} type="audio/mpeg" />
+          ßß
+        </audio>
+      </>
     ) : (
       <div>No current song</div>
     );
-  //return <>{comp}</>;
-  return <div>{num}</div>;
+  return <>{comp}</>;
 }; //TODOOOOO
 
 export default SongPlayer;
