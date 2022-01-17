@@ -6,6 +6,7 @@ import Countdown from "./Countdown.js";
 import { get, post } from "../../../utilities.js";
 import { socket } from "../../../client-socket.js";
 import SongPlayer from "./SongPlayer.js";
+import InputAnswer from "./InputAnswer.js";
 
 const InGame = (props) => {
   const [currentSong, setCurrentSong] = useState(null);
@@ -77,6 +78,7 @@ const InGame = (props) => {
         {whoBuzzed}
       </div>
       <Countdown time={5} userExists={userBuzz ? true : false} end={handleTimerEnd} />
+      <InputAnswer />
     </div>
   );
 };
