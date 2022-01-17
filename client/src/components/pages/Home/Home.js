@@ -1,7 +1,7 @@
 import React, { Component, useEffect } from "react";
 import "../../../utilities.css";
 import "./Home.css";
-import Name from "../Name.js";
+//import Name from "../../Name.js";
 
 const Home = (props) => {
   var homeButton = props.userId ? (
@@ -9,7 +9,7 @@ const Home = (props) => {
       <div className="login-button">You are logged in!</div>
       <div>
         {" "}
-        Welcome <Name />{" "}
+        Welcome {" "}
       </div>
     </>
   ) : (
