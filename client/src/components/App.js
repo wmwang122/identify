@@ -67,7 +67,7 @@ const App = () => {
     <>
       <NavBar handleLogin={handleLogin} handleLogout={handleLogout} userId={userId}/>
       <Router>
-        <Home path="/home"/>
+        <Home path="/"/>
         <Game path="/lobby" userId={userId} />
         <Profile path="/profile" userId={userId} onSubmit={handleBioUpdate}/>
         <NotFound default />
