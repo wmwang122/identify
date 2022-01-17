@@ -6,7 +6,7 @@ import Name from "./Name.js";
 const Home = (props) => {
   var homeButton = props.userId ? (
     <>
-      <div className="login-butt on">You are logged in!</div>
+      <div className="login-button">You are logged in!</div>
       <div>
         {" "}
         Welcome <Name/> {" "}
