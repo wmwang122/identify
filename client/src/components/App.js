@@ -3,7 +3,7 @@ import { Router } from "@reach/router";
 import NotFound from "./pages/NotFound.js";
 import Game from "./pages/CreateGame/Game.js";
 import NavBar from "./modules/NavBar.js";
-import Home from "./pages/Home.js";
+import Home from "./pages/Home/Home.js";
 import Profile from "./pages/Profile.js";
 import HowToPlay from "./pages/howtoplay.js";
 import InGame from "./pages/InGameComponents/InGame.js";

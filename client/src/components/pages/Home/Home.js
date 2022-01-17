@@ -1,5 +1,5 @@
 import React, { Component, useEffect } from "react";
-import "../../utilities.css";
+import "../../../utilities.css";
 import "./Home.css";
 import Name from "./Name.js";
 
@@ -9,7 +9,7 @@ const Home = (props) => {
       <div className="login-button">You are logged in!</div>
       <div>
         {" "}
-        Welcome <Name />{" "}
+        Welcome <Name/> {" "}
       </div>
     </>
   ) : (
