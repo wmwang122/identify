@@ -82,7 +82,6 @@ const InGame = (props) => {
         
       </div>
       <Countdown time={5} userExists={userBuzz ? true : false} end={handleTimerEnd} />
-      <InputAnswer />
     </div>
   );
 };
