@@ -1,15 +1,15 @@
 import React, { Component, useEffect } from "react";
 import "../../../utilities.css";
 import "./Home.css";
-//import Name from "../../Name.js";
+import Name from "./Name.js";
 
 const Home = (props) => {
   var homeButton = props.userId ? (
     <>
-      <div className="login-button">You are logged in!</div>
+      <div className="login-butt on">You are logged in!</div>
       <div>
         {" "}
-        Welcome {" "}
+        Welcome <Name/> {" "}
       </div>
     </>
   ) : (
