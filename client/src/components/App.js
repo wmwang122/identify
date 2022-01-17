@@ -67,14 +67,14 @@ const App = () => {
     <>
       <NavBar handleLogin={handleLogin} handleLogout={handleLogout} userId={userId}/>
       <Router>
-      {//<Home path="/" handleLogin={handleLogin} handleLogout={handleLogout} userId={userId}/>}
+      <div>
         <Game path="/lobby" userId={userId} />
         <Profile path="/profile" userId={userId} onSubmit={handleBioUpdate}/>
         <NotFound default />
         <HowToPlay path="/howtoplay" userId={userId}/>
-        <InGame path="/gametesting" userId={userId} />
+        <InGame path="/gametesting" userId={userId} />;
         <NewGame path="/NewGame" userId={userId} />
-        {/* <AdvancedOptions path="/game-options" userId={userId}/> */}
+      </div>
 
       </Router>
     </>
