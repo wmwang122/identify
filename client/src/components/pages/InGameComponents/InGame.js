@@ -56,6 +56,8 @@ const InGame = (props) => {
 
   var whoBuzzed = userBuzz ? <div>{userWhoBuzzed} has buzzed!</div> : <div>No one has buzzed!</div>;
 
+  var textBox = (userBuzz === props.userId) ? <InputAnswer.js/> : <div> </div>;
+
   return (
     <div className="inGame-container">
       <div className="inGame-container-left">
@@ -76,6 +78,8 @@ const InGame = (props) => {
           buzz
         </div>
         {whoBuzzed}
+        {textBox}
+        
       </div>
       <Countdown time={5} userExists={userBuzz ? true : false} end={handleTimerEnd} />
       <InputAnswer />
