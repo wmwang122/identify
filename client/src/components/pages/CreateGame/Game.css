@@ -2,21 +2,19 @@
   background-color: #b2ffa8;
   border: none;
   color: black;
-  padding: 500px, 400px;
+  padding: 50px, 40px;
   text-align: left;
   text-decoration: none;
   /*display: inline-block;*/
   display: flex;
   width: 1383px;
-  /*height: 370px;*/
-  height: 100px;
-  top: 149px;
-  left: 27px;
-  margin: 20px;
+  height: 370px;
+  /*top: 149px;
+  left: 27px;*/
   font-size: 32px;
   border-radius: 100px;
   justify-content: space-evenly;
-  position: absolute;
+  
 }
 
 .create-game-box {
@@ -27,10 +25,10 @@
   display: flex;
   width: 540px;
   height: 106px;
-  top: 40px;
-  left: 117px;
+  /*top: 40px;
+  left: 117px;*/
   font-size: 80px;
-  position: absolute;
+  /*position: absolute;*/
 }
 
 .join-game-box {
@@ -41,10 +39,10 @@
   display: flex;
   width: 454px;
   height: 106px;
-  top: 40px;
-  left: 827px;
+  /*top: 40px;
+  left: 827px;*/
   font-size: 80px;
-  position: absolute;
+  /*position: absolute;*/
   flex-direction: column;
   align-items: center;
 }
@@ -59,18 +57,18 @@
   font-size: 36px;
   height: 90px;
   width: 270px;
-  left: 52px;
-  top: 211px;
+  /*left: 52px;
+  top: 211px;*/
   border-radius: 45px;
-  position: absolute;
+  /*position: absolute;*/
 }
 
 .options-button {
-  position: absolute;
+  /*position: absolute;*/
   width: 370px;
   height: 90px;
-  left: 400px;
-  top: 211px;
+  /*left: 400px;
+  top: 211px;*/
   font-size: 36px;
   background: #86e7b8;
   border-radius: 45px;
@@ -81,33 +79,33 @@
 }
 
 .options-text {
-  position: absolute;
+  /*position: absolute;*/
   width: 296px;
   height: 48px;
-  left: 36.5px;
-  top: 21px;
+  /*left: 36.5px;
+  top: 21px;*/
   font-size: 36px;
   line-height: 48px;
   display: flex;
 }
 
 .create-text {
-  position: absolute;
+  /*position: absolute;*/
   width: 211px;
   height: 48px;
-  left: 30px;
-  top: 21px;
+  /*left: 30px;
+  top: 21px;*/
   font-size: 36px;
   line-height: 48px;
   display: flex;
 }
 
 .rand-line {
-  position: absolute;
+  /*position: absolute;*/
   width: 0px;
   height: 364px;
-  left: 758px;
-  top: 0px;
+  /*left: 758px;
+  top: 0px;*/
   border: 3px solid #000000;
   display: flex;
 }
