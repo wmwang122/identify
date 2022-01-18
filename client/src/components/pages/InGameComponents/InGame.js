@@ -3,10 +3,10 @@ import "../../../utilities.css";
 import "./InGame.css";
 import GamePlayer from "./GamePlayer.js";
 import Countdown from "./Countdown.js";
+import { get, post } from "../../../utilities.js";
 import { socket } from "../../../client-socket.js";
 import SongPlayer from "./SongPlayer.js";
 import InputAnswer from "./InputAnswer.js";
-import { get, post } from "../../../utilities.js";
 
 const InGame = (props) => {
   const [currentSong, setCurrentSong] = useState(null);
@@ -15,6 +15,10 @@ const InGame = (props) => {
       _id: "61df83b4d87ebc594c8a6bc6",
       score: 0,
     },
+    {
+      _id: "61df930c4a1305a7ac4a929d",
+      score: 10,
+    }
   ]);
   const [userBuzz, setUserBuzz] = useState(null);
   const [userWhoBuzzed, setUserWhoBuzzed] = useState(null); //unnecesssary, just returns name instead of id
@@ -22,9 +26,9 @@ const InGame = (props) => {
   const [trackNum, setTrackNum] = useState(1);
   const [myAudio, setMyAudio] = useState(null);
   const [playingNum, setPlayingNum] = useState(null);
-  //props.location.state.gametuff
+  const [resetTimer, setResetTimer] = useState(false);
 
-  var temp = false;
+  let temp = false;
   const handleBuzz = (event) => {
     temp = !temp;
     post("/api/buzz", { userId: props.userId });
@@ -39,7 +43,7 @@ const InGame = (props) => {
     });
     socket.on("buzz", newBuzz);
     return () => {
-      socket.off("buzz", newBuzz);
+      socket.off("buzz");
     };
   }, []);
 
@@ -53,8 +57,26 @@ const InGame = (props) => {
   const handleTimerEnd = () => {
     setUserWhoBuzzed(null);
     setUserBuzz(null);
-    setTrackNum(trackNum + 1);
     console.log(trackNum);
+    console.log("ending timer");
+  };
+
+  const handleSubmit = (value) => {
+    console.log("answer: " + trackList[trackNum].name);
+    console.log(value + " or " + trackList[trackNum].name);
+    handleAnswer(value === trackList[trackNum].name);
+  };
+
+  const handleAnswer = (correct) => {
+    if(correct){
+      console.log("congratulations!");
+    setTrackNum(trackNum + 1);
+    }
+    else{
+      console.log("you suck!");
+    }
+    setResetTimer(true);
+    handleTimerEnd();
   };
 
   useEffect(() => {
@@ -64,12 +86,13 @@ const InGame = (props) => {
         myAudio.pause();
       }
       setMyAudio(new Audio(trackList[trackNum].preview_url));
+      console.log("set audio");
     }
   }, [trackNum, trackList, playingNum]);
   useEffect(() => {
     if (myAudio) {
-      console.log("hi!" + playingNum);
       myAudio.play();
+      console.log("Playing");
     }
   }, [myAudio]);
 
@@ -77,11 +100,12 @@ const InGame = (props) => {
   var textBox =
     userBuzz === props.userId ? (
       <div>
-        <InputAnswer />
+        <InputAnswer submit={(value) => handleSubmit(value)} />
       </div>
     ) : (
       <div> hi </div>
     );
+  const countdownTimer = (<Countdown time={5} userExists={userBuzz ? true : false} end={() => handleTimerEnd()} forceReset={resetTimer}/>);
 
   return (
     <div className="inGame-container">
@@ -97,14 +121,14 @@ const InGame = (props) => {
         <div>Room name</div>
         <div
           className="game-buzzer u-background-brightgreen u-pointer u-noSelect"
-          onClick={handleBuzz}
+          onClick={() => handleBuzz()}
         >
           buzz
         </div>
         {whoBuzzed}
         {textBox}
       </div>
-      <Countdown time={5} userExists={userBuzz ? true : false} end={handleTimerEnd} />
+      {countdownTimer}
     </div>
   );
 };
