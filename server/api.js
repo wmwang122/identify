@@ -205,7 +205,7 @@ router.post("/joinGame", (req, res) => {
   if (games.get(req.body.gameCode)) {
     socketManager.addUserToGame(req.body.userId, req.body.gameCode);
     socketManager.getIo().emit("new player", req.body.userId);
-    let settings = games.get(req.body.gameCode);
+    let settings = games.get(req.body.gameCode).settings;
     res.send({status: "game found", gameCode: req.body.gameCode, settings: settings });
   }
   else {

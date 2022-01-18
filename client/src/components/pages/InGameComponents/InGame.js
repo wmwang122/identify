@@ -20,6 +20,7 @@ const InGame = (props) => {
   const [playingNum, setPlayingNum] = useState(null);
   const [resetTimer, setResetTimer] = useState(false);
   const [roundOngoing, setRoundOngoing] = useState(false);
+  const [isPaused, setIsPaused] = useState(false);
 
     let answerVer = (<div>Placeholder</div>);
     let val = window.location.href;
@@ -32,6 +33,8 @@ const InGame = (props) => {
       }
 
   }
+
+  
     
   useEffect(() => {
     if(!trackList){
@@ -75,6 +78,7 @@ useEffect(() => {
 
   const newBuzz = (userId) => {
       setUserBuzz(userId);
+      setIsPaused(true);
     let i = 0;
     let flag = false;
     for(i = 0; i < userData.length; i++){
@@ -118,7 +122,7 @@ useEffect(() => {
       myAudio.play();
     });
   };
-  const handleRoundStartedByUser = () => {
+  const handleRoundStartedByUser = (data) => {
     setRoundOngoing(true);
     myAudio.play();
   }
@@ -133,7 +137,7 @@ useEffect(() => {
       answerVer = (<div>{value} was correct!</div>);
       for(let i = 0; i < userData.length; i++){
         if(userData[i]._id === props.userId){
-          userData[i].score++;
+          //userData[i].score++;
           break;
         }
       }
@@ -148,7 +152,7 @@ useEffect(() => {
   };
 
   const handleUserSubmission = (data) => {
-    if(data.correct && data.user != userId){
+    if(data.correct){
       for(let i = 0; i < userData.length; i++){
         if(data.user === userData[i]._id){
           userData[i].score++;
@@ -178,7 +182,18 @@ useEffect(() => {
         setRoundOngoing(false);
       });
     }
-  },[myAudio])
+  },[myAudio]);
+
+  useEffect(()=>{
+    if(myAudio){
+      if(isPaused){
+        myAudio.pause();
+      }
+      else{
+        myAudio.play();
+      }
+    }
+  },[isPaused]);
 
   var whoBuzzed = userBuzz ? <div>{userWhoBuzzed} has buzzed!</div> : <div>No one has buzzed!</div>;
   var textBox =
