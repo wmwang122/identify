@@ -12,28 +12,20 @@ const AdvancedOptions = (props) => {
     }
      let displaytext = isVisible ?
     (<div className="options-panel-open">
-         {//hi hello how are you doing please work goddamn
-         }
          <Options />
      </div>) : (<div className="options-panel-closed">
-         {//hi hello how are you doing please work goddamn
-        }
         <Options />
      </div>);
 
      //var textBox = (isVisible) ? <div>  hi  </div> : <div> hello </div>;
     
      return(
-      <div className="options-button u-pointer" >
-        <div className="options-text" onClick={displayGameOpt}>
-          {/* <Link to="/gametesting"> */}
-            Advanced Options
-          {/* </Link> */}
-            {//{displaytext}
-            }
-          </div>
-          {displaytext}
-      </div>);
+            <div className="options-button u-pointer">
+                <div className="options-text" onClick={displayGameOpt}>
+                    Advanced Options
+                </div>
+                {displaytext}
+            </div>);
 }
 
 export default AdvancedOptions;

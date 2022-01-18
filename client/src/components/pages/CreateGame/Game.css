@@ -7,6 +7,8 @@
   text-decoration: none;
   /*display: inline-block;*/
   display: flex;
+  flex-direction: row;
+  margin: 10px;
   width: 1383px;
   height: 370px;
   /*top: 149px;
@@ -28,6 +30,7 @@
   /*top: 40px;
   left: 117px;*/
   font-size: 80px;
+  justify-content: space-between;
   /*position: absolute;*/
 }
 
@@ -47,59 +50,6 @@
   align-items: center;
 }
 
-.create-button {
-  background-color: #86e7b8;
-  border: none;
-  color: black;
-  text-align: center;
-  text-decoration: none;
-  display: flex;
-  font-size: 36px;
-  height: 90px;
-  width: 270px;
-  /*left: 52px;
-  top: 211px;*/
-  border-radius: 45px;
-  /*position: absolute;*/
-}
-
-.options-button {
-  /*position: absolute;*/
-  width: 370px;
-  height: 90px;
-  /*left: 400px;
-  top: 211px;*/
-  font-size: 36px;
-  background: #86e7b8;
-  border-radius: 45px;
-  text-align: center;
-  display: flex;
-  text-decoration: none;
-  color:black;
-}
-
-.options-text {
-  /*position: absolute;*/
-  width: 296px;
-  height: 48px;
-  /*left: 36.5px;
-  top: 21px;*/
-  font-size: 36px;
-  line-height: 48px;
-  display: flex;
-}
-
-.create-text {
-  /*position: absolute;*/
-  width: 211px;
-  height: 48px;
-  /*left: 30px;
-  top: 21px;*/
-  font-size: 36px;
-  line-height: 48px;
-  display: flex;
-}
-
 .rand-line {
   /*position: absolute;*/
   width: 0px;
@@ -110,14 +60,26 @@
   display: flex;
 }
 
-
-
-/*li {
-  border: 2px solid #b2ffa8;
-  padding: 10px 400px 10px 10px;
+.buttons {
+  display: flex;
+  flex-direction: row;
 }
 
-ul {
+.create {
   display: flex;
-  list-style: none;
-}*/
+  flex-direction: column;
+  align-items: vertical;
+  justify-content: space-between;
+}
+
+.join {
+  display: flex;
+  flex-direction: column;
+}
+
+.actual-buttons {
+  display: flex;
+  flex-direction: row;
+  align-items: horizontal;
+  justify-content: space-between;
+}
