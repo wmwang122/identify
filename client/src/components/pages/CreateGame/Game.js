@@ -20,17 +20,25 @@ const Game = (props) => {
     <div className="u-flex u-flex-alignCenter u-flex-alignVertical">
       <div id="Game">
         <div className="game-panel">
-          <div className="create-game-box">Create a Game</div>
-          <div className="join-game-box">
-            <div> Join a Game </div>
-            <div className="enterGameCode"> enter game code: </div>
-            <div className="enterCode-button">
-              <GameCodeInput />
+          {/* <div className="buttons"> */}
+            <div className="create">
+              <div className="create-game-box">Create a Game</div>
+                <div className="actual-buttons">
+                  <CreateGame/>
+                  <AdvancedOptions/>
+                </div>
             </div>
+            <div className="rand-line"></div>
+            <div className="join">
+              <div className="join-game-box">
+              <div> Join a Game </div>
+              <div className="enterGameCode"> enter game code: </div>
+              <div className="enterCode-button">
+              <GameCodeInput />
+              </div>
+          {/* </div> */}
+          </div> 
           </div>
-          <CreateGame/>
-          <AdvancedOptions/>
-          <div className="rand-line"></div>
         </div>
       </div>
     </div>

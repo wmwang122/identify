@@ -10,6 +10,7 @@
     text-align: center;
     display: flex;
     text-decoration: none;
+    justify-content: center;
   }
   
   .options-text {

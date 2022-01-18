@@ -8,7 +8,7 @@ const Playlist = (props) =>
 
     <input type="url" name="url" id="url"
         placeholder="https://open.spotify.com/playlist/"
-        pattern="https://open.spotify.com/playlist/.*" size="200"
+        pattern="https://open.spotify.com/playlist/.*" size="75"
         required></input>
     </form>);
 }
