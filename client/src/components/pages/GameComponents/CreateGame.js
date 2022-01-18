@@ -1,36 +1,39 @@
 import React, { useState } from "react";
 import "./CreateGame.css";
-import { Link } from "@reach/router";
+import { navigate } from "@reach/router";
+import { get, post } from "../../../utilities.js";
 
 
+// const [gameCode, setGameCode] = useState("");
 
 const CreateGame = (props) => {
-    let gameCode = "";
+
 
     const startGame = () => {
       console.log("Game will be started!")
-      gameCode = generateCode(5);
-      
+      post("/api/newGame").then((gameStuff) => {
+        navigate(`/game/${gameStuff.gameCode}`, { state: gameStuff, });
+      });
+      // gameCode = generateCode(5);
+      // console.log(gameCode);
+      // while (True) {
+      //   get("/api/getGame", { gameCode: gameCode }).then(gameStatus => {
+      //     if (gameStatus === "No game") {
+      //       post("/api/newGame", { code: gameCode });
+      //       return;
+      //     }
+      //   })
+      // }
     }
 
-    const generateCode = (length) => {
-      var code = '';
-      let characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-      for ( let i = 0; i < length; i++ ) {
-        code += characters.charAt(Math.floor(Math.random() * 
-        characters.length));
-     }
-     return code;
-
-
-    }
+    
 
     return (
       <div className="create-button u-pointer" >
         <div className="create-text" onClick={startGame}>
-          <Link to={"/"+gameCode}>
+          {/* <Link to={"/game/"+gameCode}> */}
             Quick Create
-          </Link>
+          {/* </Link> */}
           </div>
       </div>
     );
