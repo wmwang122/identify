@@ -179,7 +179,7 @@ router.post("/newGame", (req, res) => {
   while (games.get(code)) { 
     code = generateCode(5);
   }
-  games.set(code, {});
+  games.set(code, req.body);
   res.send({ gameCode: code});
   // const game = new GameSchema({
   //   gameCode: code,

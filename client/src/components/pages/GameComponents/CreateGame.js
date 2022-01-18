@@ -16,6 +16,7 @@ const CreateGame = (props) => {
         console.log(gameStuff.gameCode);
         navigate(`/game/${gameStuff.gameCode}`, { state: gameStuff, });
       });
+      
       // gameCode = generateCode(5);
       // console.log(gameCode);
       // while (True) {
