@@ -60,7 +60,14 @@ const InGame = (props) => {
   };
 }, []);
 
-    const addData = (userId) => {
+useEffect(() => {
+  socket.on("starting", handleRoundStartedByUser);
+  return () => {
+    socket.off("starting");
+  };
+});
+
+  const addData = (userId) => {
         userData.push({ _id: userId, score: 0 });
         console.log(JSON.stringify(userData));
   }
@@ -107,8 +114,14 @@ const InGame = (props) => {
 
   const handleRoundStart = () => {
     setRoundOngoing(true);
-    myAudio.play();
+    post("/api/roundStart",{gameCode: gameCode}).then(() => {
+      myAudio.play();
+    });
   };
+  const handleRoundStartedByUser = () => {
+    setRoundOngoing(true);
+    myAudio.play();
+  }
 
   const handleSubmit = (value) => {
     console.log("answer: " + trackList[trackNum].name);
