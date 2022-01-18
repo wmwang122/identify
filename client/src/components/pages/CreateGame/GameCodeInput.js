@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "./GameCodeInput.css";
 import { get, post } from "../../../utilities.js";
+import { navigate } from "@reach/router";
 
 const GameCodeInput = (props) => {
   const [inputText, setInputText] = useState("");
@@ -11,12 +12,20 @@ const GameCodeInput = (props) => {
   };
 
   const setText = () => {
-    let gamecode = inputText;
-    console.log(gamecode);
+    let gameCode = inputText;
+    console.log(gameCode);
   };
 
   const checkCode = () => {
-    get("/api/getGame", { gameCode: inputText }).then((gameCode) => console.log(gameCode));
+    post("/api/joinGame", { gameCode: inputText }).then((gameInfo) => {
+      console.log(gameInfo.status);
+      if (gameInfo.status === "game found") {
+        navigate(`/game/${gameInfo.gameCode}`, { state: gameInfo });
+      } else {
+        console.log("game not found");
+      }
+    });
+    //  console.log(inputText);
   };
 
   return (

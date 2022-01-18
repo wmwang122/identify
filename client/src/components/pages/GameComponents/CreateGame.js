@@ -12,6 +12,8 @@ const CreateGame = (props) => {
     const startGame = () => {
       console.log("Game will be started!")
       post("/api/newGame").then((gameStuff) => {
+        console.log(gameStuff.games);
+        console.log(gameStuff.gameCode);
         navigate(`/game/${gameStuff.gameCode}`, { state: gameStuff, });
       });
       // gameCode = generateCode(5);

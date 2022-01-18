@@ -177,11 +177,26 @@ router.post("/newGame", (req, res) => {
     code = generateCode(5);
   }
   games.set(code, {});
-  res.send({ gameCode: code, });
+  res.send({ gameCode: code});
   // const game = new GameSchema({
   //   gameCode: code,
   // });
   // game.save();
+});
+
+router.post("/joinGame", (req, res) => {
+  if (games.get(req.body.gameCode)) {
+    let settings = games.get(req.body.gameCode);
+    res.send({status: "game found", gameCode: req.body.gameCode, settings: settings });
+  }
+  else {
+    res.send({ status: "game not found" });
+  }
+
+  
+
+
+  
 });
 
 /*router.get("/getGame",(req,res) =>{
