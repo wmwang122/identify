@@ -28,8 +28,6 @@ const InGame = (props) => {
   const handleBuzz = (event) => {
     if(roundOngoing && !userBuzz){
         post("/api/buzz", { userId: props.userId, gameCode: gameCode, }); 
-        console.log("person buzzed");
-        console.log("Game Code: " + val.substring(val.length - 5, val.length));
         myAudio.pause();
       }
 
@@ -54,6 +52,13 @@ const InGame = (props) => {
       socket.off("new player");
     };
   }, []);
+
+  useEffect(() => {
+    socket.on("submitted", handleUserSubmission);
+  return () => {
+    socket.off("submitted");
+  };
+}, []);
 
     const addData = (userId) => {
         userData.push({ _id: userId, score: 0 });
@@ -108,6 +113,7 @@ const InGame = (props) => {
   const handleSubmit = (value) => {
     console.log("answer: " + trackList[trackNum].name);
     console.log(value + " or " + trackList[trackNum].name);
+    post("/api/submitted",{gameCode: gameCode, user: userBuzz, correct: (value.toLowerCase() === trackList[trackNum].name.toLowerCase())});
     if(value.toLowerCase() === trackList[trackNum].name.toLowerCase()){
       setTrackNum(trackNum + 1);
       console.log(value + " was correct!");
@@ -121,12 +127,26 @@ const InGame = (props) => {
       setRoundOngoing(false);
     }
     else{
-      console.log(value + " was wrong! You suck!");
-      answerVer = (<div>{value} was wrong! You suck!</div>);
+      console.log(value + " was wrong!");
+      answerVer = (<div>{value} was wrong!</div>);
     }
     setResetTimer(true);
     handleTimerEnd();
   };
+
+  const handleUserSubmission = (data) => {
+    if(data.correct){
+      for(let i = 0; i < userData.length; i++){
+        if(data.user === userData[i]._id){
+          userData[i].score++;
+          break;
+        }
+      }
+      setRoundOngoing(false);
+    }
+    setResetTimer(true);
+    handleTimerEnd();
+  }
 
   useEffect(() => {
     if (trackNum && trackList && (!playingNum || playingNum != trackNum)) {

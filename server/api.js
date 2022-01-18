@@ -164,6 +164,11 @@ router.post("/buzz", (req, res) => {
   res.send({});
 });
 
+router.post("/submitted", (req, res) => {
+  socketManager.getIo().to(req.body.gameCode).emit("submitted",{user: req.body.user, correct: req.body.correct});
+  res.send({});
+});
+
 /*router.post("/gameInitiate",(req,res) =>{
   GameSchema.countDocuments({gameCode: req.body.code}, function (err,count){
     if(count===0){
