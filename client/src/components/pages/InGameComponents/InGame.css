@@ -18,3 +18,7 @@
 .inGame-container-right{
     text-align: center;
 }
+
+.button-invisible{
+    visibility: hidden;
+}
