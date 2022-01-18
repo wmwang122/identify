@@ -21,14 +21,13 @@ const Countdown = (props) => {
       interval = setInterval(() => {
         setTimeLeft((timeLeft) => timeLeft - 1);
       }, 1000);
-    }
-    if (timeLeft <= 0) {
-      clearInterval(interval);
-      if (isActive) {
+      if (timeLeft <= 0) {
+        clearInterval(interval);
+        setIsActive(false);
         props.end();
       }
-      setIsActive(false);
     }
+    
     return () => clearInterval(interval);
   }, [isActive, timeLeft]);
 
@@ -40,6 +39,12 @@ const Countdown = (props) => {
       console.log("hi");
     }
   }, [props.userExists]);
+
+  useEffect(() => {
+    if(props.forceReset){
+      reset();
+    }
+  }, [props.forceReset])
 
   const buttonText = isActive ? "pause" : "start";
 

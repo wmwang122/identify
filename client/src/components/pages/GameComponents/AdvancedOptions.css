@@ -1,9 +1,9 @@
 .options-button {
-    position: absolute;
+    /*position: absolute;*/
     width: 370px;
     height: 90px;
-    left: 355px;
-    top: 211px;
+    /*left: 355px;
+    top: 211px;*/
     font-size: 36px;
     background: #86e7b8;
     border-radius: 45px;
@@ -13,33 +13,18 @@
   }
   
   .options-text {
-    position: absolute;
+    /*position: absolute;*/
     width: 296px;
     height: 48px;
-    left: 36.5px;
-    top: 21px;
+    /*left: 36.5px;
+    top: 21px;*/
     font-size: 36px;
     line-height: 48px;
     display: flex;
   }
 
-  .options-panel {
-    background-color: #1eff00;
-    border: none;
-    color: black;
-    padding: 500px, 400px;
-    text-align: left;
-    text-decoration: none;
-    /*display: inline-block;*/
-    display: flex;
-    position: absolute;
-    width: 1383px;
-    height: 1000px;
-    max-height: 0px;
-    left: 28px;
-    top: 561px;
-    border-radius: 100px;
-    visibility: visible;
+  .options-panel-closed {
+    display: none;
   }
 
   .options-panel-open {
@@ -51,13 +36,12 @@
     text-decoration: none;
     /*display: inline-block;*/
     display: flex;
-    position: absolute;
+    /*position: absolute;*/
     width: 1383px;
     max-height: 370px;
-    left: 28px;
-    top: 561px;
+    /*left: 28px;
+    top: 561px;*/
     border-radius: 100px;
-    visibility: visible;
   }
 
   p,

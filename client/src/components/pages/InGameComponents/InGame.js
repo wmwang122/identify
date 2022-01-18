@@ -8,7 +8,6 @@ import SongPlayer from "./SongPlayer.js";
 import InputAnswer from "./InputAnswer.js";
 import { get, post } from "../../../utilities.js";
 
-
 const InGame = (props) => {
   const [currentSong, setCurrentSong] = useState(null);
   const [userData, setUserData] = useState([
@@ -22,8 +21,8 @@ const InGame = (props) => {
   const [trackList, setTrackList] = useState(null);
   const [trackNum, setTrackNum] = useState(1);
   const [myAudio, setMyAudio] = useState(null);
-    const [playingNum, setPlayingNum] = useState(null);
-    //props.location.state.gameStuff
+  const [playingNum, setPlayingNum] = useState(null);
+  //props.location.state.gametuff
 
   var temp = false;
   const handleBuzz = (event) => {

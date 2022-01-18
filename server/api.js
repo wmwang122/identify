@@ -78,7 +78,7 @@ router.get("/testPlaylists", async (req, res) => {
     loggedInSpotifyApi.refreshAccessToken().then(async (data) => {
       console.log("Access Token Refreshed!");
       loggedInSpotifyApi.setAccessToken(data.body["access_token"]);
-      const result = await loggedInSpotifyApi.getAlbum("57lgFncHBYu5E3igZnuCJK");
+      const result = await loggedInSpotifyApi.getAlbum("27G1V5LHwMonEHPV8zy9AV");
       res.status(200).send(result.body);
     });
   } catch (err) {
@@ -155,7 +155,7 @@ router.get("/userLookup", (req, res) => {
 });
 
 router.post("/buzz", (req, res) => {
-  console.log("hello");
+  // console.log("hello");
   socketManager.getIo().emit("buzz", req.body.userId);
 });
 

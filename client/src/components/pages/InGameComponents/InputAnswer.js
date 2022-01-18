@@ -22,9 +22,8 @@ const InputAnswer = (props) => {
   return (
     <div>
       <input type="text" value={inputText} onChange={handleInputChange} />
-      <button onClick={checkAnswer} className="enterText-button">
-        {" "}
-        submit{" "}
+      <button onClick={() => props.submit(inputText)} className="enterText-button">
+        submit
       </button>
       {/* <div> {checkCode(inputText)} </div> */}
     </div>
