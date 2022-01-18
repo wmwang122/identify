@@ -24,8 +24,10 @@ const Countdown = (props) => {
     }
     if (timeLeft <= 0) {
       clearInterval(interval);
+      if (isActive) {
+        props.end();
+      }
       setIsActive(false);
-      props.end();
     }
     return () => clearInterval(interval);
   }, [isActive, timeLeft]);

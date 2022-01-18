@@ -29,6 +29,17 @@ const spotifyApi = new SpotifyWebApi({
   redirectUri: process.env.CALLBACK_URI,
 });
 
+const games = new Map();
+
+const generateCode = (length) => {
+  var code = "";
+  let characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+  for (let i = 0; i < length; i++) {
+    code += characters.charAt(Math.floor(Math.random() * characters.length));
+  }
+  return code;
+};
+
 router.get("/spotifyLogin", (req, res) => {
   auth.spotifyLogin(req, res, spotifyApi);
 });
@@ -67,7 +78,7 @@ router.get("/testPlaylists", async (req, res) => {
     loggedInSpotifyApi.refreshAccessToken().then(async (data) => {
       console.log("Access Token Refreshed!");
       loggedInSpotifyApi.setAccessToken(data.body["access_token"]);
-      const result = await loggedInSpotifyApi.getAlbum("0ETFjACtuP2ADo6LFhL6HN");
+      const result = await loggedInSpotifyApi.getAlbum("57lgFncHBYu5E3igZnuCJK");
       res.status(200).send(result.body);
     });
   } catch (err) {
@@ -161,10 +172,16 @@ router.post("/buzz", (req, res) => {
 });*/
 
 router.post("/newGame", (req, res) => {
-  const game = new GameSchema({
-    gameCode: req.body.code,
-  });
-  game.save();
+  let code = generateCode(5);
+  while (games.get(code)) { 
+    code = generateCode(5);
+  }
+  games.set(code, {});
+  res.send({ gameCode: code, });
+  // const game = new GameSchema({
+  //   gameCode: code,
+  // });
+  // game.save();
 });
 
 /*router.get("/getGame",(req,res) =>{
@@ -174,15 +191,15 @@ router.post("/newGame", (req, res) => {
   });
 });*/
 
-router.get("/getGame", (req, res) => {
-  GameSchema.findOne({ gameCode: req.query.gameCode }).then((game) => {
-    if (game != null) {
-      res.send({ status: "Game found" });
-    } else {
-      res.send({ status: "No game" });
-    }
-  });
-});
+// router.get("/getGame", (req, res) => {
+//   GameSchema.findOne({ gameCode: req.query.gameCode }).then((game) => {
+//     if (game != null) {
+//       res.send({ status: "Game found" });
+//     } else {
+//       res.send({ status: "No game" });
+//     }
+//   });
+// });
 
 router.post("/gameUpdateBuzz", (req, res) => {
   console.log("Received:" + JSON.stringify(req.body));

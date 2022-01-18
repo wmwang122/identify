@@ -3,10 +3,11 @@ import "../../../utilities.css";
 import "./InGame.css";
 import GamePlayer from "./GamePlayer.js";
 import Countdown from "./Countdown.js";
-import { get, post } from "../../../utilities.js";
 import { socket } from "../../../client-socket.js";
 import SongPlayer from "./SongPlayer.js";
 import InputAnswer from "./InputAnswer.js";
+import { get, post } from "../../../utilities.js";
+
 
 const InGame = (props) => {
   const [currentSong, setCurrentSong] = useState(null);
@@ -21,7 +22,8 @@ const InGame = (props) => {
   const [trackList, setTrackList] = useState(null);
   const [trackNum, setTrackNum] = useState(1);
   const [myAudio, setMyAudio] = useState(null);
-  const [playingNum, setPlayingNum] = useState(null);
+    const [playingNum, setPlayingNum] = useState(null);
+    //props.location.state.gameStuff
 
   var temp = false;
   const handleBuzz = (event) => {
@@ -72,9 +74,6 @@ const InGame = (props) => {
     }
   }, [myAudio]);
 
-<<<<<<< HEAD
-  var textBox = (userBuzz === props.userId) ? <div><InputAnswer/> </div> : <div> </div>;
-=======
   var whoBuzzed = userBuzz ? <div>{userWhoBuzzed} has buzzed!</div> : <div>No one has buzzed!</div>;
   var textBox =
     userBuzz === props.userId ? (
@@ -84,7 +83,6 @@ const InGame = (props) => {
     ) : (
       <div> hi </div>
     );
->>>>>>> 4dc47f891d98cbeb2ae76da96f75944b41d6892b
 
   return (
     <div className="inGame-container">
