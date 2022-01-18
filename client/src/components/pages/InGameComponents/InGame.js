@@ -2,6 +2,7 @@ import React, { Component, useEffect, useState } from "react";
 import "../../../utilities.css";
 import "./InGame.css";
 import GamePlayer from "./GamePlayer.js";
+import Scoreboard from "./Scoreboard.js";
 import Countdown from "./Countdown.js";
 import { get, post } from "../../../utilities.js";
 import { socket } from "../../../client-socket.js";
@@ -135,11 +136,7 @@ const InGame = (props) => {
   return (
     <div className="inGame-container">
       <div className="inGame-container-left">
-        <div>
-          {userData.map((user) => (
-            <GamePlayer _id={user._id} score={user.score} />
-          ))}
-        </div>
+        <Scoreboard data={userData}/>
         <div>Add music</div>
       </div>
       <div className="inGame-container-right">
