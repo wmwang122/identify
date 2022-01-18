@@ -11,13 +11,11 @@ const CreateGame = (props) => {
 
     const startGame = () => {
       console.log("Game will be started!")
-      post("/api/newGame").then((gameStuff) => {
+      post("/api/newGame", {userId: props.userId}).then((gameStuff) => {
         console.log(gameStuff.games);
         console.log(gameStuff.gameCode);
         navigate(`/game/${gameStuff.gameCode}`, { state: gameStuff, });
       });
-      
-      WLMRM
       // gameCode = generateCode(5);
       // console.log(gameCode);
       // while (True) {

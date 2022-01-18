@@ -62,7 +62,6 @@ const InGame = (props) => {
     
 
   const newBuzz = (userId) => {
-      console.log("is this being called");
       setUserBuzz(userId);
     let i = 0;
     let flag = false;

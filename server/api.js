@@ -182,6 +182,8 @@ router.post("/newGame", (req, res) => {
     code = generateCode(5);
   }
   games.set(code, req.body);
+  socketManager.addUserToGame(req.body.userId, code);
+  socketManager.getIo().emit("new player", req.body.userId);
   res.send({ gameCode: code});
   // const game = new GameSchema({
   //   gameCode: code,
@@ -189,7 +191,7 @@ router.post("/newGame", (req, res) => {
   // game.save();
 });
 
-router.post("Game", (req, res) => {
+router.post("/joinGame", (req, res) => {
   if (games.get(req.body.gameCode)) {
     socketManager.addUserToGame(req.body.userId, req.body.gameCode);
     socketManager.getIo().emit("new player", req.body.userId);
@@ -199,11 +201,6 @@ router.post("Game", (req, res) => {
   else {
     res.send({ status: "game not found" });
   }
-
-  
-
-
-  
 });
 
 /*router.get("/getGame",(req,res) =>{
