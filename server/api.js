@@ -136,6 +136,7 @@ router.post("/bioUpdate", (req, res) => {
       });
     });
   }
+  res.send();
 });
 
 router.post("/pfpUpdate", (req, res) => {
@@ -147,6 +148,7 @@ router.post("/pfpUpdate", (req, res) => {
       });
     });
   }
+  res.send();
 });
 router.get("/userLookup", (req, res) => {
   User.findOne({ _id: req.query._id }).then((user) => {
@@ -157,6 +159,7 @@ router.get("/userLookup", (req, res) => {
 router.post("/buzz", (req, res) => {
   // console.log("hello");
   socketManager.getIo().emit("buzz", req.body.userId);
+  res.send({});
 });
 
 /*router.post("/gameInitiate",(req,res) =>{
@@ -216,7 +219,7 @@ router.post("/joinGame", (req, res) => {
 //   });
 // });
 
-router.post("/gameUpdateBuzz", (req, res) => {
+/*router.post("/gameUpdateBuzz", (req, res) => {
   console.log("Received:" + JSON.stringify(req.body));
   GameSchema.findOne({ gameCode: req.body.code }).then((game) => {
     if (game) {
@@ -224,7 +227,7 @@ router.post("/gameUpdateBuzz", (req, res) => {
       game.save();
     }
   });
-});
+});*/
 
 router.all("*", (req, res) => {
   console.log(`API route not found: ${req.method} ${req.url}`);

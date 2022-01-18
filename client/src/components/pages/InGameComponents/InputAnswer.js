@@ -10,11 +10,6 @@ const InputAnswer = (props) => {
     setInputText(value);
   };
 
-  const setUserAnswer = () => {
-    let userAnswer = inputText;
-    console.log(gamecode);
-  };
-
   const checkAnswer = () => {
       console.log("checking answer");
   };
@@ -22,7 +17,7 @@ const InputAnswer = (props) => {
   return (
     <div>
       <input type="text" value={inputText} onChange={handleInputChange} />
-      <button onClick={(inputText) => props.submit(inputText)} className="enterText-button">
+      <button onClick={() => props.submit(inputText)} className="enterText-button">
         submit
       </button>
       {/* <div> {checkCode(inputText)} </div> */}
