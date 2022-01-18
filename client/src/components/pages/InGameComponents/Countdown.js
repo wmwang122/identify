@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import "./Countdown.css";
+import "./InGame.css";
 
 // help from https://upmostly.com/tutorials/build-a-react-timer-component-using-hooks
 

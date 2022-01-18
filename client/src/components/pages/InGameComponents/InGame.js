@@ -26,6 +26,7 @@ const InGame = (props) => {
   const [myAudio, setMyAudio] = useState(null);
   const [playingNum, setPlayingNum] = useState(null);
   const [resetTimer, setResetTimer] = useState(false);
+  const [roundOngoing, setRoundOngoing] = useState(false);
 
   let temp = false;
   let answerVer = (<div>Placeholder</div>);
@@ -82,6 +83,13 @@ const InGame = (props) => {
     setUserBuzz(null);
     console.log(trackNum);
     console.log("ending timer");
+    if(roundOngoing){
+      myAudio.play();
+    }
+  };
+
+  const handleRoundStart = () => {
+    setRoundOngoing(true);
     myAudio.play();
   };
 
@@ -92,6 +100,7 @@ const InGame = (props) => {
       setTrackNum(trackNum + 1);
       console.log(value + " was correct!");
       answerVer = (<div>{value} was correct!</div>);
+      setRoundOngoing(false);
     }
     else{
       console.log(value + " was wrong! You suck!");
@@ -111,12 +120,6 @@ const InGame = (props) => {
       console.log("set audio");
     }
   }, [trackNum, trackList, playingNum]);
-  useEffect(() => {
-    if (myAudio) {
-      myAudio.play();
-      console.log("Playing");
-    }
-  }, [myAudio]);
 
   var whoBuzzed = userBuzz ? <div>{userWhoBuzzed} has buzzed!</div> : <div>No one has buzzed!</div>;
   var textBox =
@@ -152,6 +155,7 @@ const InGame = (props) => {
       </div>
       {countdownTimer}
       {answerVer}
+      <button className={roundOngoing?"button-invisible":""} onClick={() => handleRoundStart()}>Proceed to Next Round</button>
     </div>
   );
 };
