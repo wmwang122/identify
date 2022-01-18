@@ -148,7 +148,7 @@ useEffect(() => {
   };
 
   const handleUserSubmission = (data) => {
-    if(data.correct){
+    if(data.correct && data.user != userId){
       for(let i = 0; i < userData.length; i++){
         if(data.user === userData[i]._id){
           userData[i].score++;
