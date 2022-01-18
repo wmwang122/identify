@@ -144,7 +144,7 @@ router.get("/userLookup", (req, res) => {
 });
 
 router.post("/buzz", (req, res) => {
-  console.log("hello");
+  // console.log("hello");
   socketManager.getIo().emit("buzz", req.body.userId);
 });
 

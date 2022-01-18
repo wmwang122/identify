@@ -26,8 +26,9 @@ const InGame = (props) => {
   const [trackNum, setTrackNum] = useState(1);
   const [myAudio, setMyAudio] = useState(null);
   const [playingNum, setPlayingNum] = useState(null);
+  const [resetTimer, setResetTimer] = useState(false);
 
-  var temp = false;
+  let temp = false;
   const handleBuzz = (event) => {
     temp = !temp;
     post("/api/buzz", { userId: props.userId });
@@ -42,7 +43,7 @@ const InGame = (props) => {
     });
     socket.on("buzz", newBuzz);
     return () => {
-      socket.off("buzz", newBuzz);
+      socket.off("buzz");
     };
   }, []);
 
@@ -56,15 +57,26 @@ const InGame = (props) => {
   const handleTimerEnd = () => {
     setUserWhoBuzzed(null);
     setUserBuzz(null);
-    setTrackNum(trackNum + 1);
     console.log(trackNum);
+    console.log("ending timer");
   };
 
   const handleSubmit = (value) => {
     console.log("answer: " + trackList[trackNum].name);
-    if(value === trackList[trackNum].name){
-      console.log("hooray!");
+    console.log(value + " or " + trackList[trackNum].name);
+    handleAnswer(value === trackList[trackNum].name);
+  };
+
+  const handleAnswer = (correct) => {
+    if(correct){
+      console.log("congratulations!");
+    setTrackNum(trackNum + 1);
     }
+    else{
+      console.log("you suck!");
+    }
+    setResetTimer(true);
+    handleTimerEnd();
   };
 
   useEffect(() => {
@@ -74,11 +86,13 @@ const InGame = (props) => {
         myAudio.pause();
       }
       setMyAudio(new Audio(trackList[trackNum].preview_url));
+      console.log("set audio");
     }
   }, [trackNum, trackList, playingNum]);
   useEffect(() => {
     if (myAudio) {
       myAudio.play();
+      console.log("Playing");
     }
   }, [myAudio]);
 
@@ -86,12 +100,12 @@ const InGame = (props) => {
   var textBox =
     userBuzz === props.userId ? (
       <div>
-        <InputAnswer submit={handleSubmit} />
+        <InputAnswer submit={(value) => handleSubmit(value)} />
       </div>
     ) : (
       <div> hi </div>
     );
-  const countdownTimer = (<Countdown time={5} userExists={userBuzz ? true : false} end={handleTimerEnd} />);
+  const countdownTimer = (<Countdown time={5} userExists={userBuzz ? true : false} end={() => handleTimerEnd()} forceReset={resetTimer}/>);
 
   return (
     <div className="inGame-container">
@@ -107,7 +121,7 @@ const InGame = (props) => {
         <div>Room name</div>
         <div
           className="game-buzzer u-background-brightgreen u-pointer u-noSelect"
-          onClick={handleBuzz}
+          onClick={() => handleBuzz()}
         >
           buzz
         </div>
