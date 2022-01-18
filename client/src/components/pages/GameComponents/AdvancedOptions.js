@@ -1,42 +1,39 @@
 import React, { useEffect, useState } from "react";
 import "./AdvancedOptions.css";
 import { Link } from "@reach/router";
-
-
-
+//import GameOptions1 from "./GameOptions1.js";
+import Options from "./Options.js"
 const AdvancedOptions = (props) => {
+    const [isVisible, setVisible] = useState(false);
 
-    const gameOptions = () => {
-        console.log("lezzgo");
-        <div className="options-panel">
-            hi hello how are you doing please work goddamn
-        </div>
-        console.log("woo");
-
-/*         <div>
-            <p>Select a maintenance drone:</p>
-
-            <div>
-            <input type="radio" id="huey" name="drone" value="huey"/>
-            <label for="huey">Huey</label>
-            </div>
-
-            <div>
-            <input type="radio" id="dewey" name="drone" value="dewey"/>
-            <label for="dewey">Dewey</label>
-            </div>
-        </div> */
+    const displayGameOpt = (props) =>
+    {
+        setVisible(!isVisible);
     }
+     let displaytext = isVisible ?
+    (<div className="options-panel-open">
+         {//hi hello how are you doing please work goddamn
+         }
+         <Options />
+     </div>) : (<div className="options-panel-closed">
+         {//hi hello how are you doing please work goddamn
+        }
+        <Options />
+     </div>);
 
-    return (
+     //var textBox = (isVisible) ? <div>  hi  </div> : <div> hello </div>;
+    
+     return(
       <div className="options-button u-pointer" >
-        <div className="options-text" onClick={gameOptions}>
+        <div className="options-text" onClick={displayGameOpt}>
           {/* <Link to="/gametesting"> */}
             Advanced Options
           {/* </Link> */}
+            {//{displaytext}
+            }
           </div>
-      </div>
-    );
+          {displaytext}
+      </div>);
 }
 
 export default AdvancedOptions;

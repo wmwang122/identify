@@ -2,8 +2,8 @@ import React, { Component, useEffect } from "react";
 import "../../../utilities.css";
 import "./Game.css";
 import GameCodeInput from "./GameCodeInput.js";
-import CreateGame from "../GameComponents/CreateGame";
-import AdvancedOptions from "../GameComponents/AdvancedOptions";
+import CreateGame from "../GameComponents/CreateGame.js";
+import AdvancedOptions from "../GameComponents/AdvancedOptions.js";
 const Game = (props) => {
   /*var optionsButton = props.userId ? (
     <>

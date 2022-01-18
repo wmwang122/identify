@@ -1,0 +1,7 @@
+.playlist-display {
+    display: flex;
+}
+
+.no-playlist-display {
+    display: none;
+}
