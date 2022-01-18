@@ -17,7 +17,7 @@ const GameCodeInput = (props) => {
   };
 
   const checkCode = () => {
-    post("/api/joinGame", { gameCode: inputText }).then((gameInfo) => {
+    post("/api/joinGame", { gameCode: inputText, userId: props.userId,}).then((gameInfo) => {
       console.log(gameInfo.status);
       if (gameInfo.status === "game found") {
         navigate(`/game/${gameInfo.gameCode}`, { state: gameInfo });

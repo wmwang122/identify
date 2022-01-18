@@ -10,14 +10,6 @@ import InputAnswer from "./InputAnswer.js";
 
 const InGame = (props) => {
   const [userData, setUserData] = useState([
-    {
-      _id: "61df83b4d87ebc594c8a6bc6",
-      score: 0,
-    },
-    {
-      _id: "61df930c4a1305a7ac4a929d",
-      score: 10,
-    }
   ]);
   const [userBuzz, setUserBuzz] = useState(null);
   const [userWhoBuzzed, setUserWhoBuzzed] = useState(null); //unnecesssary, just returns name instead of id
@@ -35,6 +27,7 @@ const InGame = (props) => {
     console.log("person buzzed");
     myAudio.pause();
   };
+    
   useEffect(() => {
     if(!trackList){
       get("/api/testPlaylists").then((body) => {
@@ -47,6 +40,22 @@ const InGame = (props) => {
       socket.off("buzz");
     };
   }, []);
+    
+  useEffect(() => {
+  
+      socket.on("new player", addData);
+    return () => {
+      socket.off("new player");
+    };
+  }, []);
+
+    const addData = (userId) => {
+        userData.push({ _id: userId, score: 0 });
+        console.log(JSON.stringify(userData));
+  }
+
+   
+    
 
   const newBuzz = (userId) => {
     setUserBuzz(userId);
