@@ -9,7 +9,6 @@ import SongPlayer from "./SongPlayer.js";
 import InputAnswer from "./InputAnswer.js";
 
 const InGame = (props) => {
-  const [currentSong, setCurrentSong] = useState(null);
   const [userData, setUserData] = useState([
     {
       _id: "61df83b4d87ebc594c8a6bc6",
@@ -29,18 +28,20 @@ const InGame = (props) => {
   const [resetTimer, setResetTimer] = useState(false);
 
   let temp = false;
+  let answerVer = (<div>Placeholder</div>);
   const handleBuzz = (event) => {
     temp = !temp;
     post("/api/buzz", { userId: props.userId });
     console.log("person buzzed");
+    myAudio.pause();
   };
-
   useEffect(() => {
-    get("/api/testPlaylists").then((body) => {
-      setTrackList(body.tracks.items);
-      setTrackNum(1);
-      console.log(JSON.stringify(body.tracks.items[0].preview_url));
-    });
+    if(!trackList){
+      get("/api/testPlaylists").then((body) => {
+        setTrackList(body.tracks.items);
+        setTrackNum(1);
+      });
+    }
     socket.on("buzz", newBuzz);
     return () => {
       socket.off("buzz");
@@ -48,10 +49,32 @@ const InGame = (props) => {
   }, []);
 
   const newBuzz = (userId) => {
+    setUserBuzz(userId);
+    let i = 0;
+    let flag = false;
+    for(i = 0; i < userData.length; i++){
+      if(userData[i]._id === userId){
+        flag = true;
+        if(userData[i].name){
+          setUserWhoBuzzed(userData[i].name);
+          return;
+        }
+        break;
+      }
+    }
     get("/api/userLookup", { _id: userId }).then((user) => {
       setUserWhoBuzzed(user.name);
+      if(flag){
+        userData[i].name = user.name;
+      }
+      else{
+        userData.push({
+          _id: userId,
+          name: user.name,
+          score: 0,
+        });
+      }
     });
-    setUserBuzz(userId);
   };
 
   const handleTimerEnd = () => {
@@ -59,21 +82,20 @@ const InGame = (props) => {
     setUserBuzz(null);
     console.log(trackNum);
     console.log("ending timer");
+    myAudio.play();
   };
 
   const handleSubmit = (value) => {
     console.log("answer: " + trackList[trackNum].name);
     console.log(value + " or " + trackList[trackNum].name);
-    handleAnswer(value === trackList[trackNum].name);
-  };
-
-  const handleAnswer = (correct) => {
-    if(correct){
-      console.log("congratulations!");
-    setTrackNum(trackNum + 1);
+    if(value === trackList[trackNum].name){
+      setTrackNum(trackNum + 1);
+      console.log(value + " was correct!");
+      answerVer = (<div>{value} was correct!</div>);
     }
     else{
-      console.log("you suck!");
+      console.log(value + " was wrong! You suck!");
+      answerVer = (<div>{value} was wrong! You suck!</div>);
     }
     setResetTimer(true);
     handleTimerEnd();
@@ -100,12 +122,12 @@ const InGame = (props) => {
   var textBox =
     userBuzz === props.userId ? (
       <div>
-        <InputAnswer submit={(value) => handleSubmit(value)} />
+        <InputAnswer submit={(sub) => handleSubmit(sub)} />
       </div>
     ) : (
       <div> hi </div>
     );
-  const countdownTimer = (<Countdown time={5} userExists={userBuzz ? true : false} end={() => handleTimerEnd()} forceReset={resetTimer}/>);
+  const countdownTimer = (<Countdown time={5} userExists={userBuzz ? true : false} end={() => handleTimerEnd()} forceReset={resetTimer} visible = "button-invisible"/>);
 
   return (
     <div className="inGame-container">
@@ -129,6 +151,7 @@ const InGame = (props) => {
         {textBox}
       </div>
       {countdownTimer}
+      {answerVer}
     </div>
   );
 };

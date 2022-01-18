@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import "./Countdown.css";
 
 // help from https://upmostly.com/tutorials/build-a-react-timer-component-using-hooks
 
@@ -51,7 +52,7 @@ const Countdown = (props) => {
   return (
     <div>
       <div>{timeLeft}s</div>
-      <button onClick={toggle}>{buttonText}</button>
+      <button onClick={toggle} className={props.visible?props.visible:""}>{buttonText}</button>
     </div>
   );
 };
