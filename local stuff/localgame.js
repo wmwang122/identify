@@ -2,7 +2,6 @@ import React, { Component, useEffect } from "react";
 import "../../utilities.css";
 import "./Game.css";
 import GameCodeInput from "./GameCodeInput.js";
-import Name from "./name.js";
 import CreateGame from "./GameComponents/CreateGame";
 import AdvancedOptions from "./GameComponents/AdvancedOptions";
 

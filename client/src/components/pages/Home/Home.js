@@ -8,8 +8,7 @@ const Home = (props) => {
     <>
       <div className="login-button">You are logged in!</div>
       <div>
-        {" "}
-        Welcome <Name/> {" "}
+        Welcome <Name/> 
       </div>
     </>
   ) : (
