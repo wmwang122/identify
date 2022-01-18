@@ -9,6 +9,7 @@ import HowToPlay from "./pages/howtoplay.js";
 import InGame from "./pages/InGameComponents/InGame.js";
 import NewGame from "./pages/CreateGame/NewGame.js";
 
+
 import "../utilities.css";
 
 import { socket } from "../client-socket.js";
@@ -18,7 +19,7 @@ import { get, post } from "../utilities";
 /**
  * Define the "App" component
  */
-const App = () => {
+const App = (props) => {
   const [userId, setUserId] = useState(undefined);
 
   useEffect(() => {
@@ -65,18 +66,18 @@ const App = () => {
 
   return (
     <>
-      <NavBar handleLogin={handleLogin} handleLogout={handleLogout} userId={userId}/>
+      <NavBar handleLogin={handleLogin} handleLogout={handleLogout} userId={userId} />
       <Router>
-        <Home path="/" handleLogin={handleLogin} handleLogout={handleLogout} userId={userId}/>
+        <Home path="/" handleLogin={handleLogin} handleLogout={handleLogout} userId={userId} />
         <Game path="/lobby" userId={userId} />
-        <Profile path="/profile" userId={userId} onSubmit={handleBioUpdate}/>
+        <Profile path="/profile" userId={userId} onSubmit={handleBioUpdate} />
         <NotFound default />
-        <HowToPlay path="/howtoplay" userId={userId}/>
-        <InGame path="/game/:gameCode" userId={userId} />
+        <HowToPlay path="/howtoplay" userId={userId} />
+        <InGame path="/game/:gameCode" userId={userId}  />
         <NewGame path="/NewGame" userId={userId} />
       </Router>
     </>
   );
 };
 
-export default App;
+export default App;// jchanged in game component 

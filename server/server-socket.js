@@ -25,8 +25,8 @@ const removeUser = (user, socket) => {
   delete socketToUserMap[socket.id];
 };
 
-const addUserToGame = (user, gameCode) => {
-  userToSocketMap[user].join(gameCode);
+const addUserToGame = (userId, gameCode) => {
+  userToSocketMap[userId].join(gameCode);
   console.log("Added User to: "+gameCode);
 }
 

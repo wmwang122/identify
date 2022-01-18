@@ -158,7 +158,9 @@ router.get("/userLookup", (req, res) => {
 
 router.post("/buzz", (req, res) => {
   // console.log("hello");
-  socketManager.getIo().emit("buzz", req.body.userId);
+  console.log(req.body.gameCode);
+
+  socketManager.getIo().to(req.body.gameCode).emit("buzz", req.body.userId);
   res.send({});
 });
 
@@ -187,7 +189,7 @@ router.post("/newGame", (req, res) => {
   // game.save();
 });
 
-router.post("/joinGame", (req, res) => {
+router.post("Game", (req, res) => {
   if (games.get(req.body.gameCode)) {
     socketManager.addUserToGame(req.body.userId, req.body.gameCode);
     socketManager.getIo().emit("new player", req.body.userId);

@@ -21,14 +21,19 @@ const InGame = (props) => {
   const [resetTimer, setResetTimer] = useState(false);
   const [roundOngoing, setRoundOngoing] = useState(false);
 
-  let answerVer = (<div>Placeholder</div>);
+    let answerVer = (<div>Placeholder</div>);
+    let val = window.location.href;
+    let gameCode = (val.substring(val.length - 5, val.length));
+
   const handleBuzz = (event) => {
     if(roundOngoing && !userBuzz){
-      post("/api/buzz", { userId: props.userId });
-      console.log("person buzzed");
-      myAudio.pause();
-    }
-  };
+        post("/api/buzz", { userId: props.userId, gameCode: gameCode, }); 
+        console.log("person buzzed");
+        console.log("Game Code: " + val.substring(val.length - 5, val.length));
+        myAudio.pause();
+      }
+
+  }
     
   useEffect(() => {
     if(!trackList){
@@ -58,7 +63,8 @@ const InGame = (props) => {
     
 
   const newBuzz = (userId) => {
-    setUserBuzz(userId);
+      console.log("is this being called");
+      setUserBuzz(userId);
     let i = 0;
     let flag = false;
     for(i = 0; i < userData.length; i++){
