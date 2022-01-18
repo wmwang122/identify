@@ -49,7 +49,6 @@ const InGame = (props) => {
   }, []);
     
   useEffect(() => {
-  
       socket.on("new player", addData);
     return () => {
       socket.off("new player");
@@ -110,7 +109,7 @@ const InGame = (props) => {
   const handleSubmit = (value) => {
     console.log("answer: " + trackList[trackNum].name);
     console.log(value + " or " + trackList[trackNum].name);
-    if(value === trackList[trackNum].name){
+    if(value.toLowerCase() === trackList[trackNum].name.toLowerCase()){
       setTrackNum(trackNum + 1);
       console.log(value + " was correct!");
       answerVer = (<div>{value} was correct!</div>);
@@ -140,6 +139,14 @@ const InGame = (props) => {
       console.log("set audio");
     }
   }, [trackNum, trackList, playingNum]);
+  useEffect(()=> {
+    if(myAudio){
+      myAudio.addEventListener('ended', (event) => {
+        setTrackNum(trackNum+1);
+        setRoundOngoing(false);
+      });
+    }
+  },[myAudio])
 
   var whoBuzzed = userBuzz ? <div>{userWhoBuzzed} has buzzed!</div> : <div>No one has buzzed!</div>;
   var textBox =
@@ -148,7 +155,7 @@ const InGame = (props) => {
         <InputAnswer submit={(sub) => handleSubmit(sub)} />
       </div>
     ) : (
-      <div> hi </div>
+      <></>
     );
   const countdownTimer = (<Countdown time={5} userExists={userBuzz ? true : false} end={() => handleTimerEnd()} forceReset={resetTimer} visible = "button-invisible"/>);
 
