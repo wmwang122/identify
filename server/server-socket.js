@@ -25,6 +25,15 @@ const removeUser = (user, socket) => {
   delete socketToUserMap[socket.id];
 };
 
+const addUserToGame = (user, gameCode) => {
+  userToSocketMap[user].join(gameCode);
+  console.log("Added User to: "+gameCode);
+}
+
+const removeUserFromGame = (user, gameCode) => {
+  userToSocketMap[user].leave(gameCode);
+  console.log("Removed User from: "+gameCode);
+}
 module.exports = {
   init: (http) => {
     io = require("socket.io")(http);
@@ -40,6 +49,8 @@ module.exports = {
 
   addUser: addUser,
   removeUser: removeUser,
+  addUserToGame: addUserToGame,
+  removeUserFromGame: removeUserFromGame,
 
   getSocketFromUserID: getSocketFromUserID,
   getUserFromSocketID: getUserFromSocketID,
