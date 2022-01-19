@@ -175,6 +175,7 @@ useEffect(() => {
         }
       }
       setRoundOngoing(false);
+      setTrackNum(trackNum+1);
     }
     setResetTimer(true);
     handleTimerEnd(val);
