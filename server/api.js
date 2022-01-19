@@ -78,7 +78,7 @@ router.get("/testPlaylists", async (req, res) => {
     loggedInSpotifyApi.refreshAccessToken().then(async (data) => {
       console.log("Access Token Refreshed!");
       loggedInSpotifyApi.setAccessToken(data.body["access_token"]);
-      const result = await loggedInSpotifyApi.getAlbum("27G1V5LHwMonEHPV8zy9AV");
+      const result = await loggedInSpotifyApi.getAlbum("3oVCGd8gjANVb5r2F0M8BI");
       res.status(200).send(result.body);
     });
   } catch (err) {
@@ -136,6 +136,7 @@ router.post("/bioUpdate", (req, res) => {
       });
     });
   }
+  res.send();
 });
 
 router.post("/pfpUpdate", (req, res) => {
@@ -147,6 +148,7 @@ router.post("/pfpUpdate", (req, res) => {
       });
     });
   }
+  res.send();
 });
 router.get("/userLookup", (req, res) => {
   User.findOne({ _id: req.query._id }).then((user) => {
@@ -156,7 +158,20 @@ router.get("/userLookup", (req, res) => {
 
 router.post("/buzz", (req, res) => {
   // console.log("hello");
-  socketManager.getIo().emit("buzz", req.body.userId);
+  console.log(req.body.gameCode);
+
+  socketManager.getIo().to(req.body.gameCode).emit("buzz", req.body.userId);
+  res.send({});
+});
+
+router.post("/submitted", (req, res) => {
+  socketManager.getIo().to(req.body.gameCode).emit("submitted",{user: req.body.user, submission: req.body.sub, curr: req.body.curr});
+  res.send({});
+});
+
+router.post("/roundStart", (req, res) => {
+  socketManager.getIo().to(req.body.gameCode).emit("starting",{});
+  res.send({});
 });
 
 /*router.post("/gameInitiate",(req,res) =>{
@@ -176,12 +191,26 @@ router.post("/newGame", (req, res) => {
   while (games.get(code)) { 
     code = generateCode(5);
   }
-  games.set(code, {});
-  res.send({ gameCode: code, });
+  games.set(code, req.body);
+  socketManager.addUserToGame(req.body.userId, code);
+  socketManager.getIo().emit("new player", req.body.userId);
+  res.send({ gameCode: code});
   // const game = new GameSchema({
   //   gameCode: code,
   // });
   // game.save();
+});
+
+router.post("/joinGame", (req, res) => {
+  if (games.get(req.body.gameCode)) {
+    socketManager.addUserToGame(req.body.userId, req.body.gameCode);
+    socketManager.getIo().emit("new player", req.body.userId);
+    let settings = games.get(req.body.gameCode).settings;
+    res.send({status: "game found", gameCode: req.body.gameCode, settings: settings });
+  }
+  else {
+    res.send({ status: "game not found" });
+  }
 });
 
 /*router.get("/getGame",(req,res) =>{
@@ -201,7 +230,7 @@ router.post("/newGame", (req, res) => {
 //   });
 // });
 
-router.post("/gameUpdateBuzz", (req, res) => {
+/*router.post("/gameUpdateBuzz", (req, res) => {
   console.log("Received:" + JSON.stringify(req.body));
   GameSchema.findOne({ gameCode: req.body.code }).then((game) => {
     if (game) {
@@ -209,7 +238,7 @@ router.post("/gameUpdateBuzz", (req, res) => {
       game.save();
     }
   });
-});
+});*/
 
 router.all("*", (req, res) => {
   console.log(`API route not found: ${req.method} ${req.url}`);

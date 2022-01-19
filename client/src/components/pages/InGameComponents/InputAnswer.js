@@ -10,23 +10,20 @@ const InputAnswer = (props) => {
     setInputText(value);
   };
 
-  const setUserAnswer = () => {
-    let userAnswer = inputText;
-    console.log(gamecode);
-  };
-
-  const checkAnswer = () => {
-      console.log("checking answer");
-  };
+  const handleKeyPress = (event) => {
+    if(event.which === 13){
+      props.submit(inputText);
+    }
+  }
 
   return (
     <div>
-      <input type="text" value={inputText} onChange={handleInputChange} />
-      <button onClick={(inputText) => props.submit(inputText)} className="enterText-button">
+      <input type="text" value={inputText} onChange={handleInputChange} onKeyPress={handleKeyPress} autoFocus = "autofocus"/>
+      <button onClick={() => props.submit(inputText)} className="enterText-button">
         submit
       </button>
       {/* <div> {checkCode(inputText)} </div> */}
-    </div>
+  </div>
   );
 };
 

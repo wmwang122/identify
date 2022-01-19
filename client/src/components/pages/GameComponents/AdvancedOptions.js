@@ -12,7 +12,7 @@ const AdvancedOptions = (props) => {
     }
      let displaytext = isVisible ?
     (<div className="options-panel-open">
-         <Options />
+         <Options userId={props.userId}/>
      </div>) : (<div className="options-panel-closed">
         <Options />
      </div>);

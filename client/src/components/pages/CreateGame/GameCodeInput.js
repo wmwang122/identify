@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import "./GameCodeInput.css";
 import { get, post } from "../../../utilities.js";
+import { navigate } from "@reach/router";
 
 const GameCodeInput = (props) => {
   const [inputText, setInputText] = useState("");
+  const [invalid, setInvalid] = useState("false");
 
   const handleInputChange = (event) => {
     const value = event.target.value;
@@ -11,13 +13,32 @@ const GameCodeInput = (props) => {
   };
 
   const setText = () => {
-    let gamecode = inputText;
-    console.log(gamecode);
+    let gameCode = inputText;
+    console.log(gameCode);
   };
 
   const checkCode = () => {
-    get("/api/getGame", { gameCode: inputText }).then((gameCode) => console.log(gameCode));
+    post("/api/joinGame", { gameCode: inputText, userId: props.userId,}).then((gameInfo) => {
+      console.log(gameInfo.status);
+      if (gameInfo.status === "game found") {
+        navigate(`/game/${gameInfo.gameCode}`, { state: gameInfo });
+      } else {
+        console.log(invalid);
+        setInvalid("true");
+        setInputText("");
+      }
+    });
+    //  console.log(inputText);
   };
+
+    var textBox =
+      invalid === "true" ? (
+        <div className = "invalid">
+          invalid game code, please try again
+        </div>
+      ) : (
+        <> </>
+      );
 
   return (
     <div>
@@ -26,7 +47,7 @@ const GameCodeInput = (props) => {
         {" "}
         submit{" "}
       </button>
-      {/* <div> {checkCode(inputText)} </div> */}
+      {textBox}
     </div>
   );
 };
