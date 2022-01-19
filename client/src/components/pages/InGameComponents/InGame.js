@@ -25,6 +25,7 @@ const InGame = (props) => {
     let answerVer = (<div>Placeholder</div>);
     let val = window.location.href;
     let gameCode = (val.substring(val.length - 5, val.length));
+    let songInfo = "There is currently no song playing";
 
   const handleBuzz = (event) => {
     if(roundOngoing && !userBuzz){
@@ -197,6 +198,7 @@ useEffect(() => {
       console.log("set audio");
     }
   }, [trackNum, trackList, playingNum]);
+
   useEffect(()=> {
     if(myAudio){
       myAudio.addEventListener('ended', (event) => {
@@ -234,8 +236,9 @@ useEffect(() => {
         <Scoreboard data={userData}/>
         <div>Add music</div>
       </div>
-      <div className="inGame-container-right">
-        <div>Room name</div>
+      <div className="inGame-container-main">
+        <div className="inGame-header"><div className="inGame-title">Wiwa's Room</div><div>Room Code: {gameCode}</div></div>
+        <div className="song-info">{songInfo}</div>
         <div
           className="game-buzzer u-background-brightgreen u-pointer u-noSelect"
           onClick={() => handleBuzz()}
@@ -245,6 +248,8 @@ useEffect(() => {
         {whoBuzzed}
         {textBox}
       </div>
+      <br>
+      </br>
       {countdownTimer}
       {answerVer}
       <button className={roundOngoing?"button-invisible":""} onClick={() => handleRoundStart()}>Proceed to Next Round</button>

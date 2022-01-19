@@ -1,22 +1,42 @@
 .game-buzzer{
-    height: 50px;
-    width: 50px;
+    height: 200px;
+    width: 200px;
     text-align: center;
     vertical-align: middle;
-    line-height: 50px;
-    border-radius: 25px;
+    line-height: 200px;
+    border-radius: 100px;
+    font-size: 40px;
 }
 
 .inGame-container{
     display: flex;
     padding-top: 2rem;
     padding-left: 4rem;
+    justify-content: space-around;
 }
 .inGame-container-left{
     padding-right: 4rem;
 }
-.inGame-container-right{
+.inGame-container-main{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.inGame-title{
+    font-weight: 500;
+}
+
+.inGame-header{
+    font-size: 30px;
     text-align: center;
+    background-color: var(--lightbrightgreen);
+    padding: 15px 30px 15px 30px;
+    border-radius: 30px;
+}
+
+.song-info{
+    height: 30px;
 }
 
 .button-invisible{

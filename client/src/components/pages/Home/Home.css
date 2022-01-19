@@ -3,8 +3,8 @@
   background-color: var(--brightgreen);
   border-radius: 64px;
   margin-top: 32px;
-  height: 300px;
-  width: 300px;
+  height: 260px;
+  width: 260px;
   justify-content: center;
   align-items: center;
 }
@@ -12,8 +12,8 @@
 .home-instructions {
   display: flex;
   justify-content: space-around;
-  margin-top: 10px;
-  margin-bottom: 10px;
+  margin-top: 5px;
+  margin-bottom: 15px;
 }
 
 .home-instruction {
@@ -44,7 +44,36 @@
   display: inline-block;
   font-size: 32px;
   border-radius: 32px;
+  line-height: 44px;
+  height: 44px;
+  width: 180px;
 }
 .login-button a {
   text-decoration: none;
 }
+
+.login-front{
+  position: relative;
+  top: -42.5px;
+  left: 1.2px;
+  color: black;
+}
+
+.login-back{
+  color: white;
+  opacity: 0;
+}
+
+.login-button:hover {
+  background-color: #aaf7a0;
+  font-size: 32px;
+}
+
+.login-button:hover > .login-back{
+  opacity: 1;
+}
+.inst-delay-1 {animation-delay: 0.2s;}
+.inst-delay-2 {animation-delay: 0.4s;}
+.inst-delay-3 {animation-delay: 0.6s;}
+.inst-delay-4 {animation-delay: 0.8s;}
+.inst-delay-5 {animation-delay: 1.0s;}
