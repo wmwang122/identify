@@ -145,7 +145,6 @@ useEffect(() => {
     let success = value.toLowerCase() === trackList[trackNum].name.toLowerCase();
     post("/api/submitted",{gameCode: gameCode, user: userBuzz, correct: success});
     if(success){
-      setTrackNum(trackNum + 1);
       console.log(value + " was correct!");
       answerVer = (<div>{value} was correct!</div>);
       for(let i = 0; i < userData.length; i++){
