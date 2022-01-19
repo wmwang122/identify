@@ -5,6 +5,7 @@ import { navigate } from "@reach/router";
 
 const GameCodeInput = (props) => {
   const [inputText, setInputText] = useState("");
+  const [invalid, setInvalid] = useState("false");
 
   const handleInputChange = (event) => {
     const value = event.target.value;
@@ -22,11 +23,22 @@ const GameCodeInput = (props) => {
       if (gameInfo.status === "game found") {
         navigate(`/game/${gameInfo.gameCode}`, { state: gameInfo });
       } else {
-        console.log("game not found");
+        console.log(invalid);
+        setInvalid("true");
+        setInputText("");
       }
     });
     //  console.log(inputText);
   };
+
+    var textBox =
+      invalid === "true" ? (
+        <div className = "invalid">
+          invalid game code, please try again
+        </div>
+      ) : (
+        <> </>
+      );
 
   return (
     <div>
@@ -35,7 +47,7 @@ const GameCodeInput = (props) => {
         {" "}
         submit{" "}
       </button>
-      {/* <div> {checkCode(inputText)} </div> */}
+      {textBox}
     </div>
   );
 };
