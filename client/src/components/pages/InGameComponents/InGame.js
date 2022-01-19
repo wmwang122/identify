@@ -78,6 +78,7 @@ useEffect(() => {
 
   const newBuzz = (userId) => {
       setUserBuzz(userId);
+      console.log("get paused");
       setIsPaused(true);
     let i = 0;
     let flag = false;
@@ -106,11 +107,19 @@ useEffect(() => {
     });
   };
 
-  const handleTimerEnd = () => {
+  const handleTimerEnd = (success) => {
     setUserWhoBuzzed(null);
     setUserBuzz(null);
-    setIsPaused(false);
-    console.log(trackNum);
+    if(typeof success !== undefined){
+      setIsPaused(success);
+    }
+    else{
+      setIsPaused(true);
+    }
+    console.log("paused? " + isPaused);
+    if(success && myAudio){
+      myAudio.pause();
+    }
     console.log("ending timer");
     if(roundOngoing){
       myAudio.play();
@@ -131,8 +140,9 @@ useEffect(() => {
   const handleSubmit = (value) => {
     console.log("answer: " + trackList[trackNum].name);
     console.log(value + " or " + trackList[trackNum].name);
-    post("/api/submitted",{gameCode: gameCode, user: userBuzz, correct: (value.toLowerCase() === trackList[trackNum].name.toLowerCase())});
-    if(value.toLowerCase() === trackList[trackNum].name.toLowerCase()){
+    let success = value.toLowerCase() === trackList[trackNum].name.toLowerCase();
+    post("/api/submitted",{gameCode: gameCode, user: userBuzz, correct: success});
+    if(success){
       setTrackNum(trackNum + 1);
       console.log(value + " was correct!");
       answerVer = (<div>{value} was correct!</div>);
@@ -149,13 +159,15 @@ useEffect(() => {
       answerVer = (<div>{value} was wrong!</div>);
     }
     setResetTimer(true);
-    handleTimerEnd();
+    handleTimerEnd(success);
   };
 
   const handleUserSubmission = (data) => {
+    let val = false;
     if(data.correct){
       for(let i = 0; i < userData.length; i++){
-        if(data.user === userData[i]._id){
+        val = data.user === userData[i]._id;
+        if(val){
           userData[i].score++;
           break;
         }
@@ -163,7 +175,7 @@ useEffect(() => {
       setRoundOngoing(false);
     }
     setResetTimer(true);
-    handleTimerEnd();
+    handleTimerEnd(val);
   }
 
   useEffect(() => {
