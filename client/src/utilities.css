@@ -165,3 +165,7 @@ form {
   animation-delay: 0.5s;
   animation-fill-mode: backwards;
 }
+
+.u-hidden {
+  visibility: hidden;
+}

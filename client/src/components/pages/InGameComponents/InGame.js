@@ -238,7 +238,9 @@ useEffect(()=>{
       <></>
     );
   let buzzerState = canBuzz ? "" : "inGame-buzzer-locked";
-  let buzzerText = userBuzz ? (<Countdown time={5} userExists={userBuzz ? true : false} end={() => handleTimerEnd()} forceReset={resetTimer} visible = "button-invisible"/>) : (<div>buzz</div>);
+  let countdownTimer = (<Countdown time={5} userExists={userBuzz ? true : false} end={() => handleTimerEnd()} forceReset={resetTimer} visible = "false"/>);
+  let countdownState = userBuzz ? "" : "u-hidden";
+  let buzzTextState = userBuzz ? "u-hidden" : "";
 
   return (
     <div className="inGame-container">
@@ -254,7 +256,12 @@ useEffect(()=>{
           onClick={() => handleBuzz()}
         >
           <div className="inGame-buzzer-text-container">
-          {buzzerText}
+            <div className={buzzTextState+" inGame-buzzer-text"}>
+              buzz
+            </div>
+            <div className={countdownState+" inGame-buzzer-text"}>
+              {countdownTimer}
+            </div>
           </div>
         </div>
         {textBox}

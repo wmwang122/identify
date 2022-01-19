@@ -1,4 +1,5 @@
 .game-buzzer{
+    position: relative;
     height: 200px;
     width: 200px;
     text-align: center;
@@ -47,8 +48,11 @@
     padding: 20px 0 20px 0;
 }
 
-.inGame-buzzer-text-container{
-    
+.inGame-buzzer-text{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 .button-invisible{
     visibility: hidden;
