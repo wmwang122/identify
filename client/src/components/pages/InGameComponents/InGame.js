@@ -107,7 +107,7 @@ useEffect(() => {
     });
   };
 
-  const handleTimerEnd = (success) => {
+  const handleTimerEnd = (success, curr) => {
     setUserWhoBuzzed(null);
     setUserBuzz(null);
     if(typeof success !== undefined){
@@ -116,9 +116,8 @@ useEffect(() => {
     else{
       setIsPaused(true);
     }
-    console.log("paused? " + isPaused);
     if(success){
-      setTrackNum(trackNum+1);
+      setTrackNum(curr+1);
     }
     if(success && myAudio){
       setIsPaused(true);
@@ -146,7 +145,7 @@ useEffect(() => {
 
   const handleOnSubmit = (value) => {
     let success = value.toLowerCase() === trackList[trackNum].name.toLowerCase();
-    post("/api/submitted",{gameCode: gameCode, user: userBuzz, sub: success});
+    post("/api/submitted",{gameCode: gameCode, user: userBuzz, sub: success, curr: trackNum});
   }
 
   /*const handleSubmit = (value) => {
@@ -184,7 +183,7 @@ useEffect(() => {
       setRoundOngoing(false);
     }
     setResetTimer(true);
-    handleTimerEnd(data.submission);
+    handleTimerEnd(data.submission, data.curr);
   }
 
   useEffect(() => {

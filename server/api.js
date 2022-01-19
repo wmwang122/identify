@@ -165,7 +165,7 @@ router.post("/buzz", (req, res) => {
 });
 
 router.post("/submitted", (req, res) => {
-  socketManager.getIo().to(req.body.gameCode).emit("submitted",{user: req.body.user, submission: req.body.sub});
+  socketManager.getIo().to(req.body.gameCode).emit("submitted",{user: req.body.user, submission: req.body.sub, curr: req.body.curr});
   res.send({});
 });
 
