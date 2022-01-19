@@ -57,7 +57,7 @@ const InGame = (props) => {
   }, []);
 
   useEffect(() => {
-    socket.on("submitted", handleUserSubmission);
+    socket.on("submitted", handleSubmit);
   return () => {
     socket.off("submitted");
   };
@@ -107,7 +107,7 @@ useEffect(() => {
     });
   };
 
-  const handleTimerEnd = (success) => {
+  const handleTimerEnd = (success, curr) => {
     setUserWhoBuzzed(null);
     setUserBuzz(null);
     if(typeof success !== undefined){
@@ -116,12 +116,16 @@ useEffect(() => {
     else{
       setIsPaused(true);
     }
-    console.log("paused? " + isPaused);
+    if(success){
+      setTrackNum(curr+1);
+    }
     if(success && myAudio){
+      setIsPaused(true);
       myAudio.pause();
     }
     console.log("ending timer");
     if(roundOngoing){
+      setIsPaused(false);
       myAudio.play();
     }
   };
@@ -139,7 +143,12 @@ useEffect(() => {
     myAudio.play();
   }
 
-  const handleSubmit = (value) => {
+  const handleOnSubmit = (value) => {
+    let success = value.toLowerCase() === trackList[trackNum].name.toLowerCase();
+    post("/api/submitted",{gameCode: gameCode, user: userBuzz, sub: success, curr: trackNum});
+  }
+
+  /*const handleSubmit = (value) => {
     console.log("answer: " + trackList[trackNum].name);
     console.log(value + " or " + trackList[trackNum].name);
     let success = value.toLowerCase() === trackList[trackNum].name.toLowerCase();
@@ -161,29 +170,27 @@ useEffect(() => {
     }
     setResetTimer(true);
     handleTimerEnd(success);
-  };
+  };*/
 
-  const handleUserSubmission = (data) => {
-    let val = false;
-    if(data.correct){
+  const handleSubmit = (data) => {
+    if(data.submission){
       for(let i = 0; i < userData.length; i++){
-        val = data.user === userData[i]._id;
-        if(val){
+        if(data.user === userData[i]._id){
           userData[i].score++;
           break;
         }
       }
       setRoundOngoing(false);
-      setTrackNum(trackNum+1);
     }
     setResetTimer(true);
-    handleTimerEnd(val);
+    handleTimerEnd(data.submission, data.curr);
   }
 
   useEffect(() => {
     if (trackNum && trackList && (!playingNum || playingNum != trackNum)) {
       setPlayingNum(trackNum);
       if (myAudio) {
+        setIsPaused(true);
         myAudio.pause();
       }
       setMyAudio(new Audio(trackList[trackNum].preview_url));
@@ -214,7 +221,7 @@ useEffect(() => {
   var textBox =
     userBuzz === props.userId ? (
       <div>
-        <InputAnswer submit={(sub) => handleSubmit(sub)} />
+        <InputAnswer submit={(sub) => handleOnSubmit(sub)} />
       </div>
     ) : (
       <></>

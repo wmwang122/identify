@@ -9,14 +9,15 @@ label {
 }
 
 .create-text {
-  position: absolute;
+  /*position: absolute;*/
   width: 211px;
   height: 48px;
-  left: 30px;
-  top: 21px;
   font-size: 36px;
   line-height: 48px;
   display: flex;
+  align-items: center;
+  justify-content: center;
+
 }
 
 .create-button {
@@ -24,15 +25,15 @@ label {
   border: none;
   color: black;
   text-align: center;
+  justify-content: center;
+  align-items: center;
   text-decoration: none;
   display: flex;
   font-size: 36px;
   height: 90px;
   width: 270px;
-  left: 52px;
-  top: 211px;
   border-radius: 45px;
-  position: absolute;
+  /*position: absolute;*/
 }
 
 .create-button a {
