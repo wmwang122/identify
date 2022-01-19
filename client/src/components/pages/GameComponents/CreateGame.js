@@ -9,9 +9,10 @@ import { get, post } from "../../../utilities.js";
 const CreateGame = (props) => {
 
 
-    const startGame = () => {
+  const startGame = () => {
+      let settings = [false, false, 10, 10, false];
       console.log("Game will be started!")
-      post("/api/newGame", {userId: props.userId}).then((gameStuff) => {
+      post("/api/newGame", {userId: props.userId, settings: settings,}).then((gameStuff) => {
         console.log(gameStuff.games);
         console.log(gameStuff.gameCode);
         navigate(`/game/${gameStuff.gameCode}`, { state: gameStuff, });

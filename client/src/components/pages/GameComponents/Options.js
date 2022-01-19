@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from "react";
 import Playlist from "./Playlist.js";
 import "./Options.css";
+import { navigate } from "@reach/router";
 import { Link } from "@reach/router";
+import { get, post } from "../../../utilities.js";
+
 const Options = (props) => {
   const [isPublic, setVisible] = useState(false);
   const [wantsOwnPlaylist, setPlaylist] = useState(false);
@@ -40,12 +43,14 @@ const Options = (props) => {
     hasNiceFriends = !hasNiceFriends;
   };
 
-  const submitGameOptions = (props) => {
+  const submitGameOptions = () => {
+    console.log("does this get called");
+    console.log(gameSettings[0]);
     post("/api/newGame", {settings: gameSettings, userId: props.userId}).then((gameStuff) => {
-      console.log(gameStuff.games);
       console.log(gameStuff.gameCode);
       navigate(`/game/${gameStuff.gameCode}`, { state: gameStuff });
     });
+
   };
 
   let displayPlaylist = wantsOwnPlaylist ? (
@@ -110,7 +115,9 @@ const Options = (props) => {
           <label for="friends">Allow friends to add playlists</label>
         </div>
 
-        <input type="submit" onClick={submitGameOptions} className="submitDatIsh" />
+        <div onClick={() => submitGameOptions()} className="submitDatIsh">
+          submit
+        </div>
       </form>
     </div>
   );

@@ -191,7 +191,7 @@ router.post("/newGame", (req, res) => {
   while (games.get(code)) { 
     code = generateCode(5);
   }
-  games.set(code, req.body);
+  games.set(code, req.body.settings); //maps gamecode to an array of game settings
   socketManager.addUserToGame(req.body.userId, code);
   socketManager.getIo().emit("new player", req.body.userId);
   res.send({ gameCode: code});
@@ -205,7 +205,7 @@ router.post("/joinGame", (req, res) => {
   if (games.get(req.body.gameCode)) {
     socketManager.addUserToGame(req.body.userId, req.body.gameCode);
     socketManager.getIo().emit("new player", req.body.userId);
-    let settings = games.get(req.body.gameCode).settings;
+    let settings = games.get(req.body.gameCode);
     res.send({status: "game found", gameCode: req.body.gameCode, settings: settings });
   }
   else {
