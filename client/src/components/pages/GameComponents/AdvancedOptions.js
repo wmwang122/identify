@@ -21,9 +21,7 @@ const AdvancedOptions = (props) => {
     
      return(
             <div className="options-button u-pointer">
-                <div className="options-text" onClick={displayGameOpt}>
-                    Advanced Options
-                </div>
+                <div className="options-text" onClick={displayGameOpt}>Advanced Options</div>
                 {displaytext}
             </div>);
 }

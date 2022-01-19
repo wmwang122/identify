@@ -24,6 +24,30 @@ const Profile = (props) => {
         }
         return () => { isMounted = false };
     },[]);
+    const handlePfpEdit = (event) => {
+        const image_input = document.querySelector("#image_input");
+        image_input.addEventListener("change", function() {
+        const reader = new FileReader();
+        reader.addEventListener("load", () => {
+        const uploaded_image = reader.result;
+        document.querySelector("#display_image").style.backgroundImage = `url(${uploaded_image})`;
+        });
+        reader.readAsDataURL(this.files[0]);
+        });
+
+    }
+
+    const imageHandler = (props) => {
+        const image_input = document.querySelector("#image_input");
+        image_input.addEventListener("change", function() {
+        const reader = new FileReader();
+        reader.addEventListener("load", () => {
+        const uploaded_image = reader.result;
+        document.querySelector("#display_image").style.backgroundImage = `url(${uploaded_image})`;
+        });
+        reader.readAsDataURL(this.files[0]);
+        });
+    }
     const handleChange = (event) => {
         setValue(event.target.value);
     };
@@ -57,6 +81,11 @@ const Profile = (props) => {
             <div className="profile-container-1">
                 <div className="pfp-container u-background-turquoise">
                     <img src="logo.png" height="250px"/>
+                    {/*added code starts*/}
+                        <input type = "file" name = "upload" accept = "image/*"/>
+                        <div id="display_image"></div>
+                        {imageHandler}
+                    {/*added code ends*/}
                 </div>
                 <div className="bio-container">
                     <div className="profile-title">{userName}</div>
