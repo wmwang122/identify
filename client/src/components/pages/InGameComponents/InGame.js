@@ -129,11 +129,13 @@ useEffect(() => {
   const handleRoundStart = () => {
     setRoundOngoing(true);
     post("/api/roundStart",{gameCode: gameCode}).then(() => {
+      setIsPaused(false);
       myAudio.play();
     });
   };
   const handleRoundStartedByUser = (data) => {
     setRoundOngoing(true);
+    setIsPaused(false);
     myAudio.play();
   }
 
