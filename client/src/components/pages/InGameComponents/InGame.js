@@ -109,6 +109,7 @@ useEffect(() => {
   const handleTimerEnd = () => {
     setUserWhoBuzzed(null);
     setUserBuzz(null);
+    setIsPaused(false);
     console.log(trackNum);
     console.log("ending timer");
     if(roundOngoing){
