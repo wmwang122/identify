@@ -21,11 +21,11 @@ const InGame = (props) => {
   const [resetTimer, setResetTimer] = useState(false);
   const [roundOngoing, setRoundOngoing] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
+  const [canBuzz, setCanBuzz] = useState(false);
 
     let answerVer = (<div>Placeholder</div>);
     let val = window.location.href;
     let gameCode = (val.substring(val.length - 5, val.length));
-    let songInfo = "There is currently no song playing";
 
   const handleBuzz = (event) => {
     if(roundOngoing && !userBuzz){
@@ -34,8 +34,6 @@ const InGame = (props) => {
       }
 
   }
-
-  
     
   useEffect(() => {
     if(!trackList){
@@ -69,7 +67,19 @@ useEffect(() => {
   return () => {
     socket.off("starting");
   };
-});
+}, []);
+
+useEffect(()=>{
+  if(userBuzz){
+    setCanBuzz(false);
+  }
+  else if(roundOngoing){
+    setCanBuzz(true);
+  }
+  else{
+    setCanBuzz(false);
+  }
+},[roundOngoing, userBuzz]);
 
   const addData = (userId) => {
         userData.push({ _id: userId, score: 0 });
@@ -218,9 +228,8 @@ useEffect(() => {
       }
     }
   },[isPaused]);
-
-  var whoBuzzed = userBuzz ? <div>{userWhoBuzzed} has buzzed!</div> : <div>No one has buzzed!</div>;
-  var textBox =
+  let songInfo = roundOngoing ? userBuzz ? (<div>{userWhoBuzzed} has buzzed!</div>):(<div>Song #{trackNum} is playing</div>):(<div>There is currently no song playing</div>);
+  let textBox =
     userBuzz === props.userId ? (
       <div>
         <InputAnswer submit={(sub) => handleOnSubmit(sub)} />
@@ -228,7 +237,8 @@ useEffect(() => {
     ) : (
       <></>
     );
-  const countdownTimer = (<Countdown time={5} userExists={userBuzz ? true : false} end={() => handleTimerEnd()} forceReset={resetTimer} visible = "button-invisible"/>);
+  let buzzerState = canBuzz ? "" : "inGame-buzzer-locked";
+  let buzzerText = userBuzz ? (<Countdown time={5} userExists={userBuzz ? true : false} end={() => handleTimerEnd()} forceReset={resetTimer} visible = "button-invisible"/>) : (<div>buzz</div>);
 
   return (
     <div className="inGame-container">
@@ -240,17 +250,17 @@ useEffect(() => {
         <div className="inGame-header"><div className="inGame-title">Wiwa's Room</div><div>Room Code: {gameCode}</div></div>
         <div className="song-info">{songInfo}</div>
         <div
-          className="game-buzzer u-background-brightgreen u-pointer u-noSelect"
+          className={"game-buzzer u-pointer u-noSelect "+buzzerState}
           onClick={() => handleBuzz()}
         >
-          buzz
+          <div className="inGame-buzzer-text-container">
+          {buzzerText}
+          </div>
         </div>
-        {whoBuzzed}
         {textBox}
       </div>
       <br>
       </br>
-      {countdownTimer}
       {answerVer}
       <button className={roundOngoing?"button-invisible":""} onClick={() => handleRoundStart()}>Proceed to Next Round</button>
     </div>
