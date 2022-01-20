@@ -34,6 +34,20 @@ const InGame = (props) => {
       }
 
   }
+
+  const initialize = () => {
+    get("/api/getGameData",{code: gameCode}).then((data) => {
+      setUserData(data.userData);
+      //setUserBuzz(data.userBuzz?data.userBuzz:null);
+      //setTrackList(data.trackList?data.trackList:null);
+      //setTrackNum(data.trackNum?data.trackNum:1);
+      //setRoundOngoing(data.roundOngoing?data.roundOngoing: null);
+    });
+  }
+
+  useEffect(() =>{
+    initialize();
+  },[]);
     
   useEffect(() => {
     if(!trackList){
@@ -46,28 +60,28 @@ const InGame = (props) => {
     return () => {
       socket.off("buzz");
     };
-  }, []);
+  },[]);
     
   useEffect(() => {
       socket.on("new player", addData);
     return () => {
       socket.off("new player");
     };
-  }, []);
+  });
 
   useEffect(() => {
     socket.on("submitted", handleSubmit);
   return () => {
     socket.off("submitted");
   };
-}, []);
+},[]);
 
 useEffect(() => {
   socket.on("starting", handleRoundStartedByUser);
   return () => {
     socket.off("starting");
   };
-}, []);
+});
 
 useEffect(()=>{
   if(userBuzz){
@@ -82,8 +96,7 @@ useEffect(()=>{
 },[roundOngoing, userBuzz]);
 
   const addData = (userId) => {
-        userData.push({ _id: userId, score: 0 });
-        console.log(JSON.stringify(userData));
+    setUserData([... userData,{_id: userId, score:0}]);
   }
     
 
