@@ -1,64 +1,41 @@
-.parent{
-    align-items: center;
-    justify-content: center;
-    padding: 
-}
-
-.container{
-    display:flex;
-    justify-content: center;
-    background-color:#93ff96;
-    height: 300px;
-    width: 500px;
-    border-radius: 30px;
-    align-content: center;
-    align-items:center;
-    padding: 15px 15px 15px 15px;
-    text-align: center;
-}
-
-.instructions{
-    font-size: 30px;
-}
-
 .howtoplay-Container{
     display: flex;
     justify-content: space-between;
-    margin-left: 1rem;
-    margin-right: 1rem;
-    margin-top: 3rem;
-    min-width: 100%;
+    margin-left: 2vw;
+    margin-right: 1vw;
+    margin-top: 5vh;
 }
 
 .howtoplay-Text{
     display: flex;
-    width: 44%;
-    margin-left: 2rem;
-    margin-right: 2rem;
-    font-size: 28px;
+    width: 40vw;
+    margin-left: 0;
+    margin-right: 2vw;
+    font-size: 5vh;
 }
 
 .howtoplay-number-container{
-    width: 12%;
-    height: 36px;
-    width: 36px;
-    border-radius: 18px;
-    line-height: 36px;
+    width: 10vw;
+    height: 7vh;
+    width: 7vh;
+    border-radius: 10vh;
+    line-height: 7vh;
     vertical-align: middle;
     background-color: var(--turqoise);
     text-align: center;
-    margin-right: 10px;
-    margin-left: 10px;
+    padding-right: 0;
+    margin-left: 0;
+    font-size: 5vh;
 }
 
 .howtoplay-Image-Container{
     text-align: center;
-    width: 44%;
+    width: 40vw;
     border-color: var(--turqoise);
-    border-width: 10px;
+    border-width: 1.5vh;
     border-style: solid;
-    border-radius: 10px;
-    padding: 10px 10px 10px 10px;
+    border-radius: 1.5vh;
+    padding: 1vh 1vw 1vh 1vw;
     margin-right:2rem;
     
 }
