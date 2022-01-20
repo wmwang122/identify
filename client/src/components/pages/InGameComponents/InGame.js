@@ -198,12 +198,7 @@ useEffect(()=>{
 
   const handleSubmit = (data) => {
     if(data.submission){
-      for(let i = 0; i < userData.length; i++){
-        if(data.user === userData[i]._id){
-          userData[i].score++;
-          break;
-        }
-      }
+      initialize();
       setRoundOngoing(false);
     }
     setResetTimer(true);

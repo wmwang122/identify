@@ -176,6 +176,15 @@ router.post("/buzz", (req, res) => {
 });
 
 router.post("/submitted", (req, res) => {
+  if(req.body.sub){
+    let game = games.get(req.body.gameCode);
+    for(let i = 0; i < game.userData.length; i++){
+      if(game.userData[i]._id === req.body.user){
+        game.userData[i].score++;
+        break;
+      }
+    }
+  }
   socketManager.getIo().to(req.body.gameCode).emit("submitted",{user: req.body.user, submission: req.body.sub, curr: req.body.curr});
   res.send({});
 });
