@@ -7,30 +7,67 @@ import "./howtoplay.css"
 
 const HowToPlay = (props) => {
     return (
-      <div className="parent">
-        <div className="container">
-
-            <div className="box box div">
-                    <div className="instructions"> INSTRUCTIONS </div> 
-            <div> ---------------------------------------------------------------------</div>        
-            <div>1. log in with your spotify account </div>
-            <div>2. either create a game or join an existing game using a room code </div>
-            <div>
-              3. if you are the room host, select room settings / choose playlists to upload{" "}
-            </div>
-            <div>
-              4. once the game starts, songs will play one by one. click buzz or press spacebar when
-              you know the answer.
-            </div>
-            <div>5. a textbox will then appear, and you can type your answer in </div>
-            <div>
-              6. you will earn ten points per correct answer and lose five points for each incorrect
-              answer{" "}
-            </div>
-            <div> 7. glhf! don't die and don't do drugs :)</div>
+      <>
+    <div className="howtoplay-Container">
+      <div className="howtoplay-number-container">1</div>
+      <div className="howtoplay-Text">
+         log in with your spotify account
+      </div>
+      <div className="howtoplay-Image-Container">
+        <img src="home_page_screenshot.png" className="howtoplay-Image"/>
+        <div className="howtoplay-home_page_bottom">
+          <div className="u-background-brightgreen howtoplay-home-button u-pointer" onClick={props.handleLogin}>
+            login to play
           </div>
         </div>
       </div>
+    </div>
+    <div className="howtoplay-Container">
+    <div className="howtoplay-number-container">2</div>
+      <div className="howtoplay-Text">
+        either create a game or join an existing game using a room code
+      </div>
+      <div className="howtoplay-Image-Container">
+
+      </div>
+    </div>
+    <div className="howtoplay-Container">
+    <div className="howtoplay-number-container">3</div>
+      <div className="howtoplay-Text">
+      if you are the room host, select room settings / choose playlists to upload
+      </div>
+      <div className="howtoplay-Image-Container">
+        
+      </div>
+    </div>
+    <div className="howtoplay-Container">
+    <div className="howtoplay-number-container">4</div>
+      <div className="howtoplay-Text">
+        once the game starts, songs will play one by one. click buzz or press spacebar when you know the answer.
+      </div>
+      <div className="howtoplay-Image-Container">
+        
+      </div>
+    </div>
+    <div className="howtoplay-Container">
+    <div className="howtoplay-number-container">5</div>
+      <div className="howtoplay-Text">
+      a textbox will then appear, and you can type your answer in
+      </div>
+      <div className="howtoplay-Image-Container">
+        
+      </div>
+    </div>
+    <div className="howtoplay-Container">
+    <div className="howtoplay-number-container">6</div>
+      <div className="howtoplay-Text">
+        you will earn ten points per correct answer and lose five points for each incorrect answer
+      </div>
+      <div className="howtoplay-Image-Container">
+        
+      </div>
+    </div>
+    </>
     );};
        
     

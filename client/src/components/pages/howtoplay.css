@@ -1,10 +1,7 @@
 .parent{
     align-items: center;
     justify-content: center;
-    margin-top: 200px;
-    margin-left: 500px;
     padding: 
-
 }
 
 .container{
@@ -24,5 +21,74 @@
     font-size: 30px;
 }
 
+.howtoplay-Container{
+    display: flex;
+    justify-content: space-between;
+    margin-left: 1rem;
+    margin-right: 1rem;
+    margin-top: 3rem;
+    min-width: 100%;
+}
 
+.howtoplay-Text{
+    display: flex;
+    width: 44%;
+    margin-left: 2rem;
+    margin-right: 2rem;
+    font-size: 28px;
+}
+
+.howtoplay-number-container{
+    width: 12%;
+    height: 36px;
+    width: 36px;
+    border-radius: 18px;
+    line-height: 36px;
+    vertical-align: middle;
+    background-color: var(--turqoise);
+    text-align: center;
+    margin-right: 10px;
+    margin-left: 10px;
+}
+
+.howtoplay-Image-Container{
+    text-align: center;
+    width: 44%;
+    border-color: var(--turqoise);
+    border-width: 10px;
+    border-style: solid;
+    border-radius: 10px;
+    padding: 10px 10px 10px 10px;
+    margin-right:2rem;
+    
+}
+
+.howtoplay-Image{
+    max-height: 90%;
+    max-width: 100%;
+}
+
+.howtoplay-home_page_bottom{
+    background-color: var(--lightgreen);
+    height: 10%;
+    display: flex;
+    justify-content: center;
+}
+
+.howtoplay-home-button{
+    padding: 1vh 1vw 1vh 1vw;
+    line-height: 3.5vh;
+    height: 3.5vh;
+    vertical-align: middle;
+    text-align: center;
+    border-radius: 2vh;
+    font-size: 3vh;
+    border-style: solid;
+    border-width: 0.3vh;
+    border-color: red;
+}
+
+.howtoplay-home-button:hover{
+    background-color: #aaf7a0;
+}
 
