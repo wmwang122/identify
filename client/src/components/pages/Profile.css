@@ -3,30 +3,45 @@
     flex-wrap: nowrap;
 }
 .pfp-container {
-    margin-left: 3rem;
-    margin-right: 3rem;
-    margin-top: 2rem;
-    border-radius: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 3vw;
+    margin-right: 4vw;
+    margin-top: 3vh;
+    border-radius: 8vh;
+    height: 43vh;
+    width: 43vh;
+    max-height: 32vw;
+    max-width: 32vw;
 }
+
+.pfp {
+    height: 40vh;
+    max-height: 30vw;
+}
+
 .bio-container {
-    margin-top: 2rem;
+    margin-top: 3vh;
 }
 .profile-title {
-    font-size: 34px;
-    margin-bottom: 0.5rem;
+    font-size: 6vh;
+    margin-bottom: 2vh;
 }
 .editBio-button {
-    font-size: 14px;
-    border-radius: 15px;
-    height: 30px;
-    width: 75px;
+    font-size: 2.5vh;
+    border-radius: 5vh;
+    height: 5vh;
+    width: 6vw;
+    min-width: 13vh;
     text-align: center;
     vertical-align: middle;
-    line-height: 30px;
+    line-height: 5vh;
 }
 .bio-Content {
-    height: 170px;
-    width: 650px;
+    height: 25vh;
+    width: 50vw;
+    font-size: 2.8vh;
     white-space: pre-line;
     overflow: hidden;
 }
@@ -37,10 +52,10 @@
 }
 
 textarea[type=text]{
-    width: 650px;
-    height: 170px;
+    width: 50vw;
+    height: 25vh;
     resize: none;
-    font-size: 16px;
+    font-size: 2.8vh;
     font-family: "Red Hat Text", sans-serif;
     font-weight: 300;
     border: none;
@@ -48,13 +63,14 @@ textarea[type=text]{
     background-color: rgba(255,255,255,0.8);
 }
 .submitBioEdit-button {
-    font-size: 14px;
-    border-radius: 15px;
-    height: 30px;
-    width: 75px;
+    font-size: 2.5vh;
+    border-radius: 5vh;
+    height: 5vh;
+    width: 5vw;
+    min-width: 10vh;
     text-align: center;
     vertical-align: middle;
-    line-height: 30px;
+    line-height: 5vh;
 }
 
 #display_image{
