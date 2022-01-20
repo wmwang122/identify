@@ -54,6 +54,13 @@
     left: 50%;
     transform: translate(-50%, -50%);
 }
+
+.inGame-buzzerEffect:hover{
+    background-color: #a2ff96;
+    font-weight: 400;
+    transform: scale(1.05);
+}
+
 .button-invisible{
     visibility: hidden;
 }

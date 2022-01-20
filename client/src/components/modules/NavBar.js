@@ -4,30 +4,30 @@ import { Link } from "@reach/router";
 import "./NavBar.css";
 
 const NavBar = (props) => {
-  var toggleState = props.userId?(<ul className="nav-item u-pointer" onClick={props.handleLogout}>
+  var toggleState = props.userId?(<ul className="nav-item u-pointer fixed-width-medium" onClick={props.handleLogout}>
   logout
-</ul>):(<ul className="nav-item u-pointer" onClick={props.handleLogin}>
+</ul>):(<ul className="nav-item u-pointer fixed-width-medium" onClick={props.handleLogin}>
   login
 </ul>);
   return (
     <div className="nav-list-container">
-      <div className="nav-title">
-        <Link to="/">
+      <div className="nav-title-container">
+        <Link to="/" className="nav-title">
           Identify
         </Link>
         </div>
       <div className="nav-elements">
-        <ul className="nav-item">
+        <ul className="nav-item fixed-width-large">
           <Link to="/lobby">
             play a game
           </Link>
       </ul>
-      <ul className="nav-item">
+      <ul className="nav-item fixed-width-large">
           <Link to="/howtoplay">
             instructions
           </Link>
         </ul>
-        <ul className="nav-item">
+        <ul className="nav-item fixed-width-medium">
           <Link to="/profile">
             profile
           </Link>

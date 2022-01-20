@@ -237,7 +237,7 @@ useEffect(()=>{
     ) : (
       <></>
     );
-  let buzzerState = canBuzz ? "" : "inGame-buzzer-locked";
+  let buzzerState = canBuzz ? "u-pointer inGame-buzzerEffect" : "inGame-buzzer-locked";
   let countdownTimer = (<Countdown time={5} userExists={userBuzz ? true : false} end={() => handleTimerEnd()} forceReset={resetTimer} visible = "false"/>);
   let countdownState = userBuzz ? "" : "u-hidden";
   let buzzTextState = userBuzz ? "u-hidden" : "";
@@ -252,7 +252,7 @@ useEffect(()=>{
         <div className="inGame-header"><div className="inGame-title">Wiwa's Room</div><div>Room Code: {gameCode}</div></div>
         <div className="song-info">{songInfo}</div>
         <div
-          className={"game-buzzer u-pointer u-noSelect "+buzzerState}
+          className={"game-buzzer u-noSelect "+buzzerState}
           onClick={() => handleBuzz()}
         >
           <div className="inGame-buzzer-text-container">
