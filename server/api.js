@@ -22,6 +22,7 @@ const SpotifyWebApi = require("spotify-web-api-node");
 
 //initialize socket
 const socketManager = require("./server-socket");
+const game = require("./models/game");
 
 const spotifyApi = new SpotifyWebApi({
   clientId: process.env.SPOTIFY_API_ID,
@@ -162,16 +163,30 @@ router.get("/getGameData", (req,res) => {
     res.send(ans);
   }
   else{
-    console.log("rip :( "+req.query.code);
     res.send({});
   }
 });
 
 router.post("/buzz", (req, res) => {
-  // console.log("hello");
-  console.log(req.body.gameCode);
-
+  let game = games.get(req.body.gameCode);
+  let flag = true;
+  for(let i = 0; i < game.userData.length; i++){
+    if(game.userData[i]._id === req.body.userId){
+      flag = false;
+      game.userBuzz = req.body.userId;
+    }
+  }
+  if(flag){
+    console.log("an error has occurred");
+  }
   socketManager.getIo().to(req.body.gameCode).emit("buzz", req.body.userId);
+  res.send({});
+});
+
+router.post("/clearBuzz", (req,res) => {
+  let game = games.get(req.body.gameCode);
+  game.userBuzz = null;
+  console.log("cleared buzz");
   res.send({});
 });
 
@@ -211,7 +226,12 @@ router.post("/newGame", (req, res) => {
   while (games.get(code)) { 
     code = generateCode(5);
   }
-  games.set(code, {settings: req.body.settings, userData: [{_id: req.body.userId, score: 0}]}); //maps gamecode to an array of game settings
+  games.set(code, {
+    settings: req.body.settings, 
+    userData: [{_id: req.body.userId, score: 0}],
+    userBuzz: null,
+    gameChat: []}
+    ); //maps gamecode to an array of game settings
   console.log(JSON.stringify(games.get(code)));
   socketManager.addUserToGame(req.body.userId, code);
   //socketManager.getIo().to(code).emit("new player", req.body.userId);
@@ -233,6 +253,18 @@ router.post("/joinGame", (req, res) => {
   else {
     res.send({ status: "game not found" });
   }
+});
+
+router.post("/chatSubmit", (req,res) => {
+  let game = games.get(req.body.gameCode);
+  let message = {
+    _id: req.body.userId,
+    name: req.body.name,
+    content: req.body.content,
+  };
+  game.gameChat.push(message);
+  socketManager.getIo().to(req.body.gameCode).emit("new message",message);
+  res.send({});
 });
 
 /*router.get("/getGame",(req,res) =>{

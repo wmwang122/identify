@@ -21,12 +21,16 @@ import { get, post } from "../utilities";
  */
 const App = (props) => {
   const [userId, setUserId] = useState(undefined);
+  const [name, setName] = useState(undefined);
 
   useEffect(() => {
     get("/api/whoami").then((user) => {
       if (user._id) {
         // they are registed in the database, and currently logged in.
         setUserId(user._id);
+      }
+      if(user.name){
+        setName(user.name);
       }
     });
   }, []);
@@ -73,7 +77,7 @@ const App = (props) => {
         <Profile path="/profile" userId={userId} onSubmit={handleBioUpdate} />
         <NotFound default />
         <HowToPlay path="/howtoplay" userId={userId} handleLogin={handleLogin}/>
-        <InGame path="/game/:gameCode" userId={userId} />
+        <InGame path="/game/:gameCode" userId={userId} name={name}/>
         <NewGame path="/NewGame" userId={userId} />
       </Router>
     </>

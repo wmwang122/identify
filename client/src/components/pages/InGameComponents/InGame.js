@@ -8,6 +8,7 @@ import { get, post } from "../../../utilities.js";
 import { socket } from "../../../client-socket.js";
 import SongPlayer from "./SongPlayer.js";
 import InputAnswer from "./InputAnswer.js";
+import GameChat from "./GameChat.js";
 
 const InGame = (props) => {
   const [userData, setUserData] = useState([
@@ -21,10 +22,12 @@ const InGame = (props) => {
   const [roundOngoing, setRoundOngoing] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
   const [canBuzz, setCanBuzz] = useState(false);
+  const [gameChat, setGameChat] = useState([]);
 
     let answerVer = (<div>Placeholder</div>);
     let val = window.location.href;
     let gameCode = (val.substring(val.length - 5, val.length));
+    let name = "";
 
   const handleBuzz = (event) => {
     if(roundOngoing && !userBuzz){
@@ -37,6 +40,14 @@ const InGame = (props) => {
   const initialize = () => {
     get("/api/getGameData",{code: gameCode}).then((data) => {
       setUserData(data.userData);
+      setUserBuzz(data.userBuzz);
+      setGameChat(data.gameChat);
+      for(let i=0; i < userData.length; i++){
+        if(userData[i]._id === props.userId){
+          name = userData[i].name;
+          break;
+        }
+      }
       //setUserBuzz(data.userBuzz?data.userBuzz:null);
       //setTrackList(data.trackList?data.trackList:null);
       //setTrackNum(data.trackNum?data.trackNum:1);
@@ -55,6 +66,18 @@ const InGame = (props) => {
         setTrackNum(1);
       });
     }
+  },[]);
+
+  useEffect(()=> {
+    socket.on("new message", (message) => {
+      setGameChat([... gameChat, message]);
+    });
+    return () => {
+      socket.off("new message");
+    }
+  });
+
+  useEffect(()=> {
     socket.on("buzz", newBuzz);
     return () => {
       socket.off("buzz");
@@ -114,8 +137,9 @@ useEffect(()=>{
     setIsPaused(true);
   };
 
-  const handleTimerEnd = (success, curr) => {
+  const handleTimerEnd = async (success, curr) => {
     setUserBuzz(null);
+    await post("/api/clearBuzz",{gameCode: gameCode});
     if(typeof success !== undefined){
       setIsPaused(success);
     }
@@ -178,13 +202,13 @@ useEffect(()=>{
     handleTimerEnd(success);
   };*/
 
-  const handleSubmit = (data) => {
+  const handleSubmit = async (data) => {
+    await handleTimerEnd(data.submission, data.curr);
     if(data.submission){
       initialize(); 
       setRoundOngoing(false);
     }
     setResetTimer(true);
-    handleTimerEnd(data.submission, data.curr);
   }
 
   useEffect(() => {
@@ -227,6 +251,7 @@ useEffect(()=>{
     ) : (
       <></>
     );
+
   let buzzerState = canBuzz ? "u-pointer inGame-buzzerEffect" : "inGame-buzzer-locked";
   let countdownTimer = (<Countdown time={5} userExists={userBuzz ? true : false} end={() => handleTimerEnd()} forceReset={resetTimer} visible = "false"/>);
   let countdownState = userBuzz ? "" : "u-hidden";
@@ -258,8 +283,8 @@ useEffect(()=>{
       </div>
       <br>
       </br>
-      {answerVer}
       <button className={roundOngoing?"button-invisible":""} onClick={() => handleRoundStart()}>Proceed to Next Round</button>
+      <GameChat userId={props.userId} messages = {gameChat} gameCode = {props.gameCode} name = {props.name}/>
     </div>
   );
 };

@@ -1,0 +1,15 @@
+.chat-big-container{
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    background-color: #e5ffd8;
+    width: 20vw;
+    height: 80vh;
+    border-radius: 20px;
+}
+
+.chat-content-container{
+    width: 20vw;
+    overflow-y: scroll;
+    overflow-wrap: break-word;
+}

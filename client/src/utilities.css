@@ -169,3 +169,17 @@ form {
 .u-hidden {
   visibility: hidden;
 }
+
+::-webkit-scrollbar {
+  width: 2vh;
+  background-color: #f3ffed;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #ddd;
+  border-radius: 3vh;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #ccc;
+}

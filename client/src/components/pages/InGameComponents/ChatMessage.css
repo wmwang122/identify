@@ -1,0 +1,17 @@
+.chatMessage{
+    margin: 8px 8px 4px 8px;
+    border-radius: 16px;
+    padding: 8px 8px 8px 12px;
+}
+
+.chatMessage:hover{
+    background-color: var(--lightbrightgreen);
+}
+
+.chatName {
+    font-weight: 500;
+}
+
+.chatContent{
+    font-size: 14px;
+}

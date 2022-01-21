@@ -37,7 +37,6 @@ const Countdown = (props) => {
       setIsActive(true);
     } else {
       reset();
-      console.log("hi");
     }
   }, [props.userExists]);
 
