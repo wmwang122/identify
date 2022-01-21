@@ -3,7 +3,7 @@ import "../../../utilities.css";
 import "./Game.css";
 import GameCodeInput from "./GameCodeInput.js";
 import CreateGame from "../GameComponents/CreateGame.js";
-import AdvancedOptions from "../GameComponents/AdvancedOptions.js";
+import Options from "../GameComponents/Options.js";
 const Game = (props) => {
   /*var optionsButton = props.userId ? (
     <>
@@ -25,7 +25,7 @@ const Game = (props) => {
               <div className="create-game-box">Create a Game</div>
                 <div className="actual-buttons">
                   <CreateGame userId = {props.userId}/>
-                  <AdvancedOptions userId = {props.userId}/>
+                  <Options userId = {props.userId}/>
                 </div>
             </div>
             <div className="rand-line"></div>

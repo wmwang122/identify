@@ -4,7 +4,7 @@ import { Link } from "@reach/router";
 import "./NavBar.css";
 
 const NavBar = (props) => {
-  var toggleState = props.userId?(<ul className="nav-item u-pointer" onClick={props.handleLogout}>
+  var toggleState = props.userId ? (<ul className="nav-item u-pointer" onClick={props.handleLogout}>
   logout
 </ul>):(<ul className="nav-item u-pointer" onClick={props.handleLogin}>
   login

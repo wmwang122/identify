@@ -48,3 +48,7 @@
 .login-button a {
   text-decoration: none;
 }
+
+.blur {
+  filter: blur(30px);
+}

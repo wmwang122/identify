@@ -194,7 +194,7 @@ router.post("/newGame", (req, res) => {
   games.set(code, req.body.settings); //maps gamecode to an array of game settings
   socketManager.addUserToGame(req.body.userId, code);
   socketManager.getIo().emit("new player", req.body.userId);
-  res.send({ gameCode: code});
+  res.send({ gameCode: code, gameSettings: req.body.settings});
   // const game = new GameSchema({
   //   gameCode: code,
   // });

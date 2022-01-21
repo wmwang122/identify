@@ -21,7 +21,7 @@ const Home = (props) => {
       <div className="logo-backing">
         <img src="logo.png" height="225px" width="225px" />
       </div>
-      <h1 className="u-font">"Imagine Dragons!"</h1>
+      <h1 className="u-font blur">"Imagine Dragons!"</h1>
       <div className="home-instructions">
         <div className="home-instruction">
           <div className="home-circle u-background-turquoise">1</div>connect

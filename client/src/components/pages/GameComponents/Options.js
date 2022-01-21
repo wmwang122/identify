@@ -6,6 +6,7 @@ import { Link } from "@reach/router";
 import { get, post } from "../../../utilities.js";
 
 const Options = (props) => {
+  const [displayPop, setDisplayPop] = useState(false);
   const [isPublic, setVisible] = useState(false);
   const [wantsOwnPlaylist, setPlaylist] = useState(false);
   const [numberQuestions, setQuestions] = useState(0);
@@ -13,20 +14,74 @@ const Options = (props) => {
   const [hasNiceFriends, setFriendsSetting] = useState(false);
   let gameSettings = [isPublic, wantsOwnPlaylist, numberQuestions, time, hasNiceFriends];
 
-  const handlePlaylist = (props) => {
+  var PopUpBox =
+    displayPop === true ? (
+      <>
+        <div className="firstdiv"></div>
+        <div className="popup">
+          <div className="title column">advanced options</div>
+          <div className="row space_between">
+            <div className="text"> make game public </div>
+            <input type="checkbox" name="switch" id="switch" onClick={handlePublic} />
+            <label for="switch"></label>
+            <div className="text"> use my own playlists </div>
+            <input type="checkbox" name="switch" id="switch2" />
+            <label for="switch2"></label>
+          </div>
+          <div className="row space_between">
+            <div className="text">
+              num of questions:
+              <div>
+                <input
+                  type="number"
+                  id="questions"
+                  name="questions"
+                  min="0"
+                  max="10000"
+                  onChange={handleQuestions}
+                ></input>
+              </div>
+            </div>
+            <div className="row space_between">
+              time to answer:
+              <input
+                type="number"
+                id="time"
+                name="time"
+                min="0"
+                max="10000"
+                onChange={handleTime}
+              ></input>
+            </div>
+          </div>
+          <div className="row space_evenly">
+            <div className="title" onClick={() => setDisplayPop()}>
+              cancel
+            </div>
+            <div onClick={() => submitGameOptions()} className="title">
+              submit
+            </div>
+          </div>
+        </div>
+      </>
+    ) : (
+      <> </>
+    );
+
+  const PopUp = () => {
+    setDisplayPop(!displayPop);
+  };
+
+  const handlePlaylist = () => {
     setPlaylist(true);
   };
 
-  const handleNoPlaylist = (props) => {
+  const handleNoPlaylist = () => {
     setPlaylist(false);
   };
 
-  const handlePublic = (props) => {
-    setVisible(true);
-  };
-
-  const handlePrivate = (props) => {
-    setVisible(false);
+  const handlePublic = () => {
+    setVisible(!isPublic);
   };
 
   const handleQuestions = (event) => {
@@ -44,13 +99,10 @@ const Options = (props) => {
   };
 
   const submitGameOptions = () => {
-    console.log("does this get called");
-    console.log(gameSettings[0]);
-    post("/api/newGame", {settings: gameSettings, userId: props.userId}).then((gameStuff) => {
-      console.log(gameStuff.gameCode);
-      navigate(`/game/${gameStuff.gameCode}`, { state: gameStuff });
+    post("/api/newGame", { settings: gameSettings, userId: props.userId }).then((gameInfo) => {
+      console.log(gameInfo.gameCode);
+      navigate(`/game/${gameInfo.gameCode}`, { state: gameInfo });
     });
-
   };
 
   let displayPlaylist = wantsOwnPlaylist ? (
@@ -64,6 +116,62 @@ const Options = (props) => {
   );
 
   return (
+    <div className="options-button u-pointer">
+      <div className="options-text" onClick={PopUp}>
+        Advanced Options
+      </div>
+      {PopUpBox}
+    </div>
+  );
+
+  return (
+    <div className="popup">
+      <div className="title column">advanced options</div>
+      <div className="row space_between">
+        <div className="text"> make game public </div>
+        <input type="checkbox" name="switch" id="switch" onClick={handlePublic} />
+        <label for="switch"></label>
+        <div className="text"> use my own playlists </div>
+        <input type="checkbox" name="switch" id="switch2" />
+        <label for="switch2"></label>
+      </div>
+      <div className="row space_between">
+        <div className="text">
+          num of questions:
+          <div>
+            <input
+              type="number"
+              id="questions"
+              name="questions"
+              min="0"
+              max="10000"
+              onChange={handleQuestions}
+            ></input>
+          </div>
+        </div>
+        <div className="row space_between">
+            time to answer:
+            <input
+              type="number"
+              id="time"
+              name="time"
+              min="0"
+              max="10000"
+              onChange={handleTime}
+            ></input>
+        </div>
+      </div>
+      <div className="row space_evenly">
+        <div className="title"> cancel </div>
+        <div onClick={() => submitGameOptions()} className="title">
+          submit
+        </div>
+      </div>
+    </div>
+  );
+
+  /* return (
+
     <div>
       <form>
         <p>Select a game visibility option:</p>
@@ -120,7 +228,9 @@ const Options = (props) => {
         </div>
       </form>
     </div>
-  );
+
+    
+  );*/
 };
 
 export default Options;

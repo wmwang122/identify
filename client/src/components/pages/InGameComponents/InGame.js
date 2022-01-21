@@ -226,6 +226,7 @@ useEffect(() => {
     ) : (
       <></>
     );
+    //it's right here
   const countdownTimer = (<Countdown time={5} userExists={userBuzz ? true : false} end={() => handleTimerEnd()} forceReset={resetTimer} visible = "button-invisible"/>);
 
   return (
