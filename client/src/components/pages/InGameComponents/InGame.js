@@ -261,7 +261,7 @@ useEffect(()=>{
     <div className="inGame-container">
       <div className="inGame-container-left">
         <Scoreboard data={userData}/>
-        <div>Add music</div>
+        <div className="inGame-add-music">Add music</div>
       </div>
       <div className="inGame-container-main">
         <div className="inGame-header"><div className="inGame-title">Wiwa's Room</div><div>Room Code: {gameCode}</div></div>

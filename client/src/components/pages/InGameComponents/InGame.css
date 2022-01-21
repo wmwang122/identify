@@ -24,6 +24,10 @@
 }
 .inGame-container-left{
     padding-right: 4rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 75vh;
 }
 .inGame-container-main{
     display: flex;

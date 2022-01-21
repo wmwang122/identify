@@ -6,11 +6,11 @@ import GamePlayer from "./GamePlayer.js";
 const Scoreboard = (props) => {
 
     return (
-      <>
+      <div>
         {props.data.map((user) => (
             <GamePlayer _id={user._id} score={user.score} key={user._id}/>
           ))}
-      </>
+      </div>
     );
   };
   

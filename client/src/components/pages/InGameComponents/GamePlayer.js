@@ -16,15 +16,15 @@ const GamePlayer = (props) => {
   },[]);
 
   return (
-    <>
+    <div>
       <div className="gamePlayer-name">
         {userName}
       </div>
       <div className="gamePlayer-score">
         {props.score}
       </div>
-    </>
+    </div>
   );
-}; //TODOOOOO
+};
 
 export default GamePlayer;
