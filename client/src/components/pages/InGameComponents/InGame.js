@@ -13,7 +13,6 @@ const InGame = (props) => {
   const [userData, setUserData] = useState([
   ]);
   const [userBuzz, setUserBuzz] = useState(null);
-  const [userWhoBuzzed, setUserWhoBuzzed] = useState(null); //unnecesssary, just returns name instead of id
   const [trackList, setTrackList] = useState(null);
   const [trackNum, setTrackNum] = useState(1);
   const [myAudio, setMyAudio] = useState(null);
@@ -60,7 +59,7 @@ const InGame = (props) => {
     return () => {
       socket.off("buzz");
     };
-  },[]);
+  });
     
   useEffect(() => {
       socket.on("new player", addData);
@@ -101,38 +100,21 @@ useEffect(()=>{
     
 
   const newBuzz = (userId) => {
-      setUserBuzz(userId);
-      console.log("get paused");
-      setIsPaused(true);
-    let i = 0;
-    let flag = false;
-    for(i = 0; i < userData.length; i++){
-      if(userData[i]._id === userId){
-        flag = true;
-        if(userData[i].name){
-          setUserWhoBuzzed(userData[i].name);
-          return;
-        }
+    let found = false;
+    for(let i=0; i < userData.length; i++){
+      if(userData[i]._id===userId){
+        found = true;
+        setUserBuzz(userData[i]);
         break;
       }
     }
-    get("/api/userLookup", { _id: userId }).then((user) => {
-      setUserWhoBuzzed(user.name);
-      if(flag){
-        userData[i].name = user.name;
-      }
-      else{
-        userData.push({
-          _id: userId,
-          name: user.name,
-          score: 0,
-        });
-      }
-    });
+    if(!found){
+      console.log("error");
+    }
+    setIsPaused(true);
   };
 
   const handleTimerEnd = (success, curr) => {
-    setUserWhoBuzzed(null);
     setUserBuzz(null);
     if(typeof success !== undefined){
       setIsPaused(success);
@@ -169,7 +151,7 @@ useEffect(()=>{
 
   const handleOnSubmit = (value) => {
     let success = value.toLowerCase() === trackList[trackNum].name.toLowerCase();
-    post("/api/submitted",{gameCode: gameCode, user: userBuzz, sub: success, curr: trackNum});
+    post("/api/submitted",{gameCode: gameCode, user: userBuzz._id, sub: success, curr: trackNum});
   }
 
   /*const handleSubmit = (value) => {
@@ -198,7 +180,7 @@ useEffect(()=>{
 
   const handleSubmit = (data) => {
     if(data.submission){
-      initialize();
+      initialize(); 
       setRoundOngoing(false);
     }
     setResetTimer(true);
@@ -236,9 +218,9 @@ useEffect(()=>{
       }
     }
   },[isPaused]);
-  let songInfo = roundOngoing ? userBuzz ? (<div>{userWhoBuzzed} has buzzed!</div>):(<div>Song #{trackNum} is playing</div>):(<div>There is currently no song playing</div>);
+  let songInfo = roundOngoing ? userBuzz ? (<div>{userBuzz.name} has buzzed!</div>):(<div>Song #{trackNum} is playing</div>):(<div>There is currently no song playing</div>);
   let textBox =
-    userBuzz === props.userId ? (
+    userBuzz && (userBuzz._id === props.userId) ? (
       <div>
         <InputAnswer submit={(sub) => handleOnSubmit(sub)} />
       </div>
