@@ -232,7 +232,6 @@ router.post("/newGame", (req, res) => {
     userBuzz: null,
     gameChat: []}
     ); //maps gamecode to an array of game settings
-  console.log(JSON.stringify(games.get(code)));
   socketManager.addUserToGame(req.body.userId, code);
   //socketManager.getIo().to(code).emit("new player", req.body.userId);
   res.send({ gameCode: code});

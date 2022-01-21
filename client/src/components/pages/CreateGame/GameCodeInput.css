@@ -1,5 +1,4 @@
-import 
-.enterText-button {
+ .enterText-button {
     font-size: 14px;
     border-radius: 15px;
     height: 30px;
@@ -7,8 +6,7 @@ import
     text-align: center;
     line-height: 30px;
     display:flex;
-    justify-content:center;
-    color: #93ff96; 
+    justify-content:center; 
 }
 
 .enterGameCode{

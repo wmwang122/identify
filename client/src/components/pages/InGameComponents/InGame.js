@@ -27,9 +27,8 @@ const InGame = (props) => {
     let answerVer = (<div>Placeholder</div>);
     let val = window.location.href;
     let gameCode = (val.substring(val.length - 5, val.length));
-    let name = "";
 
-  const handleBuzz = (event) => {
+  const handleBuzz = async (event) => {
     if(roundOngoing && !userBuzz){
         post("/api/buzz", { userId: props.userId, gameCode: gameCode, }); 
         myAudio.pause();
@@ -41,19 +40,24 @@ const InGame = (props) => {
     get("/api/getGameData",{code: gameCode}).then((data) => {
       setUserData(data.userData);
       setUserBuzz(data.userBuzz);
+      console.log("user: " + data.userBuzz);
       setGameChat(data.gameChat);
-      for(let i=0; i < userData.length; i++){
-        if(userData[i]._id === props.userId){
-          name = userData[i].name;
-          break;
-        }
-      }
       //setUserBuzz(data.userBuzz?data.userBuzz:null);
       //setTrackList(data.trackList?data.trackList:null);
       //setTrackNum(data.trackNum?data.trackNum:1);
       //setRoundOngoing(data.roundOngoing?data.roundOngoing: null);
     });
   }
+
+  useEffect(() =>{
+    for(let i =0; i < userData.length; i++){
+      if(!userData[i].name){
+        get("/api/userLookup",{_id: userData[i]._id}).then((user) => {
+          userData[i].name = user.name;
+        });
+      }
+    }
+  },[userData]);
 
   useEffect(() =>{
     initialize();
@@ -120,6 +124,10 @@ useEffect(()=>{
   const addData = (userId) => {
     setUserData([... userData,{_id: userId, score:0}]);
   }
+
+  useEffect(()=>{
+    console.log(JSON.stringify(userData));
+  });
     
 
   const newBuzz = (userId) => {
@@ -128,6 +136,7 @@ useEffect(()=>{
       if(userData[i]._id===userId){
         found = true;
         setUserBuzz(userData[i]);
+        console.log("user2: " + JSON.stringify(userData[i]));
         break;
       }
     }

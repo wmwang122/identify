@@ -61,7 +61,11 @@ const Profile = (props) => {
     const handleBioEdit = (event) => {
         setValue(bio);
         toggleBioEdit(!bioEditOn);
-    }
+    };
+
+    const handleUsernameChange = (event) => {
+        console.log("todo");
+    };
     const bioField = bioEditOn?(<div className="bio-subContainer"><textarea
         type="text"
         value={value}
@@ -88,7 +92,7 @@ const Profile = (props) => {
                     {added code ends*/}
                 </div>
                 <div className="bio-container">
-                    <div className="profile-title">{userName}</div>
+                    <div className="profile-title"><div>{userName}</div><div className="name-edit u-pointer" onClick={handleUsernameChange}>✎</div></div>
                     {bioField}
                 </div>
             </div>

@@ -75,7 +75,7 @@ const App = (props) => {
       <Router>
         <Home path="/" handleLogin={handleLogin} handleLogout={handleLogout} userId={userId} />
         <Game path="/lobby" userId={userId} />
-        <Profile path="/profile" userId={userId} onSubmit={handleBioUpdate} />
+        <Profile path="/profile/" userId={userId} onSubmit={handleBioUpdate} />
         <NotFound default />
         <HowToPlay path="/howtoplay" userId={userId} handleLogin={handleLogin}/>
         <InGame path="/game/:gameCode" userId={userId} name={name}/>
