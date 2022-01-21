@@ -86,7 +86,7 @@
   flex-grow: 1;
   align-items: center;
   justify-content: space-around;
-  margin-right: 3vh;
+  margin-right: 5vh;
 }
 
 
@@ -97,7 +97,7 @@
 }
 
 .fixed-width-large{
-  width: 30vh;
+  width: 29vh;
 }
 .fixed-width-medium{
   width: 12vh;
