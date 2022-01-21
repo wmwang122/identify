@@ -156,6 +156,17 @@ router.get("/userLookup", (req, res) => {
   });
 });
 
+router.get("/getGameData", (req,res) => {
+  ans = games.get(req.query.code);
+  if(ans){
+    res.send(ans);
+  }
+  else{
+    console.log("rip :( "+req.query.code);
+    res.send({});
+  }
+});
+
 router.post("/buzz", (req, res) => {
   // console.log("hello");
   console.log(req.body.gameCode);
@@ -165,6 +176,15 @@ router.post("/buzz", (req, res) => {
 });
 
 router.post("/submitted", (req, res) => {
+  if(req.body.sub){
+    let game = games.get(req.body.gameCode);
+    for(let i = 0; i < game.userData.length; i++){
+      if(game.userData[i]._id === req.body.user){
+        game.userData[i].score++;
+        break;
+      }
+    }
+  }
   socketManager.getIo().to(req.body.gameCode).emit("submitted",{user: req.body.user, submission: req.body.sub, curr: req.body.curr});
   res.send({});
 });
@@ -191,10 +211,11 @@ router.post("/newGame", (req, res) => {
   while (games.get(code)) { 
     code = generateCode(5);
   }
-  games.set(code, req.body.settings); //maps gamecode to an array of game settings
+  games.set(code, {settings: req.body.settings, userData: [{_id: req.body.userId, score: 0}]}); //maps gamecode to an array of game settings
+  console.log(JSON.stringify(games.get(code)));
   socketManager.addUserToGame(req.body.userId, code);
-  socketManager.getIo().emit("new player", req.body.userId);
-  res.send({ gameCode: code, gameSettings: req.body.settings});
+  //socketManager.getIo().to(code).emit("new player", req.body.userId);
+  res.send({ gameCode: code});
   // const game = new GameSchema({
   //   gameCode: code,
   // });
@@ -203,10 +224,11 @@ router.post("/newGame", (req, res) => {
 
 router.post("/joinGame", (req, res) => {
   if (games.get(req.body.gameCode)) {
+    let game = games.get(req.body.gameCode);
+    game.userData.push({_id: req.body.userId, score: 0});
     socketManager.addUserToGame(req.body.userId, req.body.gameCode);
-    socketManager.getIo().emit("new player", req.body.userId);
-    let settings = games.get(req.body.gameCode);
-    res.send({status: "game found", gameCode: req.body.gameCode, settings: settings });
+    socketManager.getIo().to(req.body.gameCode).emit("new player", req.body.userId);
+    res.send({status: "game found", gameCode: req.body.gameCode, settings: game.settings });
   }
   else {
     res.send({ status: "game not found" });

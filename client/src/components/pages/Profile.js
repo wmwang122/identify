@@ -80,12 +80,12 @@ const Profile = (props) => {
         <div>
             <div className="profile-container-1">
                 <div className="pfp-container u-background-turquoise">
-                    <img src="logo.png" height="250px"/>
-                    {/*added code starts*/}
+                    <img src="logo.png" className="pfp"/>
+                    {/*added code starts*
                         <input type = "file" name = "upload" accept = "image/*"/>
                         <div id="display_image"></div>
                         {imageHandler}
-                    {/*added code ends*/}
+                    {added code ends*/}
                 </div>
                 <div className="bio-container">
                     <div className="profile-title">{userName}</div>

@@ -13,7 +13,6 @@ const InGame = (props) => {
   const [userData, setUserData] = useState([
   ]);
   const [userBuzz, setUserBuzz] = useState(null);
-  const [userWhoBuzzed, setUserWhoBuzzed] = useState(null); //unnecesssary, just returns name instead of id
   const [trackList, setTrackList] = useState(null);
   const [trackNum, setTrackNum] = useState(1);
   const [myAudio, setMyAudio] = useState(null);
@@ -21,6 +20,7 @@ const InGame = (props) => {
   const [resetTimer, setResetTimer] = useState(false);
   const [roundOngoing, setRoundOngoing] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
+  const [canBuzz, setCanBuzz] = useState(false);
 
     let answerVer = (<div>Placeholder</div>);
     let val = window.location.href;
@@ -34,7 +34,19 @@ const InGame = (props) => {
 
   }
 
-  
+  const initialize = () => {
+    get("/api/getGameData",{code: gameCode}).then((data) => {
+      setUserData(data.userData);
+      //setUserBuzz(data.userBuzz?data.userBuzz:null);
+      //setTrackList(data.trackList?data.trackList:null);
+      //setTrackNum(data.trackNum?data.trackNum:1);
+      //setRoundOngoing(data.roundOngoing?data.roundOngoing: null);
+    });
+  }
+
+  useEffect(() =>{
+    initialize();
+  },[]);
     
   useEffect(() => {
     if(!trackList){
@@ -47,21 +59,21 @@ const InGame = (props) => {
     return () => {
       socket.off("buzz");
     };
-  }, []);
+  });
     
   useEffect(() => {
       socket.on("new player", addData);
     return () => {
       socket.off("new player");
     };
-  }, []);
+  });
 
   useEffect(() => {
     socket.on("submitted", handleSubmit);
   return () => {
     socket.off("submitted");
   };
-}, []);
+},[]);
 
 useEffect(() => {
   socket.on("starting", handleRoundStartedByUser);
@@ -70,45 +82,39 @@ useEffect(() => {
   };
 });
 
+useEffect(()=>{
+  if(userBuzz){
+    setCanBuzz(false);
+  }
+  else if(roundOngoing){
+    setCanBuzz(true);
+  }
+  else{
+    setCanBuzz(false);
+  }
+},[roundOngoing, userBuzz]);
+
   const addData = (userId) => {
-        userData.push({ _id: userId, score: 0 });
-        console.log(JSON.stringify(userData));
+    setUserData([... userData,{_id: userId, score:0}]);
   }
     
 
   const newBuzz = (userId) => {
-      setUserBuzz(userId);
-      console.log("get paused");
-      setIsPaused(true);
-    let i = 0;
-    let flag = false;
-    for(i = 0; i < userData.length; i++){
-      if(userData[i]._id === userId){
-        flag = true;
-        if(userData[i].name){
-          setUserWhoBuzzed(userData[i].name);
-          return;
-        }
+    let found = false;
+    for(let i=0; i < userData.length; i++){
+      if(userData[i]._id===userId){
+        found = true;
+        setUserBuzz(userData[i]);
         break;
       }
     }
-    get("/api/userLookup", { _id: userId }).then((user) => {
-      setUserWhoBuzzed(user.name);
-      if(flag){
-        userData[i].name = user.name;
-      }
-      else{
-        userData.push({
-          _id: userId,
-          name: user.name,
-          score: 0,
-        });
-      }
-    });
+    if(!found){
+      console.log("error");
+    }
+    setIsPaused(true);
   };
 
   const handleTimerEnd = (success, curr) => {
-    setUserWhoBuzzed(null);
     setUserBuzz(null);
     if(typeof success !== undefined){
       setIsPaused(success);
@@ -145,7 +151,7 @@ useEffect(() => {
 
   const handleOnSubmit = (value) => {
     let success = value.toLowerCase() === trackList[trackNum].name.toLowerCase();
-    post("/api/submitted",{gameCode: gameCode, user: userBuzz, sub: success, curr: trackNum});
+    post("/api/submitted",{gameCode: gameCode, user: userBuzz._id, sub: success, curr: trackNum});
   }
 
   /*const handleSubmit = (value) => {
@@ -174,12 +180,7 @@ useEffect(() => {
 
   const handleSubmit = (data) => {
     if(data.submission){
-      for(let i = 0; i < userData.length; i++){
-        if(data.user === userData[i]._id){
-          userData[i].score++;
-          break;
-        }
-      }
+      initialize(); 
       setRoundOngoing(false);
     }
     setResetTimer(true);
@@ -197,6 +198,7 @@ useEffect(() => {
       console.log("set audio");
     }
   }, [trackNum, trackList, playingNum]);
+
   useEffect(()=> {
     if(myAudio){
       myAudio.addEventListener('ended', (event) => {
@@ -216,18 +218,19 @@ useEffect(() => {
       }
     }
   },[isPaused]);
-
-  var whoBuzzed = userBuzz ? <div>{userWhoBuzzed} has buzzed!</div> : <div>No one has buzzed!</div>;
-  var textBox =
-    userBuzz === props.userId ? (
+  let songInfo = roundOngoing ? userBuzz ? (<div>{userBuzz.name} has buzzed!</div>):(<div>Song #{trackNum} is playing</div>):(<div>There is currently no song playing</div>);
+  let textBox =
+    userBuzz && (userBuzz._id === props.userId) ? (
       <div>
         <InputAnswer submit={(sub) => handleOnSubmit(sub)} />
       </div>
     ) : (
       <></>
     );
-    //it's right here
-  const countdownTimer = (<Countdown time={5} userExists={userBuzz ? true : false} end={() => handleTimerEnd()} forceReset={resetTimer} visible = "button-invisible"/>);
+  let buzzerState = canBuzz ? "u-pointer inGame-buzzerEffect" : "inGame-buzzer-locked";
+  let countdownTimer = (<Countdown time={5} userExists={userBuzz ? true : false} end={() => handleTimerEnd()} forceReset={resetTimer} visible = "false"/>);
+  let countdownState = userBuzz ? "" : "u-hidden";
+  let buzzTextState = userBuzz ? "u-hidden" : "";
 
   return (
     <div className="inGame-container">
@@ -235,18 +238,26 @@ useEffect(() => {
         <Scoreboard data={userData}/>
         <div>Add music</div>
       </div>
-      <div className="inGame-container-right">
-        <div>Room name</div>
+      <div className="inGame-container-main">
+        <div className="inGame-header"><div className="inGame-title">Wiwa's Room</div><div>Room Code: {gameCode}</div></div>
+        <div className="song-info">{songInfo}</div>
         <div
-          className="game-buzzer u-background-brightgreen u-pointer u-noSelect"
+          className={"game-buzzer u-noSelect "+buzzerState}
           onClick={() => handleBuzz()}
         >
-          buzz
+          <div className="inGame-buzzer-text-container">
+            <div className={buzzTextState+" inGame-buzzer-text"}>
+              buzz
+            </div>
+            <div className={countdownState+" inGame-buzzer-text"}>
+              {countdownTimer}
+            </div>
+          </div>
         </div>
-        {whoBuzzed}
         {textBox}
       </div>
-      {countdownTimer}
+      <br>
+      </br>
       {answerVer}
       <button className={roundOngoing?"button-invisible":""} onClick={() => handleRoundStart()}>Proceed to Next Round</button>
     </div>

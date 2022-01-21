@@ -141,3 +141,31 @@ form {
             user-select: none; /* Non-prefixed version, currently
                                   supported by Chrome, Edge, Opera and Firefox */
 }
+
+@keyframes animate-fade {
+  0% {opacity: 0; }
+  100% {opacity: 1; }
+}
+
+@keyframes animate-fade-pop {
+  0% {opacity: 0; transform: scale(0.5,0.5);}
+  100% {opacity: 1; transform: scale(1,1);}
+}
+
+.u-fade-in-pop {
+  animation-duration: 1s;
+  animation-name: animate-fade-pop;
+  animation-timing-function: cubic-bezier(.26, .53, .74, 1.48);
+  animation-fill-mode: backwards;
+}
+
+.u-fade-in {
+  animation-duration: 1s;
+  animation-name: animate-fade;
+  animation-delay: 0.5s;
+  animation-fill-mode: backwards;
+}
+
+.u-hidden {
+  visibility: hidden;
+}

@@ -48,11 +48,11 @@ const Countdown = (props) => {
   }, [props.forceReset])
 
   const buttonText = isActive ? "pause" : "start";
+  //const button = props.visible?(<button onClick={toggle}>{buttonText}</button>):<></>;
 
   return (
     <div>
       <div>{timeLeft}s</div>
-      <button onClick={toggle} className={props.visible?props.visible:""}>{buttonText}</button>
     </div>
   );
 };

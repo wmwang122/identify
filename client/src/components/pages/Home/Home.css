@@ -1,54 +1,98 @@
 .logo-backing {
   display: flex;
   background-color: var(--brightgreen);
-  border-radius: 64px;
-  margin-top: 32px;
-  height: 300px;
-  width: 300px;
+  border-radius: 11vh;
+  margin-top: 6vh;
+  height: 44vh;
+  width: 44vh;
   justify-content: center;
   align-items: center;
+}
+
+.home-logo{
+  height: 40vh;
+  width: 40vh;
 }
 
 .home-instructions {
   display: flex;
   justify-content: space-around;
-  margin-top: 10px;
-  margin-bottom: 10px;
+  margin-top: 1.5vh;
+  margin-bottom: 3vh;
 }
 
 .home-instruction {
   display: flex;
-  margin-right: 2rem;
-  margin-left: 2rem;
+  margin-right: 3vw;
+  margin-left: 3vw;
   align-items: center;
   justify-content: center;
+  font-size: 3vh;
 }
 
 .home-circle {
-  height: 30px;
-  width: 30px;
-  border-radius: 15px;
+  height: 5vh;
+  width: 5vh;
+  border-radius: 2.5vh;
   text-align: center;
   vertical-align: middle;
-  line-height: 30px;
-  margin-right: 10px;
+  line-height: 5vh;
+  margin-right: 0.7vw;
+}
+
+.home-quote {
+  font-size: 5vh;
 }
 
 .login-button {
   background-color: #b2ffa8;
   border: none;
   color: black;
-  padding: 15px 32px;
+  padding-top: 1vh;
+  padding-bottom: 1vh;
+  padding-left: 1vw;
+  padding-right: 1vw;
   text-align: center;
+  vertical-align: center;
   text-decoration: none;
   display: inline-block;
-  font-size: 32px;
-  border-radius: 32px;
+  font-size: 5vh;
+  border-radius: 7vh;
+  line-height: 7vh;
+  height: 7vh;
+  width: 14vw;
+  min-width: 30vh;
+  max-width: 40vh;
 }
 .login-button a {
   text-decoration: none;
 }
 
-.blur {
-  filter: blur(30px);
+.login-front{
+  position: relative;
+  top: -7.1vh;
+  left: 0.02vw;
+  color: black;
+  opacity: 1
 }
+
+.login-back{
+  position: relative;
+  bottom: 0.3vh;
+  right: 0.2vw;
+  opacity: 0;
+  color: white;
+}
+
+.login-button:hover {
+  background-color: #aaf7a0;
+}
+
+.login-button:hover > .login-back{
+  opacity: 1;
+}
+.inst-delay-1 {animation-delay: 0.2s;}
+.inst-delay-2 {animation-delay: 0.4s;}
+.inst-delay-3 {animation-delay: 0.6s;}
+.inst-delay-4 {animation-delay: 0.8s;}
+.inst-delay-5 {animation-delay: 1.0s;}

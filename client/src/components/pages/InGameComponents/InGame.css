@@ -1,22 +1,64 @@
 .game-buzzer{
-    height: 50px;
-    width: 50px;
+    position: relative;
+    height: 200px;
+    width: 200px;
     text-align: center;
     vertical-align: middle;
-    line-height: 50px;
-    border-radius: 25px;
+    line-height: 200px;
+    border-radius: 100px;
+    font-size: 40px;
+    margin-bottom: 20px;
+    background-color: var(--brightgreen);
+}
+
+.inGame-buzzer-locked{
+    background-color: #d8ffd3;
+    color: #888888;
 }
 
 .inGame-container{
     display: flex;
     padding-top: 2rem;
     padding-left: 4rem;
+    justify-content: space-around;
 }
 .inGame-container-left{
     padding-right: 4rem;
 }
-.inGame-container-right{
+.inGame-container-main{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.inGame-title{
+    font-weight: 500;
+}
+
+.inGame-header{
+    font-size: 30px;
     text-align: center;
+    background-color: var(--lightbrightgreen);
+    padding: 15px 30px 15px 30px;
+    border-radius: 30px;
+}
+
+.song-info{
+    font-size: 20px;
+    padding: 20px 0 20px 0;
+}
+
+.inGame-buzzer-text{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.inGame-buzzerEffect:hover{
+    background-color: #a2ff96;
+    font-weight: 400;
+    transform: scale(1.05);
 }
 
 .button-invisible{
