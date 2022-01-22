@@ -261,10 +261,19 @@ router.post("/newGame", (req, res) => {
 router.post("/joinGame", (req, res) => {
   if (games.get(req.body.gameCode)) {
     let game = games.get(req.body.gameCode);
-    game.userData.push({_id: req.body.userId, name: req.body.name, score: 0});
     socketManager.addUserToGame(req.body.userId, req.body.gameCode);
-    socketManager.getIo().to(req.body.gameCode).emit("new player", req.body.userId);
-    res.send({status: "game found", gameCode: req.body.gameCode, settings: game.settings });
+    let flag = true;
+    for(let i = 0; i < game.userData.length; i++){
+      if(game.userData[i]._id === req.body.userId){
+        flag = false;
+        break;
+      }
+    }
+    if(flag){
+      game.userData.push({_id: req.body.userId, name: req.body.name, score: 0});
+      socketManager.getIo().to(req.body.gameCode).emit("new player", req.body.userId);
+    }
+    res.send({status: "game found" + flag?"":", user is already in game", gameCode: req.body.gameCode, settings: game.settings });
   }
   else {
     res.send({ status: "game not found" });
@@ -287,6 +296,17 @@ router.post("/increaseTrackNum", (req,res) => {
   let game = games.get(req.body.gameCode);
   game.trackNum++;
   res.send({});
+});
+
+router.post("/songEnded", (req,res) => {
+  let game = games.get(req.body.gameCode);
+  game.trackNum++;
+  newMessage = {
+    content: "Time is up! The answer was: " + JSON.stringify(req.body.song.name),
+    roundNum: req.body.roundNum
+  }
+  game.gameLog.push(newMessage);
+  socketManager.getIo().to(req.body.gameCode).emit("new log",newMessage);
 });
 
 /*router.get("/getGame",(req,res) =>{

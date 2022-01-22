@@ -221,8 +221,8 @@ useEffect(()=>{
   useEffect(()=> {
     if(myAudio){
       myAudio.addEventListener('ended', (event) => {
+        post("/api/songEnded", {gameCode: gameCode, song: trackList[trackNum], roundNum: trackNum});
         setTrackNum(trackNum+1);
-        post("/api/increaseTrackNum",{gameCode:gameCode});
         setRoundOngoing(false);
       });
     }
