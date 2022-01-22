@@ -10,6 +10,7 @@ import SongPlayer from "./SongPlayer.js";
 import InputAnswer from "./InputAnswer.js";
 import GameChat from "./GameChat.js";
 import Name from "../Home/Name.js";
+import GameLog from "./GameLog.js";
 
 const InGame = (props) => {
   const [userData, setUserData] = useState([
@@ -23,6 +24,7 @@ const InGame = (props) => {
   const [roundOngoing, setRoundOngoing] = useState(false);
   const [canBuzz, setCanBuzz] = useState(false);
   const [gameChat, setGameChat] = useState([]);
+  const [gameLog, setGameLog] = useState([]);
   const [buzzTime, setBuzzTime] = useState(5);
 
     let answerVer = (<div>Placeholder</div>);
@@ -31,7 +33,7 @@ const InGame = (props) => {
 
   const handleBuzz = async (event) => {
     if(roundOngoing && !userBuzz){
-        post("/api/buzz", { userId: props.userId, gameCode: gameCode, }); 
+        post("/api/buzz", { userId: props.userId, gameCode: gameCode, name: props.name, roundNum: trackNum}); 
         myAudio.pause();
       }
 
@@ -45,6 +47,7 @@ const InGame = (props) => {
       setGameChat(data.gameChat);
       setTrackNum(data.trackNum);
       setBuzzTime(data.settings.time?data.settings.time:5);
+      setGameLog(data.gameLog);
       //setTrackList(data.trackList?data.trackList:null);
       //setTrackNum(data.trackNum?data.trackNum:1);
       //setRoundOngoing(data.roundOngoing?data.roundOngoing: null);
@@ -80,6 +83,16 @@ const InGame = (props) => {
     });
     return () => {
       socket.off("new message");
+    }
+  });
+
+  useEffect(()=>{
+    socket.on("new log", (message) =>{
+      setGameLog([...gameLog, message]);
+      console.log("changed gameLog");
+    });
+    return () => {
+      socket.off("new log");
     }
   });
 
@@ -183,7 +196,7 @@ useEffect(()=>{
 
   const handleOnSubmit = (value) => {
     let success = value.toLowerCase() === trackList[trackNum].name.toLowerCase();
-    post("/api/submitted",{gameCode: gameCode, user: userBuzz._id, sub: success, curr: trackNum});
+    post("/api/submitted",{gameCode: gameCode, user: userBuzz._id, sub: success, curr: trackNum, value: value, roundNum: trackNum});
   }
 
   const handleSubmit = async (data) => {
@@ -257,7 +270,8 @@ useEffect(()=>{
       </div>
       <br>
       </br>
-      <div className={roundOngoing?"button-invisible":"u-pointer inGame-next-button"} onClick={() => handleRoundStart()}><div>Proceed to Next Round</div></div>
+      <div className = "inGame-container-right"><div className={roundOngoing?"button-invisible":"u-pointer inGame-next-button"} onClick={() => handleRoundStart()}><div>Proceed to Next Round</div></div>
+      <GameLog messages = {gameLog}/></div>
       <GameChat userId={props.userId} messages = {gameChat} gameCode = {props.gameCode} name = {props.name}/>
     </div>
   );

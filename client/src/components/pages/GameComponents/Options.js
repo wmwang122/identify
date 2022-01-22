@@ -42,12 +42,8 @@ const Options = (props) => {
                 ></input>
               </div>
             </div>
-<<<<<<< HEAD
-            <div className="row space_between text">
-=======
           <div className="row space_between">
             <div className="text">
->>>>>>> ab023eef71263a9d13cb7a39a96275c01481f9e1
               time to answer:
               <input
                 type="number"
@@ -105,7 +101,7 @@ const Options = (props) => {
   };
 
   const submitGameOptions = () => {
-    post("/api/newGame", { settings: gameSettings, userId: props.userId }).then((gameInfo) => {
+    post("/api/newGame", { settings: gameSettings, userId: props.userId, name: props.name}).then((gameInfo) => {
       console.log(gameInfo.gameCode);
       navigate(`/game/${gameInfo.gameCode}`, { state: gameInfo });
     });

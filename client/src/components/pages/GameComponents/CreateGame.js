@@ -12,7 +12,7 @@ const CreateGame = (props) => {
   const startGame = () => {
       let settings = [false, false, 10, 10, false];
       console.log("Game will be started!")
-      post("/api/newGame", {userId: props.userId, settings: settings, host:props.userId}).then((gameStuff) => {
+      post("/api/newGame", {userId: props.userId, settings: settings, host:props.userId, name: props.name}).then((gameStuff) => {
         console.log(gameStuff.games);
         console.log(gameStuff.gameCode);
         navigate(`/game/${gameStuff.gameCode}`, { state: gameStuff, });
