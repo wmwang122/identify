@@ -175,6 +175,7 @@ router.post("/buzz", (req, res) => {
       console.log(game.userData[i]);
       flag = false;
       game.userBuzz = game.userData[i];
+      console.log(JSON.stringify(game.userData));
       let newMessage = {
         content: game.userData[i].name + " has buzzed!",
         roundNum: req.body.roundNum

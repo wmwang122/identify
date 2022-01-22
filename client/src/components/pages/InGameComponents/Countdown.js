@@ -17,6 +17,10 @@ const Countdown = (props) => {
   }
 
   useEffect(() => {
+    reset();
+  },[props.time]);
+
+  useEffect(() => {
     let interval = null;
     if (isActive) {
       interval = setInterval(() => {

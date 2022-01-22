@@ -34,7 +34,7 @@ const Game = (props) => {
               <div> Join a Game </div>
               <div className="enterGameCode"> enter game code: </div>
               <div className="enterCode-button">
-                <GameCodeInput userId={props.userId}/>
+                <GameCodeInput userId={props.userId} name={props.name}/>
               </div>
           {/* </div> */}
           </div> 

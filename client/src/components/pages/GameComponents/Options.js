@@ -11,8 +11,8 @@ const Options = (props) => {
   const [wantsOwnPlaylist, setPlaylist] = useState(false);
   const [numberQuestions, setQuestions] = useState(0);
   const [time, setTime] = useState(0);
-  const [hasNiceFriends, setFriendsSetting] = useState(false);
-  let gameSettings = [isPublic, wantsOwnPlaylist, numberQuestions, time, hasNiceFriends];
+
+  let gameSettings = {isPublic:isPublic, wantsOwnPlaylist:wantsOwnPlaylist, numberQuestions:numberQuestions, time:time};
 
   var PopUpBox =
     displayPop === true ? (
@@ -22,7 +22,7 @@ const Options = (props) => {
           <div className="title column">advanced options</div>
           <div className="row space_between">
             <div className="text"> make game public </div>
-            <input type="checkbox" name="switch" id="switch" onClick={handlePublic} />
+            <input type="checkbox" name="switch" id="switch" onClick={() => handlePublic(event)} />
             <label for="switch"></label>
             <div className="text"> use my own playlists </div>
             <input type="checkbox" name="switch" id="switch2" />
@@ -38,7 +38,7 @@ const Options = (props) => {
                   name="questions"
                   min="0"
                   max="10000"
-                  onChange={handleQuestions}
+                  onChange={() => handleQuestions(event)}
                 ></input>
               </div>
             </div>
@@ -51,16 +51,16 @@ const Options = (props) => {
                 name="time"
                 min="0"
                 max="10000"
-                onChange={handleTime}
+                onChange={() => handleTime(event)}
               ></input>
             </div>
             </div>
           </div>
           <div className="row space_evenly">
-            <div className="title" onClick={() => setDisplayPop()}>
+            <div className="title" onClick={() => setDisplayPop(event)}>
               cancel
             </div>
-            <div onClick={() => submitGameOptions()} className="title">
+            <div onClick={() => submitGameOptions(event)} className="title">
               submit
             </div>
           </div>
@@ -101,8 +101,8 @@ const Options = (props) => {
   };
 
   const submitGameOptions = () => {
+    console.log(JSON.stringify(gameSettings));
     post("/api/newGame", { settings: gameSettings, userId: props.userId, name: props.name}).then((gameInfo) => {
-      console.log(gameInfo.gameCode);
       navigate(`/game/${gameInfo.gameCode}`, { state: gameInfo });
     });
   };

@@ -41,9 +41,9 @@ const InGame = (props) => {
 
   const initialize = () => {
     get("/api/getGameData",{code: gameCode}).then((data) => {
+      console.log(JSON.stringify(data));
       setUserData(data.userData);
       setUserBuzz(data.userBuzz);
-      console.log("user: " + data.userBuzz);
       setGameChat(data.gameChat);
       setTrackNum(data.trackNum);
       setBuzzTime(data.settings.time?data.settings.time:5);
