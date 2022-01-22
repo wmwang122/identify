@@ -275,7 +275,7 @@ useEffect(()=>{
       </div>
       <div className="inGame-container-main">
         {/**I CHANGED THIS!!!!!!! Originally was "Wiwa's Game" */}
-        <div className="inGame-header"><div className="inGame-title"><Name/>'s Game</div><div>Room Code: {gameCode}</div></div>
+        <div className="inGame-header"><div className="inGame-title">{props.name}'s Game</div><div>Room Code: {gameCode}</div></div>
         <div className="song-info">{songInfo}</div>
         <div
           className={"game-buzzer u-noSelect "+buzzerState}
