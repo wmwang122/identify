@@ -208,6 +208,7 @@ router.post("/submitted", (req, res) => {
         break;
       }
     }
+    game.roundOngoing = false;
   }
   let newMessage = {
     content: req.body.value + " was " + (req.body.sub?"correct.":"incorrect."),
@@ -220,6 +221,8 @@ router.post("/submitted", (req, res) => {
 });
 
 router.post("/roundStart", (req, res) => {
+  let game = games.get(req.body.gameCode);
+  game.roundOngoing = true;
   socketManager.getIo().to(req.body.gameCode).emit("starting",{});
   res.send({});
 });
@@ -247,7 +250,9 @@ router.post("/newGame", (req, res) => {
     userBuzz: null,
     gameChat: [],
     gameLog: [],
-    trackNum: 1}
+    //trackList: req.body.settings.trackList, add once settings can add playlists
+    trackNum: 1,
+    roundOngoing: false,}
     ); //maps gamecode to an array of game settings
   socketManager.addUserToGame(req.body.userId, code);
   //socketManager.getIo().to(code).emit("new player", req.body.userId);
@@ -300,6 +305,7 @@ router.post("/increaseTrackNum", (req,res) => {
 
 router.post("/songEnded", (req,res) => {
   let game = games.get(req.body.gameCode);
+  game.roundOngoing = false;
   game.trackNum++;
   newMessage = {
     content: "Time is up! The answer was: " + JSON.stringify(req.body.song.name),

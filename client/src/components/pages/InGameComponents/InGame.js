@@ -48,9 +48,8 @@ const InGame = (props) => {
       setTrackNum(data.trackNum);
       setBuzzTime(data.settings.time?data.settings.time:5);
       setGameLog(data.gameLog);
-      //setTrackList(data.trackList?data.trackList:null);
-      //setTrackNum(data.trackNum?data.trackNum:1);
-      //setRoundOngoing(data.roundOngoing?data.roundOngoing: null);
+      setRoundOngoing(data.roundOngoing);
+      //setTrackList(data.trackList); add this once we support adding playlists 
     });
   }
 
@@ -72,10 +71,9 @@ const InGame = (props) => {
     if(!trackList){
       get("/api/testPlaylists").then((body) => {
         setTrackList(body.tracks.items);
-        setTrackNum(1);
       });
     }
-  },[]);
+  },[]); //this useEffect should be deleted ASAP after playlists are added
 
   useEffect(()=> {
     socket.on("new message", (message) => {
