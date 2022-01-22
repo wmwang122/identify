@@ -23,7 +23,8 @@
     justify-content: space-around;
 }
 .inGame-container-left{
-    padding-right: 4rem;
+    width: 10vw;
+    margin-right: 2vw;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -33,6 +34,13 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    width: 30vw;
+}
+
+.inGame-container-right{
+    display: flex;
+    flex-direction: column;
+    width: 20vw;
 }
 
 .inGame-title{
@@ -63,6 +71,18 @@
     background-color: #a2ff96;
     font-weight: 400;
     transform: scale(1.05);
+}
+
+.inGame-next-button{
+    display: flex;
+    height: 16vh;
+    width: 20vw;
+    padding: 1vh 1vw 1vh 1vw;
+    border-radius: 8vh;
+    background-color: var(--lightbrightgreen);
+    font-size: 4vh;
+    text-align: center;
+    align-items: center;
 }
 
 .button-invisible{

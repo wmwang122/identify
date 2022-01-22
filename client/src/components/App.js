@@ -74,7 +74,7 @@ const App = (props) => {
       <NavBar handleLogin={handleLogin} handleLogout={handleLogout} userId={userId} />
       <Router>
         <Home path="/" handleLogin={handleLogin} handleLogout={handleLogout} userId={userId} />
-        <Game path="/lobby" userId={userId} />
+        <Game path="/lobby" userId={userId} name={name}/>
         <Profile path="/profile/" userId={userId} onSubmit={handleBioUpdate} />
         <NotFound default />
         <HowToPlay path="/howtoplay" userId={userId} handleLogin={handleLogin}/>

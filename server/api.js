@@ -172,8 +172,16 @@ router.post("/buzz", (req, res) => {
   let flag = true;
   for(let i = 0; i < game.userData.length; i++){
     if(game.userData[i]._id === req.body.userId){
+      console.log(game.userData[i]);
       flag = false;
-      game.userBuzz = req.body.userId;
+      game.userBuzz = game.userData[i];
+      let newMessage = {
+        content: game.userData[i].name + " has buzzed!",
+        roundNum: req.body.roundNum
+      };
+      game.gameLog.push(newMessage);
+      socketManager.getIo().to(req.body.gameCode).emit("new log", newMessage);
+      console.log(game.gameLog);
     }
   }
   if(flag){
@@ -191,8 +199,8 @@ router.post("/clearBuzz", (req,res) => {
 });
 
 router.post("/submitted", (req, res) => {
+  let game = games.get(req.body.gameCode);
   if(req.body.sub){
-    let game = games.get(req.body.gameCode);
     for(let i = 0; i < game.userData.length; i++){
       if(game.userData[i]._id === req.body.user){
         game.userData[i].score++;
@@ -200,7 +208,13 @@ router.post("/submitted", (req, res) => {
       }
     }
   }
-  socketManager.getIo().to(req.body.gameCode).emit("submitted",{user: req.body.user, submission: req.body.sub, curr: req.body.curr});
+  let newMessage = {
+    content: req.body.value + " was " + (req.body.sub?"correct.":"incorrect."),
+    roundNum: req.body.roundNum
+  };
+  game.gameLog.push(newMessage);
+  socketManager.getIo().to(req.body.gameCode).emit("new log", newMessage);
+  socketManager.getIo().to(req.body.gameCode).emit("submitted",{submission: req.body.sub});
   res.send({});
 });
 
@@ -228,10 +242,11 @@ router.post("/newGame", (req, res) => {
   }
   games.set(code, {
     settings: req.body.settings, 
-    userData: [{_id: req.body.userId, score: 0}],
+    userData: [{_id: req.body.userId, name: req.body.name, score: 0}],
     userBuzz: null,
     gameChat: [],
-    host: req.body.name} //I CHANGED THIS
+    gameLog: [],
+    trackNum: 1}
     ); //maps gamecode to an array of game settings
   socketManager.addUserToGame(req.body.userId, code);
   //socketManager.getIo().to(code).emit("new player", req.body.userId);
@@ -245,7 +260,7 @@ router.post("/newGame", (req, res) => {
 router.post("/joinGame", (req, res) => {
   if (games.get(req.body.gameCode)) {
     let game = games.get(req.body.gameCode);
-    game.userData.push({_id: req.body.userId, score: 0});
+    game.userData.push({_id: req.body.userId, name: req.body.name, score: 0});
     socketManager.addUserToGame(req.body.userId, req.body.gameCode);
     socketManager.getIo().to(req.body.gameCode).emit("new player", req.body.userId);
     res.send({status: "game found", gameCode: req.body.gameCode, settings: game.settings });
@@ -264,6 +279,12 @@ router.post("/chatSubmit", (req,res) => {
   };
   game.gameChat.push(message);
   socketManager.getIo().to(req.body.gameCode).emit("new message",message);
+  res.send({});
+});
+
+router.post("/increaseTrackNum", (req,res) => {
+  let game = games.get(req.body.gameCode);
+  game.trackNum++;
   res.send({});
 });
 
