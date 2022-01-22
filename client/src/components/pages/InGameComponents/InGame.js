@@ -20,9 +20,9 @@ const InGame = (props) => {
   const [playingNum, setPlayingNum] = useState(null);
   const [resetTimer, setResetTimer] = useState(false);
   const [roundOngoing, setRoundOngoing] = useState(false);
-  const [isPaused, setIsPaused] = useState(false);
   const [canBuzz, setCanBuzz] = useState(false);
   const [gameChat, setGameChat] = useState([]);
+  const [buzzTime, setBuzzTime] = useState(5);
 
     let answerVer = (<div>Placeholder</div>);
     let val = window.location.href;
@@ -42,7 +42,8 @@ const InGame = (props) => {
       setUserBuzz(data.userBuzz);
       console.log("user: " + data.userBuzz);
       setGameChat(data.gameChat);
-      //setUserBuzz(data.userBuzz?data.userBuzz:null);
+      setTrackNum(data.trackNum);
+      setBuzzTime(data.settings.time?data.settings.time:5);
       //setTrackList(data.trackList?data.trackList:null);
       //setTrackNum(data.trackNum?data.trackNum:1);
       //setRoundOngoing(data.roundOngoing?data.roundOngoing: null);
@@ -100,7 +101,7 @@ const InGame = (props) => {
   return () => {
     socket.off("submitted");
   };
-},[]);
+});
 
 useEffect(() => {
   socket.on("starting", handleRoundStartedByUser);
@@ -124,12 +125,7 @@ useEffect(()=>{
   const addData = (userId) => {
     setUserData([... userData,{_id: userId, score:0}]);
   }
-
-  useEffect(()=>{
-    console.log(JSON.stringify(userData));
-  });
     
-
   const newBuzz = (userId) => {
     let found = false;
     for(let i=0; i < userData.length; i++){
@@ -143,28 +139,32 @@ useEffect(()=>{
     if(!found){
       console.log("error");
     }
-    setIsPaused(true);
+    myAudio.pause();
   };
 
-  const handleTimerEnd = async (success, curr) => {
+  const handleTimerEnd = async (success) => {
     setUserBuzz(null);
-    await post("/api/clearBuzz",{gameCode: gameCode});
-    if(typeof success !== undefined){
-      setIsPaused(success);
-    }
-    else{
-      setIsPaused(true);
-    }
     if(success){
-      setTrackNum(curr+1);
+      for(let i = 0; i < userData.length; i++){
+        if(userData[i]._id === userBuzz._id){
+          userData[i].score++;
+          break;
+        }
+      }
     }
-    if(success && myAudio){
-      setIsPaused(true);
+    await post("/api/clearBuzz",{gameCode: gameCode});
+    if(typeof success !== undefined && myAudio){
+      success ? myAudio.pause() : myAudio.play();
+    }
+    else if(myAudio){
       myAudio.pause();
+    }
+    if(success && trackNum){
+      setTrackNum(trackNum+1);
+      post("/api/increaseTrackNum",{gameCode:gameCode});
     }
     console.log("ending timer");
     if(roundOngoing){
-      setIsPaused(false);
       myAudio.play();
     }
   };
@@ -172,13 +172,11 @@ useEffect(()=>{
   const handleRoundStart = () => {
     setRoundOngoing(true);
     post("/api/roundStart",{gameCode: gameCode}).then(() => {
-      setIsPaused(false);
       myAudio.play();
     });
   };
   const handleRoundStartedByUser = (data) => {
     setRoundOngoing(true);
-    setIsPaused(false);
     myAudio.play();
   }
 
@@ -187,34 +185,9 @@ useEffect(()=>{
     post("/api/submitted",{gameCode: gameCode, user: userBuzz._id, sub: success, curr: trackNum});
   }
 
-  /*const handleSubmit = (value) => {
-    console.log("answer: " + trackList[trackNum].name);
-    console.log(value + " or " + trackList[trackNum].name);
-    let success = value.toLowerCase() === trackList[trackNum].name.toLowerCase();
-    post("/api/submitted",{gameCode: gameCode, user: userBuzz, correct: success});
-    if(success){
-      console.log(value + " was correct!");
-      answerVer = (<div>{value} was correct!</div>);
-      for(let i = 0; i < userData.length; i++){
-        if(userData[i]._id === props.userId){
-          //userData[i].score++;
-          break;
-        }
-      }
-      setRoundOngoing(false);
-    }
-    else{
-      console.log(value + " was wrong!");
-      answerVer = (<div>{value} was wrong!</div>);
-    }
-    setResetTimer(true);
-    handleTimerEnd(success);
-  };*/
-
   const handleSubmit = async (data) => {
-    await handleTimerEnd(data.submission, data.curr);
+    await handleTimerEnd(data.submission);
     if(data.submission){
-      initialize(); 
       setRoundOngoing(false);
     }
     setResetTimer(true);
@@ -224,7 +197,6 @@ useEffect(()=>{
     if (trackNum && trackList && (!playingNum || playingNum != trackNum)) {
       setPlayingNum(trackNum);
       if (myAudio) {
-        setIsPaused(true);
         myAudio.pause();
       }
       setMyAudio(new Audio(trackList[trackNum].preview_url));
@@ -236,21 +208,12 @@ useEffect(()=>{
     if(myAudio){
       myAudio.addEventListener('ended', (event) => {
         setTrackNum(trackNum+1);
+        post("/api/increaseTrackNum",{gameCode:gameCode});
         setRoundOngoing(false);
       });
     }
   },[myAudio]);
 
-  useEffect(()=>{
-    if(myAudio){
-      if(isPaused){
-        myAudio.pause();
-      }
-      else{
-        myAudio.play();
-      }
-    }
-  },[isPaused]);
   let songInfo = roundOngoing ? userBuzz ? (<div>{userBuzz.name} has buzzed!</div>):(<div>Song #{trackNum} is playing</div>):(<div>There is currently no song playing</div>);
   let textBox =
     userBuzz && (userBuzz._id === props.userId) ? (
@@ -262,7 +225,7 @@ useEffect(()=>{
     );
 
   let buzzerState = canBuzz ? "u-pointer inGame-buzzerEffect" : "inGame-buzzer-locked";
-  let countdownTimer = (<Countdown time={5} userExists={userBuzz ? true : false} end={() => handleTimerEnd()} forceReset={resetTimer} visible = "false"/>);
+  let countdownTimer = (<Countdown time={buzzTime} userExists={userBuzz ? true : false} end={() => handleTimerEnd()} forceReset={resetTimer} visible = "false"/>);
   let countdownState = userBuzz ? "" : "u-hidden";
   let buzzTextState = userBuzz ? "u-hidden" : "";
 
@@ -292,7 +255,7 @@ useEffect(()=>{
       </div>
       <br>
       </br>
-      <button className={roundOngoing?"button-invisible":""} onClick={() => handleRoundStart()}>Proceed to Next Round</button>
+      <div className={roundOngoing?"button-invisible":"u-pointer inGame-next-button"} onClick={() => handleRoundStart()}><div>Proceed to Next Round</div></div>
       <GameChat userId={props.userId} messages = {gameChat} gameCode = {props.gameCode} name = {props.name}/>
     </div>
   );

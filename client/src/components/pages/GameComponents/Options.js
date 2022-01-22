@@ -42,7 +42,7 @@ const Options = (props) => {
                 ></input>
               </div>
             </div>
-            <div className="row space_between">
+            <div className="row space_between text">
               time to answer:
               <input
                 type="number"

@@ -200,7 +200,7 @@ router.post("/submitted", (req, res) => {
       }
     }
   }
-  socketManager.getIo().to(req.body.gameCode).emit("submitted",{user: req.body.user, submission: req.body.sub, curr: req.body.curr});
+  socketManager.getIo().to(req.body.gameCode).emit("submitted",{submission: req.body.sub});
   res.send({});
 });
 
@@ -230,7 +230,8 @@ router.post("/newGame", (req, res) => {
     settings: req.body.settings, 
     userData: [{_id: req.body.userId, score: 0}],
     userBuzz: null,
-    gameChat: []}
+    gameChat: [],
+    trackNum: 1}
     ); //maps gamecode to an array of game settings
   socketManager.addUserToGame(req.body.userId, code);
   //socketManager.getIo().to(code).emit("new player", req.body.userId);
@@ -263,6 +264,12 @@ router.post("/chatSubmit", (req,res) => {
   };
   game.gameChat.push(message);
   socketManager.getIo().to(req.body.gameCode).emit("new message",message);
+  res.send({});
+});
+
+router.post("/increaseTrackNum", (req,res) => {
+  let game = games.get(req.body.gameCode);
+  game.trackNum++;
   res.send({});
 });
 

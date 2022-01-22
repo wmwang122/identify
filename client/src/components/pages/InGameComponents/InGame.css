@@ -65,6 +65,18 @@
     transform: scale(1.05);
 }
 
+.inGame-next-button{
+    display: flex;
+    height: 16vh;
+    width: 20vw;
+    padding: 1vh 1vw 1vh 1vw;
+    border-radius: 8vh;
+    background-color: var(--lightbrightgreen);
+    font-size: 4vh;
+    text-align: center;
+    align-items: center;
+}
+
 .button-invisible{
     visibility: hidden;
 }
