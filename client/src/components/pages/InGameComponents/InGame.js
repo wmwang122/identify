@@ -9,6 +9,7 @@ import { socket } from "../../../client-socket.js";
 import SongPlayer from "./SongPlayer.js";
 import InputAnswer from "./InputAnswer.js";
 import GameChat from "./GameChat.js";
+import Name from "../Home/Name.js";
 
 const InGame = (props) => {
   const [userData, setUserData] = useState([
@@ -236,7 +237,8 @@ useEffect(()=>{
         <div className="inGame-add-music">Add music</div>
       </div>
       <div className="inGame-container-main">
-        <div className="inGame-header"><div className="inGame-title">Wiwa's Room</div><div>Room Code: {gameCode}</div></div>
+        {/**I CHANGED THIS!!!!!!! Originally was "Wiwa's Game" */}
+        <div className="inGame-header"><div className="inGame-title"><Name/>'s Game</div><div>Room Code: {gameCode}</div></div>
         <div className="song-info">{songInfo}</div>
         <div
           className={"game-buzzer u-noSelect "+buzzerState}

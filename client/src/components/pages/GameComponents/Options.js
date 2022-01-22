@@ -42,7 +42,12 @@ const Options = (props) => {
                 ></input>
               </div>
             </div>
+<<<<<<< HEAD
             <div className="row space_between text">
+=======
+          <div className="row space_between">
+            <div className="text">
+>>>>>>> ab023eef71263a9d13cb7a39a96275c01481f9e1
               time to answer:
               <input
                 type="number"
@@ -52,6 +57,7 @@ const Options = (props) => {
                 max="10000"
                 onChange={handleTime}
               ></input>
+            </div>
             </div>
           </div>
           <div className="row space_evenly">
