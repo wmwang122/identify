@@ -252,6 +252,7 @@ router.post("/newGame", (req, res) => {
     gameLog: [],
     //trackList: req.body.settings.trackList, add once settings can add playlists
     trackNum: 1,
+    songTimeLeft: 30,
     roundOngoing: false,}
     ); //maps gamecode to an array of game settings
   socketManager.addUserToGame(req.body.userId, code);
@@ -313,6 +314,13 @@ router.post("/songEnded", (req,res) => {
   }
   game.gameLog.push(newMessage);
   socketManager.getIo().to(req.body.gameCode).emit("new log",newMessage);
+  res.send({});
+});
+
+router.post("/gameTimerUpdate", (req,res) =>{
+  let game = games.get(req.body.gameCode);
+  game.songTimeLeft = req.body.time;
+  res.send({});
 });
 
 /*router.get("/getGame",(req,res) =>{

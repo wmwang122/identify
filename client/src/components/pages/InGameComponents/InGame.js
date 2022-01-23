@@ -26,8 +26,9 @@ const InGame = (props) => {
   const [gameChat, setGameChat] = useState([]);
   const [gameLog, setGameLog] = useState([]);
   const [buzzTime, setBuzzTime] = useState(5);
+  const [songTimeLeft, setSongTimeLeft] = useState(30);
+  const [audioMounted, setAudioMounted] = useState(false);
 
-    let answerVer = (<div>Placeholder</div>);
     let val = window.location.href;
     let gameCode = (val.substring(val.length - 5, val.length));
 
@@ -49,10 +50,14 @@ const InGame = (props) => {
       setBuzzTime(data.settings.time?data.settings.time:5);
       setGameLog(data.gameLog);
       setRoundOngoing(data.roundOngoing);
+      setSongTimeLeft(data.songTimeLeft);
       //setTrackList(data.trackList); add this once we support adding playlists 
     });
   }
 
+  useEffect(()=>{
+    console.log(songTimeLeft);
+  });
   useEffect(() =>{
     for(let i =0; i < userData.length; i++){
       if(!userData[i].name){
@@ -66,6 +71,7 @@ const InGame = (props) => {
   useEffect(() =>{
     initialize();
   },[]);
+
     
   useEffect(() => {
     if(!trackList){
@@ -152,6 +158,7 @@ useEffect(()=>{
       console.log("error");
     }
     myAudio.pause();
+    setAudioMounted(false);
   };
 
   const handleTimerEnd = async (success) => {
@@ -206,25 +213,37 @@ useEffect(()=>{
   }
 
   useEffect(() => {
-    if (trackNum && trackList && (!playingNum || playingNum != trackNum)) {
-      setPlayingNum(trackNum);
-      if (myAudio) {
-        myAudio.pause();
+      if(!roundOngoing){
+        console.log("this useeffect is being called here");
+        if (myAudio) {
+          myAudio.pause();
+        }
+        if(trackList){
+          setMyAudio(new Audio(trackList[trackNum].preview_url));
+        }
+        setAudioMounted(true);
       }
-      setMyAudio(new Audio(trackList[trackNum].preview_url));
-      console.log("set audio");
-    }
-  }, [trackNum, trackList, playingNum]);
+      else if(!audioMounted && !userBuzz){
+        console.log("this useeffect is being called there");
+        if(myAudio){
+          myAudio.currentTime = 30 - songTimeLeft;
+        }
+      }
+  }, [trackNum, trackList, roundOngoing, userBuzz]);
 
   useEffect(()=> {
     if(myAudio){
       myAudio.addEventListener('ended', (event) => {
-        post("/api/songEnded", {gameCode: gameCode, song: trackList[trackNum], roundNum: trackNum});
-        setTrackNum(trackNum+1);
-        setRoundOngoing(false);
+        handleSongEnd();
       });
     }
   },[myAudio]);
+
+  const handleSongEnd = () => {
+    post("/api/songEnded", {gameCode: gameCode, song: trackList[trackNum], roundNum: trackNum});
+    setTrackNum(trackNum+1);
+    setRoundOngoing(false);
+  }
 
   let songInfo = roundOngoing ? userBuzz ? (<div>{userBuzz.name} has buzzed!</div>):(<div>Song #{trackNum} is playing</div>):(<div>There is currently no song playing</div>);
   let textBox =
@@ -237,7 +256,10 @@ useEffect(()=>{
     );
 
   let buzzerState = canBuzz ? "u-pointer inGame-buzzerEffect" : "inGame-buzzer-locked";
-  let countdownTimer = (<Countdown time={buzzTime} userExists={userBuzz ? true : false} end={() => handleTimerEnd()} forceReset={resetTimer} visible = "false"/>);
+  let countdownTimer = (<Countdown time={buzzTime} activate ={userBuzz ? true : false} end={() => handleTimerEnd()} forceReset={resetTimer} visible = "false"/>);
+  let gameTimer = (<Countdown time={30} activate = {roundOngoing ? true : false} paused = {userBuzz ? true : false} end={() => handleSongEnd()} visible="false" isGameTimer = {true} gameCode = {gameCode} updateSongTimeLeft = {(data) => setSongTimeLeft(data)}/>);
+  //time={30} should be changed at some point to account for reloading
+  let gameTimeButton = roundOngoing ? <div className="inGame-time-left"><div className="inGame-time-left-text">Time left: </div>{gameTimer}</div> : <div className={"u-pointer inGame-next-button"} onClick={() => handleRoundStart()}>Proceed to Next Round</div>;
   let countdownState = userBuzz ? "" : "u-hidden";
   let buzzTextState = userBuzz ? "u-hidden" : "";
 
@@ -268,10 +290,10 @@ useEffect(()=>{
       </div>
       <br>
       </br>
-      <div className = "inGame-container-right"><div className={roundOngoing?"button-invisible":"u-pointer inGame-next-button"} onClick={() => handleRoundStart()}><div>Proceed to Next Round</div></div>
+      <div className = "inGame-container-right">
+      {gameTimeButton}
       <GameLog messages = {gameLog}/></div>
-      <GameChat userId={props.userId} messages = {gameChat} gameCode = {props.gameCode} name = {props.name}/>
-    </div>
+      <GameChat userId={props.userId} messages = {gameChat} gameCode = {props.gameCode} name = {props.name}/>    </div>
   );
 };
 //TODOOOOO
