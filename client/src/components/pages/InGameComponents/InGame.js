@@ -193,7 +193,7 @@ useEffect(()=>{
   }
 
   const handleOnSubmit = (value) => {
-    let success = value.toLowerCase() === trackList[trackNum].name.toLowerCase();
+    let success = value.toLowerCase() === trackList[trackNum].track.name.toLowerCase();
     post("/api/submitted",{gameCode: gameCode, user: userBuzz._id, sub: success, curr: trackNum, value: value, roundNum: trackNum});
   }
 
@@ -211,7 +211,7 @@ useEffect(()=>{
       if (myAudio) {
         myAudio.pause();
       }
-      setMyAudio(new Audio(trackList[trackNum].preview_url));
+      setMyAudio(new Audio(trackList[trackNum].track.preview_url));
       console.log("set audio");
     }
   }, [trackNum, trackList, playingNum]);
