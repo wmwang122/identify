@@ -75,11 +75,15 @@ router.get("/testPlaylists", async (req, res) => {
       clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
       redirectUri: process.env.CALLBACK_URI,
     });
+
     loggedInSpotifyApi.setRefreshToken(req.user.refreshToken);
     loggedInSpotifyApi.refreshAccessToken().then(async (data) => {
       console.log("Access Token Refreshed!");
       loggedInSpotifyApi.setAccessToken(data.body["access_token"]);
-      const result = await loggedInSpotifyApi.getAlbum("3oVCGd8gjANVb5r2F0M8BI");
+      const result = await loggedInSpotifyApi.getPlaylist("71306FBwQJMgcMsRLNQhzB");
+      console.log(result.body.tracks.items);
+      // const result = await loggedInSpotifyApi.getAlbum("3oVCGd8gjANVb5r2F0M8BI");
+      // console.log(result.body.tracks.items);
       res.status(200).send(result.body);
     });
   } catch (err) {
@@ -253,9 +257,15 @@ router.post("/newGame", (req, res) => {
     hostName: req.body.hostName, //I JUST ADDED
     //trackList: req.body.settings.trackList, add once settings can add playlists
     trackNum: 1,
+<<<<<<< HEAD
     roundOngoing: false,
   }); //maps gamecode to an array of game settings
   console.log("hi2");
+=======
+    songTimeLeft: 30,
+    roundOngoing: false,}
+    ); //maps gamecode to an array of game settings
+>>>>>>> d0f22506b75775a5a4f00b323ea82d34c98074e5
   socketManager.addUserToGame(req.body.userId, code);
   //socketManager.getIo().to(code).emit("new player", req.body.userId);
   res.send({ gameCode: code });
@@ -317,7 +327,18 @@ router.post("/songEnded", (req, res) => {
     roundNum: req.body.roundNum,
   };
   game.gameLog.push(newMessage);
+<<<<<<< HEAD
   socketManager.getIo().to(req.body.gameCode).emit("new log", newMessage);
+=======
+  socketManager.getIo().to(req.body.gameCode).emit("new log",newMessage);
+  res.send({});
+});
+
+router.post("/gameTimerUpdate", (req,res) =>{
+  let game = games.get(req.body.gameCode);
+  game.songTimeLeft = req.body.time;
+  res.send({});
+>>>>>>> d0f22506b75775a5a4f00b323ea82d34c98074e5
 });
 
 /*router.get("/getGame",(req,res) =>{

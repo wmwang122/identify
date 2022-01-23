@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./InGame.css";
+import { get, post } from "../../../utilities.js";
 
 // help from https://upmostly.com/tutorials/build-a-react-timer-component-using-hooks
 
@@ -20,10 +21,19 @@ const Countdown = (props) => {
     reset();
   },[props.time]);
 
+  useEffect(()=> {
+    if(props.isGameTimer){
+      post("/api/gameTimerUpdate", {time: timeLeft, gameCode: props.gameCode});
+    }
+  },[timeLeft]);
+
   useEffect(() => {
     let interval = null;
     if (isActive) {
       interval = setInterval(() => {
+        if(props.isGameTimer){
+          props.updateSongTimeLeft(timeLeft-1);
+        }
         setTimeLeft((timeLeft) => timeLeft - 1);
       }, 1000);
       if (timeLeft <= 0) {
@@ -32,23 +42,29 @@ const Countdown = (props) => {
         props.end();
       }
     }
-    
+
     return () => clearInterval(interval);
   }, [isActive, timeLeft]);
 
   useEffect(() => {
-    if (props.userExists) {
+    if (props.activate) {
       setIsActive(true);
     } else {
       reset();
     }
-  }, [props.userExists]);
+  }, [props.activate]);
 
   useEffect(() => {
     if(props.forceReset){
       reset();
     }
-  }, [props.forceReset])
+  }, [props.forceReset]);
+
+  useEffect(()=>{
+    if(props.activate){
+      setIsActive(!props.paused);
+    }
+  }, [props.paused]);
 
   const buttonText = isActive ? "pause" : "start";
   //const button = props.visible?(<button onClick={toggle}>{buttonText}</button>):<></>;
@@ -60,4 +76,4 @@ const Countdown = (props) => {
   );
 };
 
-export default Countdown;
+export default Countdown
