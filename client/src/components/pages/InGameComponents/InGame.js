@@ -13,8 +13,7 @@ import Name from "../Home/Name.js";
 import GameLog from "./GameLog.js";
 
 const InGame = (props) => {
-  const [userData, setUserData] = useState([
-  ]);
+  const [userData, setUserData] = useState([]);
   const [userBuzz, setUserBuzz] = useState(null);
   const [trackList, setTrackList] = useState(null);
   const [trackNum, setTrackNum] = useState(1);
@@ -26,83 +25,89 @@ const InGame = (props) => {
   const [gameChat, setGameChat] = useState([]);
   const [gameLog, setGameLog] = useState([]);
   const [buzzTime, setBuzzTime] = useState(5);
+  const [hostName, setHostName] = useState(null);
 
-    let answerVer = (<div>Placeholder</div>);
-    let val = window.location.href;
-    let gameCode = (val.substring(val.length - 5, val.length));
+  let answerVer = <div>Placeholder</div>;
+  let val = window.location.href;
+  let gameCode = val.substring(val.length - 5, val.length);
 
   const handleBuzz = async (event) => {
-    if(roundOngoing && !userBuzz){
-        post("/api/buzz", { userId: props.userId, gameCode: gameCode, name: props.name, roundNum: trackNum}); 
-        myAudio.pause();
-      }
-
-  }
+    if (roundOngoing && !userBuzz) {
+      post("/api/buzz", {
+        userId: props.userId,
+        gameCode: gameCode,
+        name: props.name,
+        roundNum: trackNum,
+      });
+      myAudio.pause();
+    }
+  };
 
   const initialize = () => {
-    get("/api/getGameData",{code: gameCode}).then((data) => {
+    get("/api/getGameData", { code: gameCode }).then((data) => {
       console.log(JSON.stringify(data));
       setUserData(data.userData);
       setUserBuzz(data.userBuzz);
       setGameChat(data.gameChat);
       setTrackNum(data.trackNum);
-      setBuzzTime(data.settings.time?data.settings.time:5);
+      setBuzzTime(data.settings.time ? data.settings.time : 5);
       setGameLog(data.gameLog);
       setRoundOngoing(data.roundOngoing);
-      //setTrackList(data.trackList); add this once we support adding playlists 
+      setHostName(data.hostName);
+      //setTrackList(data.trackList); add this once we support adding playlists
     });
-  }
+  };
 
-  useEffect(() =>{
-    for(let i =0; i < userData.length; i++){
-      if(!userData[i].name){
-        get("/api/userLookup",{_id: userData[i]._id}).then((user) => {
+  useEffect(() => {
+    for (let i = 0; i < userData.length; i++) {
+      if (!userData[i].name) {
+        get("/api/userLookup", { _id: userData[i]._id }).then((user) => {
           userData[i].name = user.name;
         });
       }
     }
-  },[userData]);
+  }, [userData]);
 
-  useEffect(() =>{
-    initialize();
-  },[]);
-    
   useEffect(() => {
-    if(!trackList){
+    initialize();
+  }, []);
+
+  useEffect(() => {
+    if (!trackList) {
       get("/api/testPlaylists").then((body) => {
         setTrackList(body.tracks.items);
       });
     }
-  },[]); //this useEffect should be deleted ASAP after playlists are added
+  }, []); //this useEffect should be deleted ASAP after playlists are added
 
-  useEffect(()=> {
+  useEffect(() => {
     socket.on("new message", (message) => {
-      setGameChat([... gameChat, message]);
+      setGameChat([...gameChat, message]);
     });
     return () => {
       socket.off("new message");
-    }
+    };
   });
 
-  useEffect(()=>{
-    socket.on("new log", (message) =>{
+  useEffect(() => {
+    socket.on("new log", (message) => {
       setGameLog([...gameLog, message]);
       console.log("changed gameLog");
     });
     return () => {
       socket.off("new log");
-    }
+    };
   });
 
-  useEffect(()=> {
+  useEffect(() => {
     socket.on("buzz", newBuzz);
     return () => {
       socket.off("buzz");
     };
   });
-    
+
   useEffect(() => {
-      socket.on("new player", addData);
+    socket.on("new player", addData);
     return () => {
       socket.off("new player");
     };
@@ -110,45 +115,43 @@ const InGame = (props) => {
 
   useEffect(() => {
     socket.on("submitted", handleSubmit);
-  return () => {
-    socket.off("submitted");
-  };
-});
+    return () => {
+      socket.off("submitted");
+    };
+  });
 
-useEffect(() => {
-  socket.on("starting", handleRoundStartedByUser);
-  return () => {
-    socket.off("starting");
-  };
-});
+  useEffect(() => {
+    socket.on("starting", handleRoundStartedByUser);
+    return () => {
+      socket.off("starting");
+    };
+  });
 
-useEffect(()=>{
-  if(userBuzz){
-    setCanBuzz(false);
-  }
-  else if(roundOngoing){
-    setCanBuzz(true);
-  }
-  else{
-    setCanBuzz(false);
-  }
-},[roundOngoing, userBuzz]);
+  useEffect(() => {
+    if (userBuzz) {
+      setCanBuzz(false);
+    } else if (roundOngoing) {
+      setCanBuzz(true);
+    } else {
+      setCanBuzz(false);
+    }
+  }, [roundOngoing, userBuzz]);
 
   const addData = (userId) => {
-    setUserData([... userData,{_id: userId, score:0}]);
-  }
-    
+    setUserData([...userData, { _id: userId, score: 0 }]);
+  };
+
   const newBuzz = (userId) => {
     let found = false;
-    for(let i=0; i < userData.length; i++){
-      if(userData[i]._id===userId){
+    for (let i = 0; i < userData.length; i++) {
+      if (userData[i]._id === userId) {
         found = true;
         setUserBuzz(userData[i]);
         console.log("user2: " + JSON.stringify(userData[i]));
         break;
       }
     }
-    if(!found){
+    if (!found) {
       console.log("error");
     }
     myAudio.pause();
@@ -156,54 +159,60 @@ useEffect(()=>{
 
   const handleTimerEnd = async (success) => {
     setUserBuzz(null);
-    if(success){
-      for(let i = 0; i < userData.length; i++){
-        if(userData[i]._id === userBuzz._id){
+    if (success) {
+      for (let i = 0; i < userData.length; i++) {
+        if (userData[i]._id === userBuzz._id) {
           userData[i].score++;
           break;
         }
       }
     }
-    await post("/api/clearBuzz",{gameCode: gameCode});
-    if(typeof success !== undefined && myAudio){
+    await post("/api/clearBuzz", { gameCode: gameCode });
+    if (typeof success !== undefined && myAudio) {
       success ? myAudio.pause() : myAudio.play();
-    }
-    else if(myAudio){
+    } else if (myAudio) {
       myAudio.pause();
     }
-    if(success && trackNum){
-      setTrackNum(trackNum+1);
-      post("/api/increaseTrackNum",{gameCode:gameCode});
+    if (success && trackNum) {
+      setTrackNum(trackNum + 1);
+      post("/api/increaseTrackNum", { gameCode: gameCode });
     }
     console.log("ending timer");
-    if(roundOngoing){
+    if (roundOngoing) {
       myAudio.play();
     }
   };
 
   const handleRoundStart = () => {
     setRoundOngoing(true);
-    post("/api/roundStart",{gameCode: gameCode}).then(() => {
+    post("/api/roundStart", { gameCode: gameCode }).then(() => {
       myAudio.play();
     });
   };
   const handleRoundStartedByUser = (data) => {
     setRoundOngoing(true);
     myAudio.play();
-  }
+  };
 
   const handleOnSubmit = (value) => {
     let success = value.toLowerCase() === trackList[trackNum].name.toLowerCase();
-    post("/api/submitted",{gameCode: gameCode, user: userBuzz._id, sub: success, curr: trackNum, value: value, roundNum: trackNum});
-  }
+    post("/api/submitted", {
+      gameCode: gameCode,
+      user: userBuzz._id,
+      sub: success,
+      curr: trackNum,
+      value: value,
+      roundNum: trackNum,
+    });
+  };
 
   const handleSubmit = async (data) => {
     await handleTimerEnd(data.submission);
-    if(data.submission){
+    if (data.submission) {
       setRoundOngoing(false);
     }
     setResetTimer(true);
-  }
+  };
 
   useEffect(() => {
     if (trackNum && trackList && (!playingNum || playingNum != trackNum)) {
@@ -216,19 +225,31 @@ useEffect(()=>{
     }
   }, [trackNum, trackList, playingNum]);
 
-  useEffect(()=> {
-    if(myAudio){
-      myAudio.addEventListener('ended', (event) => {
-        post("/api/songEnded", {gameCode: gameCode, song: trackList[trackNum], roundNum: trackNum});
-        setTrackNum(trackNum+1);
+  useEffect(() => {
+    if (myAudio) {
+      myAudio.addEventListener("ended", (event) => {
+        post("/api/songEnded", {
+          gameCode: gameCode,
+          song: trackList[trackNum],
+          roundNum: trackNum,
+        });
+        setTrackNum(trackNum + 1);
         setRoundOngoing(false);
       });
     }
-  },[myAudio]);
+  }, [myAudio]);
 
-  let songInfo = roundOngoing ? userBuzz ? (<div>{userBuzz.name} has buzzed!</div>):(<div>Song #{trackNum} is playing</div>):(<div>There is currently no song playing</div>);
+  let songInfo = roundOngoing ? (
+    userBuzz ? (
+      <div>{userBuzz.name} has buzzed!</div>
+    ) : (
+      <div>Song #{trackNum} is playing</div>
+    )
+  ) : (
+    <div>There is currently no song playing</div>
+  );
   let textBox =
-    userBuzz && (userBuzz._id === props.userId) ? (
+    userBuzz && userBuzz._id === props.userId ? (
       <div>
         <InputAnswer submit={(sub) => handleOnSubmit(sub)} />
       </div>
@@ -237,40 +258,55 @@ useEffect(()=>{
     );
 
   let buzzerState = canBuzz ? "u-pointer inGame-buzzerEffect" : "inGame-buzzer-locked";
-  let countdownTimer = (<Countdown time={buzzTime} userExists={userBuzz ? true : false} end={() => handleTimerEnd()} forceReset={resetTimer} visible = "false"/>);
+  let countdownTimer = (
+    <Countdown
+      time={buzzTime}
+      userExists={userBuzz ? true : false}
+      end={() => handleTimerEnd()}
+      forceReset={resetTimer}
+      visible="false"
+    />
+  );
   let countdownState = userBuzz ? "" : "u-hidden";
   let buzzTextState = userBuzz ? "u-hidden" : "";
 
   return (
     <div className="inGame-container">
       <div className="inGame-container-left">
-        <Scoreboard data={userData}/>
+        <Scoreboard data={userData} />
         <div className="inGame-add-music">Add music</div>
       </div>
       <div className="inGame-container-main">
         {/**I CHANGED THIS!!!!!!! Originally was "Wiwa's Game" */}
-        <div className="inGame-header"><div className="inGame-title">{props.name}'s Game</div><div>Room Code: {gameCode}</div></div>
+        <div className="inGame-header">
+          <div className="inGame-title">{hostName}'s Game</div>
+          <div>Room Code: {gameCode}</div>
+        </div>
         <div className="song-info">{songInfo}</div>
-        <div
-          className={"game-buzzer u-noSelect "+buzzerState}
-          onClick={() => handleBuzz()}
-        >
+        <div className={"game-buzzer u-noSelect " + buzzerState} onClick={() => handleBuzz()}>
           <div className="inGame-buzzer-text-container">
-            <div className={buzzTextState+" inGame-buzzer-text"}>
-              buzz
-            </div>
-            <div className={countdownState+" inGame-buzzer-text"}>
-              {countdownTimer}
-            </div>
+            <div className={buzzTextState + " inGame-buzzer-text"}>buzz</div>
+            <div className={countdownState + " inGame-buzzer-text"}>{countdownTimer}</div>
           </div>
         </div>
         {textBox}
       </div>
-      <br>
-      </br>
-      <div className = "inGame-container-right"><div className={roundOngoing?"button-invisible":"u-pointer inGame-next-button"} onClick={() => handleRoundStart()}><div>Proceed to Next Round</div></div>
-      <GameLog messages = {gameLog}/></div>
-      <GameChat userId={props.userId} messages = {gameChat} gameCode = {props.gameCode} name = {props.name}/>
+      <br></br>
+      <div className="inGame-container-right">
+        <div
+          className={roundOngoing ? "button-invisible" : "u-pointer inGame-next-button"}
+          onClick={() => handleRoundStart()}
+        >
+          <div>Proceed to Next Round</div>
+        </div>
+        <GameLog messages={gameLog} />
+      </div>
+      <GameChat
+        userId={props.userId}
+        messages={gameChat}
+        gameCode={props.gameCode}
+        name={props.name}
+      />
     </div>
   );
 };

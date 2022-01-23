@@ -79,7 +79,7 @@ const App = (props) => {
         <NotFound default />
         <HowToPlay path="/howtoplay" userId={userId} handleLogin={handleLogin}/>
         <InGame path="/game/:gameCode" userId={userId} name={name}/>
-        <NewGame path="/NewGame" userId={userId} />
+        <NewGame path="/NewGame" userId={userId}/>
       </Router>
     </>
   );
