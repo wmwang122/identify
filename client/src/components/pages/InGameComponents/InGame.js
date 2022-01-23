@@ -1,22 +1,20 @@
 import React, { Component, useEffect, useState } from "react";
 import "../../../utilities.css";
 import "./InGame.css";
-import GamePlayer from "./GamePlayer.js";
 import Scoreboard from "./Scoreboard.js";
 import Countdown from "./Countdown.js";
 import { get, post } from "../../../utilities.js";
 import { socket } from "../../../client-socket.js";
-import SongPlayer from "./SongPlayer.js";
 import InputAnswer from "./InputAnswer.js";
 import GameChat from "./GameChat.js";
-import Name from "../Home/Name.js";
 import GameLog from "./GameLog.js";
+import SelectSong from "./SelectSong.js";
 
 const InGame = (props) => {
   const [userData, setUserData] = useState([]);
   const [userBuzz, setUserBuzz] = useState(null);
   const [trackList, setTrackList] = useState(null);
-  const [trackNum, setTrackNum] = useState(1);
+  const [trackNum, setTrackNum] = useState(0);
   const [myAudio, setMyAudio] = useState(null);
   const [playingNum, setPlayingNum] = useState(null);
   const [resetTimer, setResetTimer] = useState(false);
@@ -38,7 +36,7 @@ const InGame = (props) => {
         userId: props.userId,
         gameCode: gameCode,
         name: props.name,
-        roundNum: trackNum,
+        roundNum: trackNum+1,
       });
       myAudio.pause();
     }
@@ -55,8 +53,9 @@ const InGame = (props) => {
       setGameLog(data.gameLog);
       setRoundOngoing(data.roundOngoing);
       setHostName(data.hostName);
-      //setTrackList(data.trackList); add this once we support adding playlists
+      setTrackList(data.trackList);
       setSongTimeLeft(data.songTimeLeft);
+      console.log("initialize");
     });
   };
 
@@ -80,8 +79,10 @@ const InGame = (props) => {
   useEffect(() => {
     if (!trackList) {
       get("/api/testPlaylists").then((body) => {
-        setTrackList(body.tracks.items);
-      });
+        //setTrackList(body.tracks.items);
+        setTrackList(body);
+        post("/api/testPlaylistsInitialize",{data: body, gameCode: gameCode});
+      }); 
     }
   }, []); //this useEffect should be deleted ASAP after playlists are added
 
@@ -133,6 +134,13 @@ const InGame = (props) => {
   });
 
   useEffect(() => {
+    socket.on("added song", addSong);
+    return () => {
+      socket.off("added song");
+    }
+  });
+
+  useEffect(() => {
     if (userBuzz) {
       setCanBuzz(false);
     } else if (roundOngoing) {
@@ -179,7 +187,7 @@ const InGame = (props) => {
     } else if (myAudio) {
       myAudio.pause();
     }
-    if (success && trackNum) {
+    if (success && (trackNum+1)) {
       setTrackNum(trackNum + 1);
       post("/api/increaseTrackNum", { gameCode: gameCode });
     }
@@ -188,6 +196,14 @@ const InGame = (props) => {
       myAudio.play();
     }
   };
+
+  const handleAddSong = (newSong) => {
+    post("/api/addSong", {song: newSong, gameCode: gameCode});
+  }
+
+  const addSong = (newSong) => {
+    setTrackList([... trackList, newSong]);
+  }
 
   const handleRoundStart = () => {
     setRoundOngoing(true);
@@ -201,17 +217,12 @@ const InGame = (props) => {
   };
 
   const handleOnSubmit = (value) => {
-    let success = value.toLowerCase() === trackList[trackNum].track.name.toLowerCase();
-    post("/api/submitted", {
-      gameCode: gameCode,
-      user: userBuzz._id,
-      sub: success,
-      curr: trackNum,
-      value: value,
-      roundNum: trackNum,
-    });
+    let success = value.toLowerCase() === trackList[trackNum].name.toLowerCase();
+    //trackList[trackNum].track.name.toLowerCase(); //ALSO PLS DONT RB
+    post("/api/submitted",{gameCode: gameCode, user: userBuzz._id, sub: success, curr: trackNum, value: value, roundNum: trackNum+1});
   };
 
+//initialize + new game 
   const handleSubmit = async (data) => {
     await handleTimerEnd(data.submission);
     if (data.submission) {
@@ -220,17 +231,30 @@ const InGame = (props) => {
     setResetTimer(true);
   };
 
+  const handleGameEnd = () => {
+    console.log("game has ended");
+  }
+
   useEffect(() => {
-    if (!roundOngoing) {
-      console.log("this useeffect is being called here");
-      if (myAudio) {
-        myAudio.pause();
-      }
-      if (trackList) {
-        setMyAudio(new Audio(trackList[trackNum].preview_url));
-      }
-      setAudioMounted(true);
-    } else if (!audioMounted && !userBuzz) {
+      if(!roundOngoing){
+        console.log("this useeffect is being called here");
+        if (myAudio) {
+          myAudio.pause();
+        }
+        if(trackList){
+          while(trackNum < trackList.length && !trackList[trackNum].preview_url){
+            console.log(trackList[trackNum]);
+            trackList.splice(trackNum,1);
+          }
+          if(trackNum >= trackList.length){
+            handleGameEnd();
+          }
+          else{
+            setMyAudio(new Audio(trackList[trackNum].preview_url));
+          }
+        }
+        setAudioMounted(true);
+      } else if (!audioMounted && !userBuzz) {
       console.log("this useeffect is being called there");
       if (myAudio) {
         myAudio.currentTime = 30 - songTimeLeft;
@@ -247,7 +271,7 @@ const InGame = (props) => {
   }, [myAudio]);
 
   const handleSongEnd = () => {
-    post("/api/songEnded", { gameCode: gameCode, song: trackList[trackNum], roundNum: trackNum });
+    post("/api/songEnded", { gameCode: gameCode, song: trackList[trackNum], roundNum: trackNum+1 });
     setTrackNum(trackNum + 1);
     setRoundOngoing(false);
   };
@@ -256,7 +280,7 @@ const InGame = (props) => {
     userBuzz ? (
       <div>{userBuzz.name} has buzzed!</div>
     ) : (
-      <div>Song #{trackNum} is playing</div>
+      <div>Song #{trackNum+1} is playing</div>
     )
   ) : (
     <div>There is currently no song playing</div>
@@ -309,8 +333,8 @@ const InGame = (props) => {
   return (
     <div className="inGame-container">
       <div className="inGame-container-left">
-        <Scoreboard data={userData} />
-        <div className="inGame-add-music">Add music</div>
+        <Scoreboard data={userData}/>
+        <SelectSong handleAddSong = {(song) => handleAddSong(song)}/>
       </div>
       <div className="inGame-container-main">
         {/**I CHANGED THIS!!!!!!! Originally was "Wiwa's Game" */}

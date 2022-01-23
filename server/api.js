@@ -84,7 +84,14 @@ router.get("/testPlaylists", async (req, res) => {
       console.log(result.body.tracks.items);
       // const result = await loggedInSpotifyApi.getAlbum("3oVCGd8gjANVb5r2F0M8BI");
       // console.log(result.body.tracks.items);
-      res.status(200).send(result.body);
+      // res.status(200).send(result.body);
+     // res.status(200).send(result.body.tracks.items);
+     let trackList = [];
+     for (let i=0; i<result.body.tracks.items.length; i++) {
+       trackList.push(result.body.tracks.items[i].track);
+     };
+     //res.status(200).send(trackList);
+     res.status(200).send([]);
     });
   } catch (err) {
     res.status(400).send(err);
@@ -255,7 +262,8 @@ router.post("/newGame", (req, res) => {
     gameLog: [],
     hostName: req.body.hostName, //I JUST ADDED
     //trackList: req.body.settings.trackList, add once settings can add playlists
-    trackNum: 1,
+    trackNum: 0,
+    trackList: [],
     songTimeLeft: 30,
     roundOngoing: false,
   }); //maps gamecode to an array of game settings
@@ -327,6 +335,44 @@ router.post("/songEnded", (req, res) => {
 router.post("/gameTimerUpdate", (req, res) => {
   let game = games.get(req.body.gameCode);
   game.songTimeLeft = req.body.time;
+  res.send({});
+});
+
+router.get("/searchSpotify", (req,res) =>{
+  const loggedInSpotifyApi = new SpotifyWebApi({
+    clientId: process.env.SPOTIFY_API_ID,
+    clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
+    redirectUri: process.env.CALLBACK_URI,
+  });
+  loggedInSpotifyApi.setRefreshToken(req.user.refreshToken);
+  loggedInSpotifyApi.refreshAccessToken().then((data) => {
+    loggedInSpotifyApi.setAccessToken(data.body["access_token"]);
+    console.log("Query received: " + req.query.query);
+    loggedInSpotifyApi.searchTracks("track:"+req.query.query).then((data) =>{
+      ans = [];
+      for(let i = 0; i < data.body.tracks.items.length; i++){
+        if(ans.length >= 5){
+          break;
+        }
+        if(data.body.tracks.items[i].preview_url){
+          ans.push(data.body.tracks.items[i]);
+        }
+      }
+      res.send(ans);
+    });
+  });
+});
+
+router.post("/addSong",(req,res) =>{
+  let game = games.get(req.body.gameCode);
+  game.trackList.push(req.body.song);
+  socketManager.getIo().to(req.body.gameCode).emit("added song", req.body.song);
+  res.send({});
+});
+
+router.post("/testPlaylistsInitialize", (req,res) => {
+  let game = games.get(req.body.gameCode);
+  game.trackList = req.body.data;
   res.send({});
 });
 
