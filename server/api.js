@@ -84,7 +84,13 @@ router.get("/testPlaylists", async (req, res) => {
       console.log(result.body.tracks.items);
       // const result = await loggedInSpotifyApi.getAlbum("3oVCGd8gjANVb5r2F0M8BI");
       // console.log(result.body.tracks.items);
-      res.status(200).send(result.body);
+      // res.status(200).send(result.body);
+     // res.status(200).send(result.body.tracks.items);
+     let trackList = [];
+     for (let i=0; i<result.body.tracks.items.length; i++) {
+       trackList.push(result.body.tracks.items[i].track);
+     };
+     res.status(200).send(trackList);
     });
   } catch (err) {
     res.status(400).send(err);

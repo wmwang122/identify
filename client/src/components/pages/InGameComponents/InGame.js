@@ -70,8 +70,9 @@ const InGame = (props) => {
   useEffect(() => {
     if(!trackList){
       get("/api/testPlaylists").then((body) => {
-        setTrackList(body.tracks.items);
-      });
+        //setTrackList(body.tracks.items);
+        setTrackList(body);
+      }); 
     }
   },[]); //this useEffect should be deleted ASAP after playlists are added
 
@@ -193,7 +194,8 @@ useEffect(()=>{
   }
 
   const handleOnSubmit = (value) => {
-    let success = value.toLowerCase() === trackList[trackNum].track.name.toLowerCase();
+    let success = value.toLowerCase() === trackList[trackNum].name.toLowerCase();
+    //trackList[trackNum].track.name.toLowerCase(); //ALSO PLS DONT RB
     post("/api/submitted",{gameCode: gameCode, user: userBuzz._id, sub: success, curr: trackNum, value: value, roundNum: trackNum});
   }
 
@@ -211,7 +213,9 @@ useEffect(()=>{
       if (myAudio) {
         myAudio.pause();
       }
-      setMyAudio(new Audio(trackList[trackNum].track.preview_url));
+      setMyAudio(new Audio(trackList[trackNum].preview_url));
+      //setMyAudio(new Audio(trackList[trackNum].track.preview_url));
+
       console.log("set audio");
     }
   }, [trackNum, trackList, playingNum]);

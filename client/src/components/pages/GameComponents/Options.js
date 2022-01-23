@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import Playlists from "./Playlists.js";
 import "./Options.css";
 import { navigate } from "@reach/router";
 import { Link } from "@reach/router";
 import { get, post } from "../../../utilities.js";
+import Playlists from "./Playlists.js";
 
 const Options = (props) => {
   const [displayPop, setDisplayPop] = useState(false);
@@ -19,8 +19,6 @@ const Options = (props) => {
       <>
         <div className="firstdiv"></div>
         <div className="popup">
-          <Playlists />
-
           <div className="title column">advanced options</div>
           <div className="row space_between">
             <div className="text"> make game public </div>
@@ -66,6 +64,7 @@ const Options = (props) => {
               submit
             </div>
           </div>
+          <Playlists/>
         </div>
       </>
     ) : (
@@ -111,11 +110,10 @@ const Options = (props) => {
 
   let displayPlaylist = wantsOwnPlaylist ? (
     <div className="playlist-display">
-      <Playlists />
+    <Playlists/>
     </div>
   ) : (
     <div className="no-playlist-display">
-      <Playlists />
     </div>
   );
 
