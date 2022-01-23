@@ -90,7 +90,8 @@ router.get("/testPlaylists", async (req, res) => {
      for (let i=0; i<result.body.tracks.items.length; i++) {
        trackList.push(result.body.tracks.items[i].track);
      };
-     res.status(200).send(trackList);
+     //res.status(200).send(trackList);
+     res.status(200).send([]);
     });
   } catch (err) {
     res.status(400).send(err);
@@ -262,7 +263,8 @@ router.post("/newGame", (req, res) => {
     gameLog: [],
     hostName: req.body.hostName, //I JUST ADDED
     //trackList: req.body.settings.trackList, add once settings can add playlists
-    trackNum: 1,
+    trackNum: 0,
+    trackList: [],
     songTimeLeft: 30,
     roundOngoing: false,
   }); //maps gamecode to an array of game settings
@@ -365,6 +367,13 @@ router.get("/searchSpotify", (req,res) =>{
 router.post("/addSong",(req,res) =>{
   let game = games.get(req.body.gameCode);
   game.trackList.push(req.body.song);
+  socketManager.getIo().to(req.body.gameCode).emit("added song", req.body.song);
+  res.send({});
+});
+
+router.post("/testPlaylistsInitialize", (req,res) => {
+  let game = games.get(req.body.gameCode);
+  game.trackList = req.body.data;
   res.send({});
 });
 

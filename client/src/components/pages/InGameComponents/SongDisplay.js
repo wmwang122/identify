@@ -14,7 +14,6 @@ const SongDisplay = (props) => {
 
     const handleAddSong = () => {
         props.handleAddSong(props.song);
-        console.log("added", JSON.stringify(song)); 
     }
     return (
       <div className = "songDisplay-container">
