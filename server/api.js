@@ -257,15 +257,9 @@ router.post("/newGame", (req, res) => {
     hostName: req.body.hostName, //I JUST ADDED
     //trackList: req.body.settings.trackList, add once settings can add playlists
     trackNum: 1,
-<<<<<<< HEAD
+    songTimeLeft: 30,
     roundOngoing: false,
   }); //maps gamecode to an array of game settings
-  console.log("hi2");
-=======
-    songTimeLeft: 30,
-    roundOngoing: false,}
-    ); //maps gamecode to an array of game settings
->>>>>>> d0f22506b75775a5a4f00b323ea82d34c98074e5
   socketManager.addUserToGame(req.body.userId, code);
   //socketManager.getIo().to(code).emit("new player", req.body.userId);
   res.send({ gameCode: code });
@@ -327,18 +321,14 @@ router.post("/songEnded", (req, res) => {
     roundNum: req.body.roundNum,
   };
   game.gameLog.push(newMessage);
-<<<<<<< HEAD
   socketManager.getIo().to(req.body.gameCode).emit("new log", newMessage);
-=======
-  socketManager.getIo().to(req.body.gameCode).emit("new log",newMessage);
   res.send({});
 });
 
-router.post("/gameTimerUpdate", (req,res) =>{
+router.post("/gameTimerUpdate", (req, res) => {
   let game = games.get(req.body.gameCode);
   game.songTimeLeft = req.body.time;
   res.send({});
->>>>>>> d0f22506b75775a5a4f00b323ea82d34c98074e5
 });
 
 /*router.get("/getGame",(req,res) =>{
