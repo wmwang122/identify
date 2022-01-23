@@ -327,6 +327,37 @@ router.post("/gameTimerUpdate", (req,res) =>{
   res.send({});
 });
 
+router.get("/searchSpotify", (req,res) =>{
+  const loggedInSpotifyApi = new SpotifyWebApi({
+    clientId: process.env.SPOTIFY_API_ID,
+    clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
+    redirectUri: process.env.CALLBACK_URI,
+  });
+  loggedInSpotifyApi.setRefreshToken(req.user.refreshToken);
+  loggedInSpotifyApi.refreshAccessToken().then((data) => {
+    loggedInSpotifyApi.setAccessToken(data.body["access_token"]);
+    console.log("Query received: " + req.query.query);
+    loggedInSpotifyApi.searchTracks("track:"+req.query.query).then((data) =>{
+      ans = [];
+      for(let i = 0; i < data.body.tracks.items.length; i++){
+        if(ans.length >= 5){
+          break;
+        }
+        if(data.body.tracks.items[i].preview_url){
+          ans.push(data.body.tracks.items[i]);
+        }
+      }
+      res.send(ans);
+    });
+  });
+});
+
+router.post("/addSong",(req,res) =>{
+  let game = games.get(req.body.gameCode);
+  game.trackList.push(req.body.song);
+  res.send({});
+});
+
 /*router.get("/getGame",(req,res) =>{
   GameSchema.findOne({gameCode: req.query.code}).then((game)=>{
     if(game && game.currentBuzz)

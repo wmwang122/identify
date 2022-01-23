@@ -1,16 +1,14 @@
 import React, { Component, useEffect, useState } from "react";
 import "../../../utilities.css";
 import "./InGame.css";
-import GamePlayer from "./GamePlayer.js";
 import Scoreboard from "./Scoreboard.js";
 import Countdown from "./Countdown.js";
 import { get, post } from "../../../utilities.js";
 import { socket } from "../../../client-socket.js";
-import SongPlayer from "./SongPlayer.js";
 import InputAnswer from "./InputAnswer.js";
 import GameChat from "./GameChat.js";
-import Name from "../Home/Name.js";
 import GameLog from "./GameLog.js";
+import SelectSong from "./SelectSong.js";
 
 const InGame = (props) => {
   const [userData, setUserData] = useState([
@@ -46,7 +44,6 @@ const InGame = (props) => {
       setUserData(data.userData);
       setUserBuzz(data.userBuzz);
       setGameChat(data.gameChat);
-      setTrackNum(data.trackNum);
       setBuzzTime(data.settings.time?data.settings.time:5);
       setGameLog(data.gameLog);
       setRoundOngoing(data.roundOngoing);
@@ -74,7 +71,7 @@ const InGame = (props) => {
 
     
   useEffect(() => {
-    if(!trackList){
+    if(!trackList || 1){
       get("/api/testPlaylists").then((body) => {
         setTrackList(body.tracks.items);
       });
@@ -188,6 +185,11 @@ useEffect(()=>{
     }
   };
 
+  const addSong = (newSong) => {
+    setTrackList([... trackList, newSong]);
+    post("/api/addSong", {song: newSong, gameCode: gameCode});
+  }
+
   const handleRoundStart = () => {
     setRoundOngoing(true);
     post("/api/roundStart",{gameCode: gameCode}).then(() => {
@@ -212,6 +214,10 @@ useEffect(()=>{
     setResetTimer(true);
   }
 
+  const handleGameEnd = () => {
+    console.log("game has ended");
+  }
+
   useEffect(() => {
       if(!roundOngoing){
         console.log("this useeffect is being called here");
@@ -219,7 +225,15 @@ useEffect(()=>{
           myAudio.pause();
         }
         if(trackList){
-          setMyAudio(new Audio(trackList[trackNum].preview_url));
+          while(trackNum < trackList.length && !trackList[trackNum].track.preview_url){
+            trackList.splice(trackNum,1);
+          }
+          if(trackNum >= trackList.length){
+            handleGameEnd();
+          }
+          else{
+            setMyAudio(new Audio(trackList[trackNum].track.preview_url));
+          }
         }
         setAudioMounted(true);
       }
@@ -267,7 +281,7 @@ useEffect(()=>{
     <div className="inGame-container">
       <div className="inGame-container-left">
         <Scoreboard data={userData}/>
-        <div className="inGame-add-music">Add music</div>
+        <SelectSong handleAddSong = {(song) => addSong(song)}/>
       </div>
       <div className="inGame-container-main">
         {/**I CHANGED THIS!!!!!!! Originally was "Wiwa's Game" */}
