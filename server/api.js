@@ -167,12 +167,11 @@ router.get("/userLookup", (req, res) => {
   });
 });
 
-router.get("/getGameData", (req,res) => {
+router.get("/getGameData", (req, res) => {
   ans = games.get(req.query.code);
-  if(ans){
+  if (ans) {
     res.send(ans);
-  }
-  else{
+  } else {
     res.send({});
   }
 });
@@ -180,29 +179,29 @@ router.get("/getGameData", (req,res) => {
 router.post("/buzz", (req, res) => {
   let game = games.get(req.body.gameCode);
   let flag = true;
-  for(let i = 0; i < game.userData.length; i++){
-    if(game.userData[i]._id === req.body.userId){
+  for (let i = 0; i < game.userData.length; i++) {
+    if (game.userData[i]._id === req.body.userId) {
       console.log(game.userData[i]);
       flag = false;
       game.userBuzz = game.userData[i];
       console.log(JSON.stringify(game.userData));
       let newMessage = {
         content: game.userData[i].name + " has buzzed!",
-        roundNum: req.body.roundNum
+        roundNum: req.body.roundNum,
       };
       game.gameLog.push(newMessage);
       socketManager.getIo().to(req.body.gameCode).emit("new log", newMessage);
       console.log(game.gameLog);
     }
   }
-  if(flag){
+  if (flag) {
     console.log("an error has occurred");
   }
   socketManager.getIo().to(req.body.gameCode).emit("buzz", req.body.userId);
   res.send({});
 });
 
-router.post("/clearBuzz", (req,res) => {
+router.post("/clearBuzz", (req, res) => {
   let game = games.get(req.body.gameCode);
   game.userBuzz = null;
   console.log("cleared buzz");
@@ -211,9 +210,9 @@ router.post("/clearBuzz", (req,res) => {
 
 router.post("/submitted", (req, res) => {
   let game = games.get(req.body.gameCode);
-  if(req.body.sub){
-    for(let i = 0; i < game.userData.length; i++){
-      if(game.userData[i]._id === req.body.user){
+  if (req.body.sub) {
+    for (let i = 0; i < game.userData.length; i++) {
+      if (game.userData[i]._id === req.body.user) {
         game.userData[i].score++;
         break;
       }
@@ -221,19 +220,19 @@ router.post("/submitted", (req, res) => {
     game.roundOngoing = false;
   }
   let newMessage = {
-    content: req.body.value + " was " + (req.body.sub?"correct.":"incorrect."),
-    roundNum: req.body.roundNum
+    content: req.body.value + " was " + (req.body.sub ? "correct." : "incorrect."),
+    roundNum: req.body.roundNum,
   };
   game.gameLog.push(newMessage);
   socketManager.getIo().to(req.body.gameCode).emit("new log", newMessage);
-  socketManager.getIo().to(req.body.gameCode).emit("submitted",{submission: req.body.sub});
+  socketManager.getIo().to(req.body.gameCode).emit("submitted", { submission: req.body.sub });
   res.send({});
 });
 
 router.post("/roundStart", (req, res) => {
   let game = games.get(req.body.gameCode);
   game.roundOngoing = true;
-  socketManager.getIo().to(req.body.gameCode).emit("starting",{});
+  socketManager.getIo().to(req.body.gameCode).emit("starting", {});
   res.send({});
 });
 
@@ -251,22 +250,25 @@ router.post("/roundStart", (req, res) => {
 
 router.post("/newGame", (req, res) => {
   let code = generateCode(5);
-  while (games.get(code)) { 
+  while (games.get(code)) {
     code = generateCode(5);
   }
+  console.log("hi1");
   games.set(code, {
-    settings: req.body.settings, 
-    userData: [{_id: req.body.userId, name: req.body.name, score: 0}],
+    settings: req.body.settings,
+    userData: [{ _id: req.body.userId, name: req.body.name, score: 0 }],
     userBuzz: null,
     gameChat: [],
     gameLog: [],
+    hostName: req.body.hostName, //I JUST ADDED
     //trackList: req.body.settings.trackList, add once settings can add playlists
     trackNum: 1,
-    roundOngoing: false,}
-    ); //maps gamecode to an array of game settings
+    songTimeLeft: 30,
+    roundOngoing: false,
+  }); //maps gamecode to an array of game settings
   socketManager.addUserToGame(req.body.userId, code);
   //socketManager.getIo().to(code).emit("new player", req.body.userId);
-  res.send({ gameCode: code});
+  res.send({ gameCode: code });
   // const game = new GameSchema({
   //   gameCode: code,
   // });
@@ -278,24 +280,27 @@ router.post("/joinGame", (req, res) => {
     let game = games.get(req.body.gameCode);
     socketManager.addUserToGame(req.body.userId, req.body.gameCode);
     let flag = true;
-    for(let i = 0; i < game.userData.length; i++){
-      if(game.userData[i]._id === req.body.userId){
+    for (let i = 0; i < game.userData.length; i++) {
+      if (game.userData[i]._id === req.body.userId) {
         flag = false;
         break;
       }
     }
-    if(flag){
-      game.userData.push({_id: req.body.userId, name: req.body.name, score: 0});
+    if (flag) {
+      game.userData.push({ _id: req.body.userId, name: req.body.name, score: 0 });
       socketManager.getIo().to(req.body.gameCode).emit("new player", req.body.userId);
     }
-    res.send({status: "game found" + flag?"":", user is already in game", gameCode: req.body.gameCode, settings: game.settings });
-  }
-  else {
+    res.send({
+      status: "game found" + flag ? "" : ", user is already in game",
+      gameCode: req.body.gameCode,
+      settings: game.settings,
+    });
+  } else {
     res.send({ status: "game not found" });
   }
 });
 
-router.post("/chatSubmit", (req,res) => {
+router.post("/chatSubmit", (req, res) => {
   let game = games.get(req.body.gameCode);
   let message = {
     _id: req.body.userId,
@@ -303,26 +308,33 @@ router.post("/chatSubmit", (req,res) => {
     content: req.body.content,
   };
   game.gameChat.push(message);
-  socketManager.getIo().to(req.body.gameCode).emit("new message",message);
+  socketManager.getIo().to(req.body.gameCode).emit("new message", message);
   res.send({});
 });
 
-router.post("/increaseTrackNum", (req,res) => {
+router.post("/increaseTrackNum", (req, res) => {
   let game = games.get(req.body.gameCode);
   game.trackNum++;
   res.send({});
 });
 
-router.post("/songEnded", (req,res) => {
+router.post("/songEnded", (req, res) => {
   let game = games.get(req.body.gameCode);
   game.roundOngoing = false;
   game.trackNum++;
   newMessage = {
     content: "Time is up! The answer was: " + JSON.stringify(req.body.song.name),
-    roundNum: req.body.roundNum
-  }
+    roundNum: req.body.roundNum,
+  };
   game.gameLog.push(newMessage);
-  socketManager.getIo().to(req.body.gameCode).emit("new log",newMessage);
+  socketManager.getIo().to(req.body.gameCode).emit("new log", newMessage);
+  res.send({});
+});
+
+router.post("/gameTimerUpdate", (req, res) => {
+  let game = games.get(req.body.gameCode);
+  game.songTimeLeft = req.body.time;
+  res.send({});
 });
 
 /*router.get("/getGame",(req,res) =>{

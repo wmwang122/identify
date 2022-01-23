@@ -82,7 +82,29 @@
     background-color: var(--lightbrightgreen);
     font-size: 4vh;
     text-align: center;
+    justify-content: center;
     align-items: center;
+}
+
+.inGame-next-button:hover{
+    font-weight: 400;
+}
+
+.inGame-time-left{
+    display: flex;
+    height: 16vh;
+    width: 20vw;
+    padding: 1vh 1vw 1vh 1vw;
+    border-radius: 8vh;
+    background-color: #e5ffd8;
+    font-size: 4vh;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+}
+
+.inGame-time-left-text{
+    padding-right: 0.3em;
 }
 
 .button-invisible{
