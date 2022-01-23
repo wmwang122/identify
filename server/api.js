@@ -247,7 +247,6 @@ router.post("/newGame", (req, res) => {
   while (games.get(code)) {
     code = generateCode(5);
   }
-  console.log("hi1");
   games.set(code, {
     settings: req.body.settings,
     userData: [{ _id: req.body.userId, name: req.body.name, score: 0 }],
