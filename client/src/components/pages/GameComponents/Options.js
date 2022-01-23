@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Playlist from "./Playlist.js";
+import Playlists from "./Playlists.js";
 import "./Options.css";
 import { navigate } from "@reach/router";
 import { Link } from "@reach/router";
@@ -19,6 +19,8 @@ const Options = (props) => {
       <>
         <div className="firstdiv"></div>
         <div className="popup">
+          <Playlists />
+
           <div className="title column">advanced options</div>
           <div className="row space_between">
             <div className="text"> make game public </div>
@@ -42,18 +44,18 @@ const Options = (props) => {
                 ></input>
               </div>
             </div>
-          <div className="row space_between">
-            <div className="text">
-              time to answer:
-              <input
-                type="number"
-                id="time"
-                name="time"
-                min="0"
-                max="10000"
-                onChange={() => handleTime(event)}
-              ></input>
-            </div>
+            <div className="row space_between">
+              <div className="text">
+                time to answer:
+                <input
+                  type="number"
+                  id="time"
+                  name="time"
+                  min="0"
+                  max="10000"
+                  onChange={() => handleTime(event)}
+                ></input>
+              </div>
             </div>
           </div>
           <div className="row space_evenly">
@@ -109,11 +111,11 @@ const Options = (props) => {
 
   let displayPlaylist = wantsOwnPlaylist ? (
     <div className="playlist-display">
-      <Playlist />
+      <Playlists />
     </div>
   ) : (
     <div className="no-playlist-display">
-      <Playlist />
+      <Playlists />
     </div>
   );
 

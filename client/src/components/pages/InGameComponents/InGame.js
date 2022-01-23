@@ -200,7 +200,7 @@ useEffect(()=>{
   }
 
   const handleOnSubmit = (value) => {
-    let success = value.toLowerCase() === trackList[trackNum].name.toLowerCase();
+    let success = value.toLowerCase() === trackList[trackNum].track.name.toLowerCase();
     post("/api/submitted",{gameCode: gameCode, user: userBuzz._id, sub: success, curr: trackNum, value: value, roundNum: trackNum});
   }
 

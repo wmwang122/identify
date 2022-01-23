@@ -75,11 +75,15 @@ router.get("/testPlaylists", async (req, res) => {
       clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
       redirectUri: process.env.CALLBACK_URI,
     });
+
     loggedInSpotifyApi.setRefreshToken(req.user.refreshToken);
     loggedInSpotifyApi.refreshAccessToken().then(async (data) => {
       console.log("Access Token Refreshed!");
       loggedInSpotifyApi.setAccessToken(data.body["access_token"]);
-      const result = await loggedInSpotifyApi.getAlbum("3oVCGd8gjANVb5r2F0M8BI");
+      const result = await loggedInSpotifyApi.getPlaylist("71306FBwQJMgcMsRLNQhzB");
+      console.log(result.body.tracks.items);
+      // const result = await loggedInSpotifyApi.getAlbum("3oVCGd8gjANVb5r2F0M8BI");
+      // console.log(result.body.tracks.items);
       res.status(200).send(result.body);
     });
   } catch (err) {

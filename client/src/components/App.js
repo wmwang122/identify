@@ -7,7 +7,6 @@ import Home from "./pages/Home/Home.js";
 import Profile from "./pages/Profile.js";
 import HowToPlay from "./pages/howtoplay.js";
 import InGame from "./pages/InGameComponents/InGame.js";
-import NewGame from "./pages/CreateGame/NewGame.js";
 
 
 import "../utilities.css";
@@ -79,7 +78,6 @@ const App = (props) => {
         <NotFound default />
         <HowToPlay path="/howtoplay" userId={userId} handleLogin={handleLogin}/>
         <InGame path="/game/:gameCode" userId={userId} name={name}/>
-        <NewGame path="/NewGame" userId={userId} />
       </Router>
     </>
   );
