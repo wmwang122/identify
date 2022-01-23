@@ -78,8 +78,9 @@ const InGame = (props) => {
   useEffect(() => {
     if (!trackList) {
       get("/api/testPlaylists").then((body) => {
-        setTrackList(body.tracks.items);
-      });
+        //setTrackList(body.tracks.items);
+        setTrackList(body);
+      }); 
     }
   }, []); //this useEffect should be deleted ASAP after playlists are added
 
@@ -204,16 +205,11 @@ const InGame = (props) => {
   };
 
   const handleOnSubmit = (value) => {
-    let success = value.toLowerCase() === trackList[trackNum].track.name.toLowerCase();
-    post("/api/submitted", {
-      gameCode: gameCode,
-      user: userBuzz._id,
-      sub: success,
-      curr: trackNum,
-      value: value,
-      roundNum: trackNum,
-    });
+    let success = value.toLowerCase() === trackList[trackNum].name.toLowerCase();
+    //trackList[trackNum].track.name.toLowerCase(); //ALSO PLS DONT RB
+    post("/api/submitted",{gameCode: gameCode, user: userBuzz._id, sub: success, curr: trackNum, value: value, roundNum: trackNum});
   };
+
 
   const handleSubmit = async (data) => {
     await handleTimerEnd(data.submission);
@@ -234,18 +230,15 @@ const InGame = (props) => {
           myAudio.pause();
         }
         if(trackList){
-          while(trackNum < trackList.length && !trackList[trackNum].track.preview_url){
+          while(trackNum < trackList.length && !trackList[trackNum].preview_url){
             trackList.splice(trackNum,1);
           }
           if(trackNum >= trackList.length){
             handleGameEnd();
           }
           else{
-            setMyAudio(new Audio(trackList[trackNum].track.preview_url));
+            setMyAudio(new Audio(trackList[trackNum].preview_url));
           }
-        }
-        if (trackList) {
-          setMyAudio(new Audio(trackList[trackNum].track.preview_url));
         }
         setAudioMounted(true);
       } else if (!audioMounted && !userBuzz) {
