@@ -245,7 +245,7 @@ const InGame = (props) => {
           }
         }
         if (trackList) {
-          setMyAudio(new Audio(trackList[trackNum].preview_url));
+          setMyAudio(new Audio(trackList[trackNum].track.preview_url));
         }
         setAudioMounted(true);
       } else if (!audioMounted && !userBuzz) {
