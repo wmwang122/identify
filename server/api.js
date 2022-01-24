@@ -32,6 +32,23 @@ const spotifyApi = new SpotifyWebApi({
 
 const games = new Map();
 const publicGames = [];
+function shuffle(array) {
+  let currentIndex = array.length,  randomIndex;
+
+  // While there remain elements to shuffle...
+  while (currentIndex != 0) {
+
+    // Pick a remaining element...
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex--;
+
+    // And swap it with the current element.
+    [array[currentIndex], array[randomIndex]] = [
+      array[randomIndex], array[currentIndex]];
+  }
+
+  return array;
+}
 
 const generateCode = (length) => {
   var code = "";
@@ -377,6 +394,34 @@ router.get("/searchSpotify", (req, res) => {
       }
       res.send(ans);
     });
+  });
+});
+
+router.get("/getPopularSongs", (req, res) => {
+  const loggedInSpotifyApi = new SpotifyWebApi({
+    clientId: process.env.SPOTIFY_API_ID,
+    clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
+    redirectUri: process.env.CALLBACK_URI,
+  });
+  loggedInSpotifyApi.setRefreshToken(req.user.refreshToken);
+  loggedInSpotifyApi.refreshAccessToken().then(async (data) => {
+    loggedInSpotifyApi.setAccessToken(data.body["access_token"]);
+    let result = await loggedInSpotifyApi.getPlaylist("37i9dQZF1DXcBWIGoYBM5M");
+    console.log(result.body.tracks.items[0].track);
+    result = result.body.tracks.items;
+    for(let i = 0; i < result.length; i++){
+      if(!result[i].track.preview_url){
+        result.splice(i,1);
+        i--;
+      }
+    }
+    result = shuffle(result);
+    result = result.slice(0,Math.min(10,result.length));
+    let ans = [];
+    for(let i = 0; i < result.length; i++){
+      ans.push(result[i].track);
+    }
+    return res.send(ans);
   });
 });
 

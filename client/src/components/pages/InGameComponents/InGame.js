@@ -122,8 +122,6 @@ const shuffle = (array) => {
       })
     };
 
-
-
     // console.log(createTrackList);
 
     // if (trackList) {
@@ -134,6 +132,14 @@ const shuffle = (array) => {
     //   }); 
     // }
   }, [playlistIDs]); //this useEffect should be deleted ASAP after playlists are added
+
+  useEffect(() => {
+    if(!trackList || trackList.length === 0){
+      get("/api/getPopularSongs",{}).then((body) =>{
+        setTrackList(body);
+      });
+    }
+  },[]);
 
   useEffect(() => {
     socket.on("new message", (message) => {
