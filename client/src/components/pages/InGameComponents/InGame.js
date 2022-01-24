@@ -10,6 +10,7 @@ import GameChat from "./GameChat.js";
 import GameLog from "./GameLog.js";
 import SelectSong from "./SelectSong.js";
 import SongInfo from "./SongInfo.js";
+import GameEndScreen from "./GameEndScreen.js";
 
 const InGame = (props) => {
   const [userData, setUserData] = useState([]);
@@ -29,6 +30,7 @@ const InGame = (props) => {
   const [hostName, setHostName] = useState(null);
   const [endingMessage, setEndingMessage] = useState("");
   const [savedSongs, setSavedSongs] = useState([]);
+  const [gameEnded, setGameEnded] = useState(false);
 
   let val = window.location.href;
   let gameCode = val.substring(val.length - 5, val.length);
@@ -288,11 +290,12 @@ const shuffle = (array) => {
   };
 
   const handleSaveSong = () => {
-    savedSongs.push(trackNum-1);
+    setSavedSongs([... savedSongs,trackNum-1]);
   }
 
   const handleGameEnd = () => {
     console.log("game has ended");
+    setGameEnded(true);
   }
 
   useEffect(() => {
@@ -402,9 +405,10 @@ const shuffle = (array) => {
   (<><div className="song-info-end">{endingMessage}
     <span className="song-name-end">{trackList[trackNum-1].name}</span>
     </div><SongInfo song = {trackList[trackNum-1]}/>
-    <div className="save-button-end" onClick = {() => handleSaveSong()}>save song for later</div></>);
+    <div className="save-button-end u-pointer" onClick = {() => handleSaveSong()}>save song for later</div></>);
 
   return (
+    <>
     <div className="inGame-container">
       <div className="inGame-container-left">
         <Scoreboard data={userData}/>
@@ -431,6 +435,13 @@ const shuffle = (array) => {
         name={props.name}
       />{" "}
     </div>
+    {gameEnded?<GameEndScreen 
+      leaderboard={userData.sort((userA,userB) =>{
+      return userA.score-userB.score;
+    }).slice(0,Math.min(3,userData.length))}
+      savedSongs={savedSongs}
+      trackList={trackList}/>:<div/>}
+    </>
   );
 };
 //TODOOOOO

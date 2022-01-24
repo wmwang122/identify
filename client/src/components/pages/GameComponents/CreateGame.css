@@ -36,7 +36,7 @@ label {
 }
 
 .create-button2 {
-  background-color: #86e7b8;
+  background-color: rgba(134,231,184,0.7);
   border: none;
   color: black;
   flex-direction: column;
@@ -53,6 +53,9 @@ label {
   padding-top: 3vh;
   border-radius: 10vh;
   /*position: absolute;*/
+}
+.create-button2:hover{
+  background-color: rgba(134,231,184,1);
 }
 
 .create-button:hover {

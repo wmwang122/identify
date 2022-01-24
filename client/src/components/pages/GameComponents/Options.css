@@ -20,7 +20,7 @@
 }
 
 .options-button2 {
-  background-color: #86e7b8;
+  background-color: rgba(134,231,184,0.7);
   border: none;
   color: black;
   flex-direction: column;
@@ -37,6 +37,9 @@
   padding-right: 2vw;
   border-radius: 10vh;
   /*position: absolute;*/
+}
+.options-button2:hover{
+  background-color: rgba(134,231,184,1);
 }
 
 /*.input{

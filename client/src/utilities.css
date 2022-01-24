@@ -172,7 +172,7 @@ form {
 
 ::-webkit-scrollbar {
   width: 2vh;
-  background-color: #f3ffed;
+  background-color: var(0,0,0,0);
 }
 
 ::-webkit-scrollbar-thumb {
