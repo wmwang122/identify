@@ -15,9 +15,19 @@
   background-color: #d0ffb7;
   padding: 10px;
   opacity: 100%;
+  width: 50vw;
   border-radius: 20px;
   z-index: 5;
+  text-align:center;
 }
+
+.showPlaylists {
+  width: 80%;
+  display: inline-block; 
+}
+
+
+
 
 .options-button2 {
   background-color: rgba(134,231,184,0.7);
