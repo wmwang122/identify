@@ -233,7 +233,7 @@ const InGame = (props) => {
     post("/api/submitted",{gameCode: gameCode, user: userBuzz, sub: success, curr: trackNum, value: value, roundNum: trackNum+1});
   };
 
-
+//initialize + new game 
   const handleSubmit = async (data) => {
     await handleTimerEnd(data.submission);
     if (data.submission) {
