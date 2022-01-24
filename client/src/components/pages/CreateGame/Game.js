@@ -4,6 +4,7 @@ import "./Game.css";
 import GameCodeInput from "./GameCodeInput.js";
 import CreateGame from "../GameComponents/CreateGame.js";
 import Options from "../GameComponents/Options.js";
+import PublicGames from "./PublicGames.js";
 const Game = (props) => {
   /*var optionsButton = props.userId ? (
     <>
@@ -40,6 +41,7 @@ const Game = (props) => {
           </div> 
           </div>
         </div>
+        <PublicGames/>
       </div>
     </div>
   );
