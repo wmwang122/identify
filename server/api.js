@@ -85,13 +85,13 @@ router.get("/testPlaylists", async (req, res) => {
       // const result = await loggedInSpotifyApi.getAlbum("3oVCGd8gjANVb5r2F0M8BI");
       // console.log(result.body.tracks.items);
       // res.status(200).send(result.body);
-     // res.status(200).send(result.body.tracks.items);
-     let trackList = [];
-     for (let i=0; i<result.body.tracks.items.length; i++) {
-       trackList.push(result.body.tracks.items[i].track);
-     };
-     //res.status(200).send(trackList);
-     res.status(200).send([]);
+      // res.status(200).send(result.body.tracks.items);
+      let trackList = [];
+      for (let i = 0; i < result.body.tracks.items.length; i++) {
+        trackList.push(result.body.tracks.items[i].track);
+      }
+      //res.status(200).send(trackList);
+      res.status(200).send([]);
     });
   } catch (err) {
     res.status(400).send(err);
@@ -268,6 +268,9 @@ router.post("/newGame", (req, res) => {
     roundOngoing: false,
   }); //maps gamecode to an array of game settings
   socketManager.addUserToGame(req.body.userId, code);
+  if (req.body.settings[0]) {
+    socketManager.getIo().emit("new public game", code);
+  }
   //socketManager.getIo().to(code).emit("new player", req.body.userId);
   res.send({ gameCode: code });
   // const game = new GameSchema({
@@ -338,7 +341,7 @@ router.post("/gameTimerUpdate", (req, res) => {
   res.send({});
 });
 
-router.get("/searchSpotify", (req,res) =>{
+router.get("/searchSpotify", (req, res) => {
   const loggedInSpotifyApi = new SpotifyWebApi({
     clientId: process.env.SPOTIFY_API_ID,
     clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
@@ -348,13 +351,13 @@ router.get("/searchSpotify", (req,res) =>{
   loggedInSpotifyApi.refreshAccessToken().then((data) => {
     loggedInSpotifyApi.setAccessToken(data.body["access_token"]);
     console.log("Query received: " + req.query.query);
-    loggedInSpotifyApi.searchTracks("track:"+req.query.query).then((data) =>{
+    loggedInSpotifyApi.searchTracks("track:" + req.query.query).then((data) => {
       ans = [];
-      for(let i = 0; i < data.body.tracks.items.length; i++){
-        if(ans.length >= 5){
+      for (let i = 0; i < data.body.tracks.items.length; i++) {
+        if (ans.length >= 5) {
           break;
         }
-        if(data.body.tracks.items[i].preview_url){
+        if (data.body.tracks.items[i].preview_url) {
           ans.push(data.body.tracks.items[i]);
         }
       }
@@ -363,14 +366,14 @@ router.get("/searchSpotify", (req,res) =>{
   });
 });
 
-router.post("/addSong",(req,res) =>{
+router.post("/addSong", (req, res) => {
   let game = games.get(req.body.gameCode);
   game.trackList.push(req.body.song);
   socketManager.getIo().to(req.body.gameCode).emit("added song", req.body.song);
   res.send({});
 });
 
-router.post("/testPlaylistsInitialize", (req,res) => {
+router.post("/testPlaylistsInitialize", (req, res) => {
   let game = games.get(req.body.gameCode);
   game.trackList = req.body.data;
   res.send({});
