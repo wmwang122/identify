@@ -32,6 +32,9 @@ const InGame = (props) => {
 
   let val = window.location.href;
   let gameCode = val.substring(val.length - 5, val.length);
+  window.addEventListener("beforeunload", function(e){
+    console.log("window closed?");
+  },false);
   const handleBuzz = async (event) => {
     if (roundOngoing && !userBuzz) {
       post("/api/buzz", {

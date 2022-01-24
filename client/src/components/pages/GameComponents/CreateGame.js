@@ -32,12 +32,13 @@ const CreateGame = (props) => {
   };
 
   return (
-    <div className="create-button u-pointer">
-      <div className="create-text" onClick={startGame}>
+    <div className="create-button2 u-pointer" onClick={startGame}>
+      <div className="create-text">
         {/* <Link to={"/game/"+gameCode}> */}
         Quick Create
         {/* </Link> */}
       </div>
+      <div className="create-description">Create a new, public Identify room with default settings!</div>
     </div>
   );
 };

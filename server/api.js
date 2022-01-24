@@ -31,6 +31,7 @@ const spotifyApi = new SpotifyWebApi({
 });
 
 const games = new Map();
+const publicGames = [];
 
 const generateCode = (length) => {
   var code = "";
@@ -266,11 +267,11 @@ router.post("/newGame", (req, res) => {
   }
   games.set(code, {
     settings: req.body.settings,
-    userData: [{ _id: req.body.userId, name: req.body.name, score: 0 }],
+    userData: [{ _id: req.body.userId, name: req.body.name, score: 0, active: true}],
     userBuzz: null,
     gameChat: [],
     gameLog: [],
-    hostName: req.body.hostName, //I JUST ADDED
+    hostName: req.body.hostName,
     playlistIDs: req.body.settings.playlistIDs,  
     trackList: [],
     trackNum: 0,
@@ -279,12 +280,17 @@ router.post("/newGame", (req, res) => {
     roundOngoing: false,
   }); //maps gamecode to an array of game settings
   socketManager.addUserToGame(req.body.userId, code);
-  if (req.body.settings[0]) {
+  if (req.body.settings.isPublic) {
+    console.log("public game made");
+    publicGames.push(code);
     socketManager.getIo().emit("new public game", code);
   }
   //socketManager.getIo().to(code).emit("new player", req.body.userId);
   res.send({ gameCode: code });
-  console.log("THIS GETS CALLED");
+});
+
+router.get("/getPublicCodes", (req,res) =>{
+  res.send(publicGames);
 });
 
 router.post("/joinGame", (req, res) => {
@@ -299,7 +305,7 @@ router.post("/joinGame", (req, res) => {
       }
     }
     if (flag) {
-      game.userData.push({ _id: req.body.userId, name: req.body.name, score: 0 });
+      game.userData.push({ _id: req.body.userId, name: req.body.name, score: 0, active: true});
       socketManager.getIo().to(req.body.gameCode).emit("new player", req.body.userId);
     }
     res.send({

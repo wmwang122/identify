@@ -18,31 +18,31 @@ const Game = (props) => {
     </div>
   ); */
   return (
-    <div className="u-flex u-flex-alignCenter u-flex-alignVertical">
-      <div id="Game">
-        <div className="game-panel">
-          {/* <div className="buttons"> */}
-            <div className="create">
-              <div className="create-game-box">Create a Game</div>
-                <div className="actual-buttons">
-                  <CreateGame userId = {props.userId} name= {props.name}/>
-                  <Options userId = {props.userId} name = {props.name}/>
-                </div>
-            </div>
-            <div className="rand-line"></div>
-            <div className="join">
-              <div className="join-game-box">
-              <div> Join a Game </div>
-              <div className="enterGameCode"> enter game code: </div>
-              <div className="enterCode-button">
+    <div className ="gamePage-container">
+        <div className="gameJoin-container">
+      <div className = "createGame-panel">
+        <div className = "create-game-text">create a new game</div>
+        <div className="actual-buttons">
+            <CreateGame userId = {props.userId} name= {props.name}/>
+            <Options userId = {props.userId} name = {props.name}/>
+          </div>
+      </div>
+      <div className = "joinGame-container">
+      <div className = "joinGame-panel">
+      <div className="join-game-box">
+              <div className = "join-game-text"> join a game </div>
+              <div className = "join-game-input-container">code: <div>
                 <GameCodeInput userId={props.userId} name={props.name}/>
-              </div>
+              </div></div>
           {/* </div> */}
           </div> 
-          </div>
-        </div>
-        <PublicGames/>
       </div>
+      <div className = "joinGame-description">
+      Either create a game on the left, join a game using a code above, or browse all the public games below! Make sure to read the instructions before you play. Hope you have fun!
+      </div>
+      </div>
+    </div>
+        <PublicGames/>  
     </div>
   );
 };
