@@ -58,9 +58,7 @@ const InGame = (props) => {
       setPlaylistIDs(data.playlistIDs);
       setSongTimeLeft(data.songTimeLeft);
       setTrackList(data.trackList);
-      console.log("data.playlistIDs: " + data.playlistIDs);
       setEndingMessage(data.endingMessage);
-      console.log("initialize");
     });
   };
 
@@ -85,24 +83,20 @@ const InGame = (props) => {
   },[userData])
 
   useEffect(() => {
-    console.log("DOES THIS EVEN GET CALLED");
-
-
     let createTrackList = [];
-    console.log("inside the use effect that makes test playlist api call");
     console.log(playlistIDs);
 
     for (let i=0; i<playlistIDs.length; i++) {
       get("/api/testPlaylists", {playlistID: playlistIDs[i]}).then((body) =>{
-        console.log(body.length);
-        console.log(body);
+        // console.log(body.length);
+        // console.log(body);
         createTrackList = createTrackList.concat(body);
         setTrackList(createTrackList);
-        console.log(createTrackList);
+        // console.log(createTrackList);
       })
     };
 
-    console.log(createTrackList);
+    // console.log(createTrackList);
 
     // if (trackList) {
     //   get("/api/testPlaylists", {playlistIDs}).then((body) => {
