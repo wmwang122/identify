@@ -44,6 +44,24 @@ const InGame = (props) => {
     }
   };
 
+const shuffle = (array) => {
+  let currentIndex = array.length;
+  let randomIndex = 0;
+
+  while (currentIndex != 0) {
+
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex--;
+
+    [array[currentIndex], array[randomIndex]] = [
+      array[randomIndex], array[currentIndex]];
+  }
+
+  return array;
+};
+
+
+
   const initialize = () => {
     get("/api/getGameData", { code: gameCode }).then((data) => {
       console.log(JSON.stringify(data));
@@ -86,14 +104,20 @@ const InGame = (props) => {
     let createTrackList = [];
 
     for (let i=0; i<playlistIDs.length; i++) {
-      get("/api/testPlaylists", {playlistID: playlistIDs[i]}).then((body) =>{
+       get("/api/testPlaylists", {playlistID: playlistIDs[i]}).then((body) =>{
         // console.log(body.length);
         // console.log(body);
         createTrackList = createTrackList.concat(body);
-        setTrackList(createTrackList);
         // console.log(createTrackList);
+        setTrackList(createTrackList);
+        if (i===(playlistIDs.length-1)) {
+          setTrackList(shuffle(createTrackList));
+        };
+
       })
     };
+
+
 
     // console.log(createTrackList);
 
