@@ -9,6 +9,7 @@ import InputAnswer from "./InputAnswer.js";
 import GameChat from "./GameChat.js";
 import GameLog from "./GameLog.js";
 import SelectSong from "./SelectSong.js";
+import SongInfo from "./SongInfo.js";
 
 const InGame = (props) => {
   const [userData, setUserData] = useState([]);
@@ -16,7 +17,6 @@ const InGame = (props) => {
   const [trackList, setTrackList] = useState(null);
   const [trackNum, setTrackNum] = useState(0);
   const [myAudio, setMyAudio] = useState(null);
-  const [playingNum, setPlayingNum] = useState(null);
   const [resetTimer, setResetTimer] = useState(false);
   const [roundOngoing, setRoundOngoing] = useState(false);
   const [canBuzz, setCanBuzz] = useState(false);
@@ -26,10 +26,11 @@ const InGame = (props) => {
   const [songTimeLeft, setSongTimeLeft] = useState(30);
   const [audioMounted, setAudioMounted] = useState(false);
   const [hostName, setHostName] = useState(null);
+  const [endingMessage, setEndingMessage] = useState("");
+  const [savedSongs, setSavedSongs] = useState([]);
 
   let val = window.location.href;
   let gameCode = val.substring(val.length - 5, val.length);
-
   const handleBuzz = async (event) => {
     if (roundOngoing && !userBuzz) {
       post("/api/buzz", {
@@ -55,13 +56,11 @@ const InGame = (props) => {
       setHostName(data.hostName);
       setTrackList(data.trackList);
       setSongTimeLeft(data.songTimeLeft);
+      setEndingMessage(data.endingMessage);
       console.log("initialize");
     });
   };
 
-  useEffect(() => {
-    console.log(songTimeLeft);
-  });
   useEffect(() => {
     for (let i = 0; i < userData.length; i++) {
       if (!userData[i].name) {
@@ -75,6 +74,12 @@ const InGame = (props) => {
   useEffect(() => {
     initialize();
   }, []);
+
+  useEffect(()=>{
+    userData.sort((userA,userB) =>{
+      return userA.score-userB.score;
+    });
+  },[userData])
 
   useEffect(() => {
     if (!trackList) {
@@ -139,6 +144,10 @@ const InGame = (props) => {
       socket.off("added song");
     }
   });
+
+  useEffect(() => {
+    post("/api/updateSongTimeLeft", {gameCode: gameCode, songTimeLeft: songTimeLeft});
+  },[songTimeLeft]);
 
   useEffect(() => {
     if (userBuzz) {
@@ -206,20 +215,22 @@ const InGame = (props) => {
   }
 
   const handleRoundStart = () => {
-    setRoundOngoing(true);
-    post("/api/roundStart", { gameCode: gameCode }).then(() => {
-      myAudio.play();
-    });
+    post("/api/roundStart", { gameCode: gameCode })
   };
   const handleRoundStartedByUser = (data) => {
-    setRoundOngoing(true);
-    myAudio.play();
+    if(trackNum < trackList.length){
+      setRoundOngoing(true);
+      myAudio.play();
+    }
+    else{
+      handleGameEnd();
+    }
   };
 
   const handleOnSubmit = (value) => {
     let success = value.toLowerCase() === trackList[trackNum].name.toLowerCase();
     //trackList[trackNum].track.name.toLowerCase(); //ALSO PLS DONT RB
-    post("/api/submitted",{gameCode: gameCode, user: userBuzz._id, sub: success, curr: trackNum, value: value, roundNum: trackNum+1});
+    post("/api/submitted",{gameCode: gameCode, user: userBuzz, sub: success, curr: trackNum, value: value, roundNum: trackNum+1});
   };
 
 
@@ -227,9 +238,16 @@ const InGame = (props) => {
     await handleTimerEnd(data.submission);
     if (data.submission) {
       setRoundOngoing(false);
+      let message = data.name + " got the correct answer: ";
+      setEndingMessage(message);
+      post("/api/setEndingMessage",{message: message, gameCode: gameCode});
     }
     setResetTimer(true);
   };
+
+  const handleSaveSong = () => {
+    savedSongs.push(trackNum-1);
+  }
 
   const handleGameEnd = () => {
     console.log("game has ended");
@@ -247,7 +265,7 @@ const InGame = (props) => {
             trackList.splice(trackNum,1);
           }
           if(trackNum >= trackList.length){
-            handleGameEnd();
+            console.log("no more songs");
           }
           else{
             setMyAudio(new Audio(trackList[trackNum].preview_url));
@@ -272,6 +290,9 @@ const InGame = (props) => {
 
   const handleSongEnd = () => {
     post("/api/songEnded", { gameCode: gameCode, song: trackList[trackNum], roundNum: trackNum+1 });
+    let message = "The timer has ended! The song was: ";
+    setEndingMessage(message);
+    post("/api/setEndingMessage",{message: message, gameCode: gameCode});
     setTrackNum(trackNum + 1);
     setRoundOngoing(false);
   };
@@ -324,11 +345,22 @@ const InGame = (props) => {
     </div>
   ) : (
     <div className={"u-pointer inGame-next-button"} onClick={() => handleRoundStart()}>
-      Proceed to Next Round
+      {!trackList || trackNum===trackList.length ? "end game" : "proceed to next round"}
     </div>
   );
   let countdownState = userBuzz ? "" : "u-hidden";
   let buzzTextState = userBuzz ? "u-hidden" : "";
+  let gameMainComponent = (roundOngoing||trackNum===0||!trackList||trackList.length===0)?(<><div className="song-info">{songInfo}</div>
+  <div className={"game-buzzer u-noSelect " + buzzerState} onClick={() => handleBuzz()}>
+    <div className="inGame-buzzer-text-container">
+      <div className={buzzTextState + " inGame-buzzer-text"}>buzz</div>
+      <div className={countdownState + " inGame-buzzer-text"}>{countdownTimer}</div>
+    </div>
+  </div></>):
+  (<><div className="song-info-end">{endingMessage}
+    <span className="song-name-end">{trackList[trackNum-1].name}</span>
+    </div><SongInfo song = {trackList[trackNum-1]}/>
+    <div className="save-button-end" onClick = {() => handleSaveSong()}>save song for later</div></>);
 
   return (
     <div className="inGame-container">
@@ -336,19 +368,13 @@ const InGame = (props) => {
         <Scoreboard data={userData}/>
         <SelectSong handleAddSong = {(song) => handleAddSong(song)}/>
       </div>
+      <div className="inGame-vertical-line"/>
       <div className="inGame-container-main">
-        {/**I CHANGED THIS!!!!!!! Originally was "Wiwa's Game" */}
         <div className="inGame-header">
           <div className="inGame-title">{hostName}'s Game</div>
           <div>Room Code: {gameCode}</div>
         </div>
-        <div className="song-info">{songInfo}</div>
-        <div className={"game-buzzer u-noSelect " + buzzerState} onClick={() => handleBuzz()}>
-          <div className="inGame-buzzer-text-container">
-            <div className={buzzTextState + " inGame-buzzer-text"}>buzz</div>
-            <div className={countdownState + " inGame-buzzer-text"}>{countdownTimer}</div>
-          </div>
-        </div>
+        {gameMainComponent}
         {textBox}
       </div>
       <br></br>

@@ -213,7 +213,7 @@ router.post("/submitted", (req, res) => {
   let game = games.get(req.body.gameCode);
   if (req.body.sub) {
     for (let i = 0; i < game.userData.length; i++) {
-      if (game.userData[i]._id === req.body.user) {
+      if (game.userData[i]._id === req.body.user._id) {
         game.userData[i].score++;
         break;
       }
@@ -226,7 +226,7 @@ router.post("/submitted", (req, res) => {
   };
   game.gameLog.push(newMessage);
   socketManager.getIo().to(req.body.gameCode).emit("new log", newMessage);
-  socketManager.getIo().to(req.body.gameCode).emit("submitted", { submission: req.body.sub });
+  socketManager.getIo().to(req.body.gameCode).emit("submitted", { submission: req.body.sub, name: req.body.user.name });
   res.send({});
 });
 
@@ -254,7 +254,6 @@ router.post("/newGame", (req, res) => {
   while (games.get(code)) {
     code = generateCode(5);
   }
-  console.log("hi1");
   games.set(code, {
     settings: req.body.settings,
     userData: [{ _id: req.body.userId, name: req.body.name, score: 0 }],
@@ -265,6 +264,7 @@ router.post("/newGame", (req, res) => {
     //trackList: req.body.settings.trackList, add once settings can add playlists
     trackNum: 0,
     trackList: [],
+    endingMessage: "",
     songTimeLeft: 30,
     roundOngoing: false,
   }); //maps gamecode to an array of game settings
@@ -376,6 +376,18 @@ router.post("/testPlaylistsInitialize", (req,res) => {
   game.trackList = req.body.data;
   res.send({});
 });
+
+router.post("/updateSongTimeLeft", (req,res) =>{
+  let game = games.get(req.body.gameCode);
+  game.songTimeLeft = req.body.songTimeLeft;
+  res.send({});
+});
+
+router.post("/setEndingMessage", (req,res) =>{
+  let game = games.get(req.body.gameCode);
+  game.endingMessage = req.body.message;
+  res.send({});
+})
 
 /*router.get("/getGame",(req,res) =>{
   GameSchema.findOne({gameCode: req.query.code}).then((game)=>{
