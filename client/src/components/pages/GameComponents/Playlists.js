@@ -19,9 +19,9 @@ const Playlists = (props) => {
 
 
     return (
-     <div> 
+     <div className = "row"> 
      {playlists.map((playlist) => (
-       <DisplayPlaylist playlistName = {playlist.name} playlistID = {playlist.id} selectedPlaylists = {props.selectedPlaylists}/>
+       <DisplayPlaylist playlistImage = {playlist.images[0]} playlistName = {playlist.name} playlistID = {playlist.id} selectedPlaylists = {props.selectedPlaylists}/>
 
      ))}
      </div>

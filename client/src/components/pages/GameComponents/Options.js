@@ -70,13 +70,15 @@ const Options = (props) => {
             <div className="title" onClick={() => setDisplayPop(event)}>
               cancel
             </div>
-
-          </div>
-          <div> 
-          {displayPlaylists} </div> 
-          <div onClick={() => submitGameOptions(event)} className="title"> 
+            <div onClick={() => submitGameOptions(event)} className="title"> 
           submit
           </div>
+        
+
+          </div>
+    
+          
+      {displayPlaylists}
         </div>
       </>
     ) : (
@@ -129,51 +131,7 @@ const Options = (props) => {
     </>
   );
 
-  return (
-    <div className="popup">
-      <div className="title column">advanced options</div>
-      <div className="row space_between">
-        <div className="text"> make game public </div>
-        <input type="checkbox" name="switch" id="switch" onClick={handlePublic} />
-        <label for="switch"></label>
-        <div className="text"> use my own playlists </div>
-        <input type="checkbox" name="switch" id="switch2" />
-        <label for="switch2"></label>
-      </div>
-      <div className="row space_between">
-        <div className="text">
-          num of questions:
-          <div>
-            <input
-              type="number"
-              id="questions"
-              name="questions"
-              min="0"
-              max="10000"
-              onChange={handleQuestions}
-            ></input>
-          </div>
-        </div>
-        <div className="row space_between">
-            time to answer:
-            <input
-              type="number"
-              id="time"
-              name="time"
-              min="0"
-              max="10000"
-              onChange={handleTime}
-            ></input>
-        </div>
-      </div>
-      <div className="row space_evenly">
-        <div className="title"> cancel </div>
-        <div onClick={() => submitGameOptions()} className="title">
-          submit
-        </div>
-      </div>
-    </div>
-  );
+  
 
 };
 
