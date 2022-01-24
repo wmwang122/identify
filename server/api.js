@@ -80,18 +80,13 @@ router.get("/testPlaylists", async (req, res) => {
     loggedInSpotifyApi.refreshAccessToken().then(async (data) => {
       console.log("Access Token Refreshed!");
       loggedInSpotifyApi.setAccessToken(data.body["access_token"]);
-      const result = await loggedInSpotifyApi.getPlaylist("71306FBwQJMgcMsRLNQhzB");
-      console.log(result.body.tracks.items);
-      // const result = await loggedInSpotifyApi.getAlbum("3oVCGd8gjANVb5r2F0M8BI");
-      // console.log(result.body.tracks.items);
-      // res.status(200).send(result.body);
-     // res.status(200).send(result.body.tracks.items);
-     let trackList = [];
-     for (let i=0; i<result.body.tracks.items.length; i++) {
-       trackList.push(result.body.tracks.items[i].track);
-     };
-     //res.status(200).send(trackList);
-     res.status(200).send([]);
+      console.log(req.query.playlistID);
+      const result = await loggedInSpotifyApi.getPlaylist(req.query.playlistID);
+      let trackList = [];
+      for (let i=0; i<result.body.tracks.items.length; i++) {
+        trackList.push(result.body.tracks.items[i].track);
+      };
+     res.status(200).send(trackList);
     });
   } catch (err) {
     res.status(400).send(err);
@@ -254,7 +249,6 @@ router.post("/newGame", (req, res) => {
   while (games.get(code)) {
     code = generateCode(5);
   }
-  console.log("hi1");
   games.set(code, {
     settings: req.body.settings,
     userData: [{ _id: req.body.userId, name: req.body.name, score: 0 }],
@@ -262,19 +256,16 @@ router.post("/newGame", (req, res) => {
     gameChat: [],
     gameLog: [],
     hostName: req.body.hostName, //I JUST ADDED
-    //trackList: req.body.settings.trackList, add once settings can add playlists
-    trackNum: 0,
+    playlistIDs: req.body.settings.playlistIDs,  
     trackList: [],
+    trackNum: 0,
     songTimeLeft: 30,
     roundOngoing: false,
   }); //maps gamecode to an array of game settings
   socketManager.addUserToGame(req.body.userId, code);
   //socketManager.getIo().to(code).emit("new player", req.body.userId);
   res.send({ gameCode: code });
-  // const game = new GameSchema({
-  //   gameCode: code,
-  // });
-  // game.save();
+  console.log("THIS GETS CALLED");
 });
 
 router.post("/joinGame", (req, res) => {
@@ -376,6 +367,8 @@ router.post("/testPlaylistsInitialize", (req,res) => {
   game.trackList = req.body.data;
   res.send({});
 });
+
+
 
 /*router.get("/getGame",(req,res) =>{
   GameSchema.findOne({gameCode: req.query.code}).then((game)=>{

@@ -14,6 +14,7 @@ const InGame = (props) => {
   const [userData, setUserData] = useState([]);
   const [userBuzz, setUserBuzz] = useState(null);
   const [trackList, setTrackList] = useState(null);
+  const [playlistIDs, setPlaylistIDs] = useState([]);
   const [trackNum, setTrackNum] = useState(0);
   const [myAudio, setMyAudio] = useState(null);
   const [playingNum, setPlayingNum] = useState(null);
@@ -53,9 +54,10 @@ const InGame = (props) => {
       setGameLog(data.gameLog);
       setRoundOngoing(data.roundOngoing);
       setHostName(data.hostName);
-      setTrackList(data.trackList);
+      setPlaylistIDs(data.playlistIDs);
       setSongTimeLeft(data.songTimeLeft);
-      console.log("initialize");
+      setTrackList(data.trackList);
+      console.log("data.playlistIDs: " + data.playlistIDs);
     });
   };
 
@@ -77,14 +79,33 @@ const InGame = (props) => {
   }, []);
 
   useEffect(() => {
-    if (!trackList) {
-      get("/api/testPlaylists").then((body) => {
-        //setTrackList(body.tracks.items);
-        setTrackList(body);
-        post("/api/testPlaylistsInitialize",{data: body, gameCode: gameCode});
-      }); 
-    }
-  }, []); //this useEffect should be deleted ASAP after playlists are added
+    console.log("DOES THIS EVEN GET CALLED");
+
+
+    let createTrackList = [];
+    console.log("inside the use effect that makes test playlist api call");
+    console.log(playlistIDs);
+
+    for (let i=0; i<playlistIDs.length; i++) {
+      get("/api/testPlaylists", {playlistID: playlistIDs[i]}).then((body) =>{
+        console.log(body.length);
+        console.log(body);
+        createTrackList = createTrackList.concat(body);
+        setTrackList(createTrackList);
+        console.log(createTrackList);
+      })
+    };
+
+    console.log(createTrackList);
+
+    // if (trackList) {
+    //   get("/api/testPlaylists", {playlistIDs}).then((body) => {
+    //     setTrackList(body);
+
+    // //    post("/api/testPlaylistsInitialize",{data: body, gameCode: gameCode});
+    //   }); 
+    // }
+  }, [playlistIDs]); //this useEffect should be deleted ASAP after playlists are added
 
   useEffect(() => {
     socket.on("new message", (message) => {
