@@ -8,12 +8,21 @@ import Playlists from "./Playlists.js";
 const Options = (props) => {
   const [displayPop, setDisplayPop] = useState(false);
   const [isPublic, setVisible] = useState(false);
-  const [wantsOwnPlaylist, setPlaylist] = useState(false);
+  const [wantsOwnPlaylist, setWantsOwnPlaylist] = useState(false);
   const [numberQuestions, setQuestions] = useState(0);
   const [time, setTime] = useState(0);
   const [playlists, setPlaylists] = useState([]);
 
   let gameSettings = {isPublic:isPublic, wantsOwnPlaylist:wantsOwnPlaylist, numberQuestions:numberQuestions, time:time, playlistIDs:playlists};
+
+  let displayPlaylists = wantsOwnPlaylist ? (
+    <div>
+    <Playlists selectedPlaylists={playlists}/>
+    </div>
+  ) : (
+    <div>
+    </div>
+  );
 
   let PopUpBox =
     displayPop === true ? (
@@ -26,7 +35,7 @@ const Options = (props) => {
             <input type="checkbox" name="switch" id="switch" onClick={() => handlePublic(event)} />
             <label for="switch"></label>
             <div className="text"> use my own playlists </div>
-            <input type="checkbox" name="switch" id="switch2" />
+            <input type="checkbox" name="switch" id="switch2" onClick={() => handleWantsOwnPlaylist(event)}/>
             <label for="switch2"></label>
           </div>
           <div className="row space_between">
@@ -63,10 +72,11 @@ const Options = (props) => {
             </div>
 
           </div>
-          <Playlists selectedPlaylists={playlists}/> 
+          <div> 
+          {displayPlaylists} </div> 
           <div onClick={() => submitGameOptions(event)} className="title"> 
           submit
-          </div> 
+          </div>
         </div>
       </>
     ) : (
@@ -77,12 +87,8 @@ const Options = (props) => {
     setDisplayPop(!displayPop);
   };
 
-  const handlePlaylist = () => {
-    setPlaylist(true);
-  };
-
-  const handleNoPlaylist = () => {
-    setPlaylist(false);
+  const handleWantsOwnPlaylist = () => {
+    setWantsOwnPlaylist(!wantsOwnPlaylist);
   };
 
   const handlePublic = () => {
@@ -99,10 +105,6 @@ const Options = (props) => {
     console.log(event.target.value);
   };
 
-  const handleNiceFriends = (props) => {
-    hasNiceFriends = !hasNiceFriends;
-  };
-
   const submitGameOptions = () => {
     console.log(JSON.stringify(gameSettings));
     post("/api/newGame", { settings: gameSettings, userId: props.userId, name: props.name,hostName: props.name,}).then((gameInfo) => {
@@ -111,14 +113,7 @@ const Options = (props) => {
   };
 
 
-  /*let displayPlaylist = wantsOwnPlaylist ? (
-    <div className="playlist-display">
-    <Playlists />
-    </div>
-  ) : (
-    <div className="no-playlist-display">
-    </div>
-  );*/
+
 
   return (
     <div className="options-button2 u-pointer" onClick={PopUp}>
