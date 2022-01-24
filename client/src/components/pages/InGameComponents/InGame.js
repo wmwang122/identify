@@ -57,13 +57,10 @@ const InGame = (props) => {
       setHostName(data.hostName);
       setPlaylistIDs(data.playlistIDs);
       setSongTimeLeft(data.songTimeLeft);
-<<<<<<< HEAD
       setTrackList(data.trackList);
       console.log("data.playlistIDs: " + data.playlistIDs);
-=======
       setEndingMessage(data.endingMessage);
       console.log("initialize");
->>>>>>> f621cf5309c082dadb53d1e3e7ebb1a8d92114cc
     });
   };
 
