@@ -9,8 +9,10 @@ const Profile = (props) => {
     const [userName, setUserName] = useState("");
     const [bio, setBio] = useState("");
     const [pfp, setPfp] = useState("");
-    const [value, setValue] = useState("");
+    const [bioValue, setBioValue] = useState("");
     const [bioEditOn, toggleBioEdit] = useState(false);
+    const [nameEditOn, setNameEditOn] = useState(false);
+    const [nameValue, setNameValue] = useState("");
     useEffect(() => {
         let isMounted = true;
         if(isMounted){
@@ -48,28 +50,56 @@ const Profile = (props) => {
         reader.readAsDataURL(this.files[0]);
         });
     }
-    const handleChange = (event) => {
-        setValue(event.target.value);
+    const handleBioChange = (event) => {
+        setBioValue(event.target.value);
     };
     const handleSubmit = (event) => {
         event.preventDefault();
-        props.onSubmit({v: value});
-        setBio(value);  
-        setValue("");
+        props.onSubmit({v: bioValue});
+        setBio(bioValue);  
+        setBioValue("");
         toggleBioEdit(!bioEditOn);
     };
     const handleBioEdit = (event) => {
-        setValue(bio);
-        toggleBioEdit(!bioEditOn);
+        if(!nameEditOn){
+            setBioValue(bio);
+            toggleBioEdit(!bioEditOn);
+        }
     };
 
     const handleUsernameChange = (event) => {
-        console.log("todo");
+        if(!bioEditOn){
+            setNameValue(userName);
+            setNameEditOn(!nameEditOn);
+        }
     };
+
+    const handleNameValueChange = (event) => {
+        setNameValue(event.target.value);
+    }
+    const handleNameChangeCancel = (event) => {
+        setNameValue(userName);
+        toggleBioEdit(false);
+    }
+    const handleNameValueSubmit = (event) => {
+        if(event.which === 13){
+            setNameEditOn(false);
+            setUserName(nameValue);
+            post("/api/nameChange", {newName: nameValue, userId: props.userId}).then(() =>{
+                window.location.reload();
+            });
+        }
+    }
+    const nameField = nameEditOn?(<div><input type="text" 
+        value={nameValue} 
+        onChange={handleNameValueChange}
+        onKeyPress={handleNameValueSubmit}
+        onBlur = {handleNameChangeCancel}
+        className = "inputNameValue"/></div>):(<><div>{userName}</div><div className="name-edit u-pointer" onClick={() => handleUsernameChange()}>✎</div></>);
     const bioField = bioEditOn?(<div className="bio-subContainer"><textarea
         type="text"
-        value={value}
-        onChange={handleChange}
+        value={bioValue}
+        onChange={handleBioChange}
     />
     <div
         className="submitBioEdit-button u-background-turquoise u-pointer"
@@ -92,7 +122,7 @@ const Profile = (props) => {
                     {added code ends*/}
                 </div>
                 <div className="bio-container">
-                    <div className="profile-title"><div>{userName}</div><div className="name-edit u-pointer" onClick={handleUsernameChange}>✎</div></div>
+                    <div className="profile-title">{nameField}</div>
                     {bioField}
                 </div>
             </div>

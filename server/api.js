@@ -80,7 +80,7 @@ router.get("/testPlaylists", async (req, res) => {
     loggedInSpotifyApi.refreshAccessToken().then(async (data) => {
       console.log("Access Token Refreshed!");
       loggedInSpotifyApi.setAccessToken(data.body["access_token"]);
-      const result = await loggedInSpotifyApi.getPlaylist("71306FBwQJMgcMsRLNQhzB");
+      const result = await loggedInSpotifyApi.getPlaylist("298KKeccSUTyyehrAJzZ9r");
       console.log(result.body.tracks.items);
       // const result = await loggedInSpotifyApi.getAlbum("3oVCGd8gjANVb5r2F0M8BI");
       // console.log(result.body.tracks.items);
@@ -90,8 +90,8 @@ router.get("/testPlaylists", async (req, res) => {
      for (let i=0; i<result.body.tracks.items.length; i++) {
        trackList.push(result.body.tracks.items[i].track);
      };
-     //res.status(200).send(trackList);
-     res.status(200).send([]);
+     res.status(200).send(trackList);
+     //res.status(200).send([]);
     });
   } catch (err) {
     res.status(400).send(err);
@@ -148,7 +148,19 @@ router.post("/bioUpdate", (req, res) => {
       });
     });
   }
-  res.send();
+  res.send({});
+});
+
+router.post("/nameChange", (req,res) =>{
+  if(req.body.userId){
+    User.findOne({_id: req.body.userId}).then((user)=>{
+      user.name = req.body.newName;
+      user.save().then((value)=>{
+        console.log(value.name);
+      });
+    });
+  }
+  res.send({});
 });
 
 router.post("/pfpUpdate", (req, res) => {
