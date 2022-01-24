@@ -12,7 +12,7 @@ const Countdown = (props) => {
     setIsActive(!isActive);
   }
 
-  function reset() {
+  const reset = () => {
     setIsActive(false);
     setTimeLeft(props.time);
   }

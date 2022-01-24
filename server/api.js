@@ -80,7 +80,7 @@ router.get("/testPlaylists", async (req, res) => {
     loggedInSpotifyApi.refreshAccessToken().then(async (data) => {
       console.log("Access Token Refreshed!");
       loggedInSpotifyApi.setAccessToken(data.body["access_token"]);
-      const result = await loggedInSpotifyApi.getPlaylist("71306FBwQJMgcMsRLNQhzB");
+      const result = await loggedInSpotifyApi.getPlaylist("298KKeccSUTyyehrAJzZ9r");
       console.log(result.body.tracks.items);
       // const result = await loggedInSpotifyApi.getAlbum("3oVCGd8gjANVb5r2F0M8BI");
       // console.log(result.body.tracks.items);
@@ -90,8 +90,8 @@ router.get("/testPlaylists", async (req, res) => {
       for (let i = 0; i < result.body.tracks.items.length; i++) {
         trackList.push(result.body.tracks.items[i].track);
       }
-      //res.status(200).send(trackList);
-      res.status(200).send([]);
+      res.status(200).send(trackList);
+      //res.status(200).send([]);
     });
   } catch (err) {
     res.status(400).send(err);
@@ -148,7 +148,19 @@ router.post("/bioUpdate", (req, res) => {
       });
     });
   }
-  res.send();
+  res.send({});
+});
+
+router.post("/nameChange", (req, res) => {
+  if (req.body.userId) {
+    User.findOne({ _id: req.body.userId }).then((user) => {
+      user.name = req.body.newName;
+      user.save().then((value) => {
+        console.log(value.name);
+      });
+    });
+  }
+  res.send({});
 });
 
 router.post("/pfpUpdate", (req, res) => {
@@ -213,7 +225,7 @@ router.post("/submitted", (req, res) => {
   let game = games.get(req.body.gameCode);
   if (req.body.sub) {
     for (let i = 0; i < game.userData.length; i++) {
-      if (game.userData[i]._id === req.body.user) {
+      if (game.userData[i]._id === req.body.user._id) {
         game.userData[i].score++;
         break;
       }
@@ -226,7 +238,10 @@ router.post("/submitted", (req, res) => {
   };
   game.gameLog.push(newMessage);
   socketManager.getIo().to(req.body.gameCode).emit("new log", newMessage);
-  socketManager.getIo().to(req.body.gameCode).emit("submitted", { submission: req.body.sub });
+  socketManager
+    .getIo()
+    .to(req.body.gameCode)
+    .emit("submitted", { submission: req.body.sub, name: req.body.user.name });
   res.send({});
 });
 
@@ -264,6 +279,7 @@ router.post("/newGame", (req, res) => {
     //trackList: req.body.settings.trackList, add once settings can add playlists
     trackNum: 0,
     trackList: [],
+    endingMessage: "",
     songTimeLeft: 30,
     roundOngoing: false,
   }); //maps gamecode to an array of game settings
@@ -376,6 +392,18 @@ router.post("/addSong", (req, res) => {
 router.post("/testPlaylistsInitialize", (req, res) => {
   let game = games.get(req.body.gameCode);
   game.trackList = req.body.data;
+  res.send({});
+});
+
+router.post("/updateSongTimeLeft", (req, res) => {
+  let game = games.get(req.body.gameCode);
+  game.songTimeLeft = req.body.songTimeLeft;
+  res.send({});
+});
+
+router.post("/setEndingMessage", (req, res) => {
+  let game = games.get(req.body.gameCode);
+  game.endingMessage = req.body.message;
   res.send({});
 });
 
