@@ -7,7 +7,7 @@ import { get, post } from "../../../utilities.js";
 
 const CreateGame = (props) => {
   const startGame = () => {
-    let settings = [false, false, 10, 10, false];
+    let settings = {isPublic:true, wantsOwnPlaylist:true, numberQuestions:10, time:10, playlistIDs:[]};
     console.log("Game will be started!");
     post("/api/newGame", {
       userId: props.userId,

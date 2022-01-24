@@ -84,7 +84,6 @@ const InGame = (props) => {
 
   useEffect(() => {
     let createTrackList = [];
-    console.log(playlistIDs);
 
     for (let i=0; i<playlistIDs.length; i++) {
       get("/api/testPlaylists", {playlistID: playlistIDs[i]}).then((body) =>{

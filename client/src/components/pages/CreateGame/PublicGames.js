@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { navigate } from "@reach/router";
 import { get, post } from "../../../utilities.js";
+import { socket } from "../../../client-socket.js";
 
 const PublicGames = (props) => {
   const [publicCodes, setPublicCodes] = useState([]);
