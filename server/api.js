@@ -397,6 +397,31 @@ router.get("/searchSpotify", (req, res) => {
   });
 });
 
+router.get("/searchByGenreSpotify", (req, res) => {
+  const loggedInSpotifyApi = new SpotifyWebApi({
+    clientId: process.env.SPOTIFY_API_ID,
+    clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
+    redirectUri: process.env.CALLBACK_URI,
+  });
+  loggedInSpotifyApi.setRefreshToken(req.user.refreshToken);
+  loggedInSpotifyApi.refreshAccessToken().then((data) => {
+    loggedInSpotifyApi.setAccessToken(data.body["access_token"]);
+    console.log("Query received: " + req.query.genre);
+    loggedInSpotifyApi.searchTracks("genre:" + req.query.genre).then((data) => {
+      ans = [];
+      for (let i = 0; i < data.body.tracks.items.length; i++) {
+        if (ans.length >= 5) {
+          break;
+        }
+        if (data.body.tracks.items[i].preview_url) {
+          ans.push(data.body.tracks.items[i]);
+        }
+      }
+      res.send(ans);
+    });
+  });
+});
+
 router.get("/getPopularSongs", (req, res) => {
   const loggedInSpotifyApi = new SpotifyWebApi({
     clientId: process.env.SPOTIFY_API_ID,
