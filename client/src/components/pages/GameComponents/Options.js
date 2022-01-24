@@ -105,7 +105,7 @@ const Options = (props) => {
 
   const submitGameOptions = () => {
     console.log(JSON.stringify(gameSettings));
-    post("/api/newGame", { settings: gameSettings, userId: props.userId, name: props.name}).then((gameInfo) => {
+    post("/api/newGame", { settings: gameSettings, userId: props.userId, name: props.name,hostName: props.name,}).then((gameInfo) => {
       navigate(`/game/${gameInfo.gameCode}`, { state: gameInfo });
     });
   };

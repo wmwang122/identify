@@ -143,7 +143,19 @@ router.post("/bioUpdate", (req, res) => {
       });
     });
   }
-  res.send();
+  res.send({});
+});
+
+router.post("/nameChange", (req, res) => {
+  if (req.body.userId) {
+    User.findOne({ _id: req.body.userId }).then((user) => {
+      user.name = req.body.newName;
+      user.save().then((value) => {
+        console.log(value.name);
+      });
+    });
+  }
+  res.send({});
 });
 
 router.post("/pfpUpdate", (req, res) => {
@@ -208,7 +220,7 @@ router.post("/submitted", (req, res) => {
   let game = games.get(req.body.gameCode);
   if (req.body.sub) {
     for (let i = 0; i < game.userData.length; i++) {
-      if (game.userData[i]._id === req.body.user) {
+      if (game.userData[i]._id === req.body.user._id) {
         game.userData[i].score++;
         break;
       }
@@ -221,7 +233,10 @@ router.post("/submitted", (req, res) => {
   };
   game.gameLog.push(newMessage);
   socketManager.getIo().to(req.body.gameCode).emit("new log", newMessage);
-  socketManager.getIo().to(req.body.gameCode).emit("submitted", { submission: req.body.sub });
+  socketManager
+    .getIo()
+    .to(req.body.gameCode)
+    .emit("submitted", { submission: req.body.sub, name: req.body.user.name });
   res.send({});
 });
 
@@ -259,10 +274,14 @@ router.post("/newGame", (req, res) => {
     playlistIDs: req.body.settings.playlistIDs,  
     trackList: [],
     trackNum: 0,
+    endingMessage: "",
     songTimeLeft: 30,
     roundOngoing: false,
   }); //maps gamecode to an array of game settings
   socketManager.addUserToGame(req.body.userId, code);
+  if (req.body.settings[0]) {
+    socketManager.getIo().emit("new public game", code);
+  }
   //socketManager.getIo().to(code).emit("new player", req.body.userId);
   res.send({ gameCode: code });
   console.log("THIS GETS CALLED");
@@ -330,7 +349,7 @@ router.post("/gameTimerUpdate", (req, res) => {
   res.send({});
 });
 
-router.get("/searchSpotify", (req,res) =>{
+router.get("/searchSpotify", (req, res) => {
   const loggedInSpotifyApi = new SpotifyWebApi({
     clientId: process.env.SPOTIFY_API_ID,
     clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
@@ -340,13 +359,13 @@ router.get("/searchSpotify", (req,res) =>{
   loggedInSpotifyApi.refreshAccessToken().then((data) => {
     loggedInSpotifyApi.setAccessToken(data.body["access_token"]);
     console.log("Query received: " + req.query.query);
-    loggedInSpotifyApi.searchTracks("track:"+req.query.query).then((data) =>{
+    loggedInSpotifyApi.searchTracks("track:" + req.query.query).then((data) => {
       ans = [];
-      for(let i = 0; i < data.body.tracks.items.length; i++){
-        if(ans.length >= 5){
+      for (let i = 0; i < data.body.tracks.items.length; i++) {
+        if (ans.length >= 5) {
           break;
         }
-        if(data.body.tracks.items[i].preview_url){
+        if (data.body.tracks.items[i].preview_url) {
           ans.push(data.body.tracks.items[i]);
         }
       }
@@ -355,20 +374,29 @@ router.get("/searchSpotify", (req,res) =>{
   });
 });
 
-router.post("/addSong",(req,res) =>{
+router.post("/addSong", (req, res) => {
   let game = games.get(req.body.gameCode);
   game.trackList.push(req.body.song);
   socketManager.getIo().to(req.body.gameCode).emit("added song", req.body.song);
   res.send({});
 });
 
-router.post("/testPlaylistsInitialize", (req,res) => {
+router.post("/testPlaylistsInitialize", (req, res) => {
   let game = games.get(req.body.gameCode);
   game.trackList = req.body.data;
   res.send({});
 });
+router.post("/updateSongTimeLeft", (req, res) => {
+  let game = games.get(req.body.gameCode);
+  game.songTimeLeft = req.body.songTimeLeft;
+  res.send({});
+});
 
-
+router.post("/setEndingMessage", (req, res) => {
+  let game = games.get(req.body.gameCode);
+  game.endingMessage = req.body.message;
+  res.send({});
+});
 
 /*router.get("/getGame",(req,res) =>{
   GameSchema.findOne({gameCode: req.query.code}).then((game)=>{

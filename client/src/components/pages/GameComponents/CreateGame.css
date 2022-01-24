@@ -23,15 +23,14 @@ label {
   text-decoration: none;
   display: flex;
   height: 15vh;
-  width: 18vw;
+  width: 20vw;
   border-radius: 10vh;
   margin-left: 2vw;
   margin-right: 2vw;
   /*position: absolute;*/
 }
 
-
-.create-button:hover{
+.create-button:hover {
   background: #73e3ad;
   font-weight: 400;
 }

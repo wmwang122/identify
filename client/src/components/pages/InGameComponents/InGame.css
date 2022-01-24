@@ -30,6 +30,12 @@
     justify-content: space-between;
     height: 75vh;
 }
+.inGame-vertical-line{
+    border-left: 0.2vw solid black;
+}
+.inGame-horizontal-line{
+    border-top: 0.2vw solid black;
+}
 .inGame-container-main{
     display: flex;
     flex-direction: column;
@@ -116,4 +122,31 @@
 
 .button-invisible{
     visibility: hidden;
+}
+
+.song-info-end{
+    font-size: 20px;
+    padding: 20px 0 20px 0;
+    text-align: center;
+    width: 20vw;
+}
+
+.song-name-end{
+    font-weight: 500;
+}
+
+.save-button-end{
+    position: relative;
+    top: 10vh;
+    text-align: center;
+    font-size: 4vh;
+    width: 20vw;
+    min-width: 40vh;
+    padding: 1vh 2vw 1vh 2vw;
+    border-radius: 5vh;
+    background-color: var(--lightbrightgreen);
+}
+
+.save-button-end:hover{
+    font-weight: 400;
 }
