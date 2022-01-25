@@ -520,8 +520,17 @@ router.post("/updateUserStats", (req, res) => {
   User.findOne({_id: req.body.user._id}).then((user)=>{
     console.log(JSON.stringify(user));
     user.gamesPlayed++;
-    user.songsSaved+= req.body.songsSaved;
+    user.songsSaved+= req.body.savedSongs.length;
     user.pointsScored+=req.body.user.score;
+    for(let i = 0; i < req.body.savedSongs.length; i++){
+      if(user.recentSongs.length < 15){
+        user.recentSongs.push(req.body.trackList[req.body.savedSongs[i]]);
+      }
+      else{
+        user.recentSongs.splice(0,1);
+        user.recentSongs.push(req.body.trackList[req.body.savedSongs[i]]);
+      }
+    }
     user.save();
   });
   res.send({});

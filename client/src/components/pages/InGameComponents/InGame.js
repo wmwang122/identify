@@ -232,7 +232,7 @@ const InGame = (props) => {
       }
     }
     if(user){
-      post("/api/updateUserStats",{user: user, songsSaved: savedSongs.length});
+      post("/api/updateUserStats",{user: user, savedSongs: savedSongs, trackList: trackList});
     }
     setGameEnded(true);
   };
