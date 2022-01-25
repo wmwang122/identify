@@ -13,6 +13,7 @@ const Countdown = (props) => {
   }
 
   const reset = () => {
+    console.log("was reset");
     setIsActive(false);
     setTimeLeft(props.time);
   }
@@ -29,8 +30,10 @@ const Countdown = (props) => {
 
   useEffect(() => {
     let interval = null;
+    console.log("is active" + isActive);
     if (isActive) {
       interval = setInterval(() => {
+        console.log("setting song time");
         if(props.isGameTimer){
           props.updateSongTimeLeft(timeLeft-1);
         }
@@ -38,6 +41,7 @@ const Countdown = (props) => {
       }, 1000);
       if (timeLeft <= 0) {
         clearInterval(interval);
+        console.log("time left < 0");
         setIsActive(false);
         props.end();
       }
