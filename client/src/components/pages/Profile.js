@@ -1,9 +1,9 @@
 import React, { Component, useEffect, useState } from "react";
 import { Router } from "@reach/router";
-import SongList from "./ProfileComponents/SongList.js";
 import "../../utilities.css";
 import "./Profile.css";
 import { get, post } from "../../utilities.js";
+import SongInfo from "./InGameComponents/SongInfo.js";
 
 const Profile = (props) => {
   const [userName, setUserName] = useState("");
@@ -13,6 +13,10 @@ const Profile = (props) => {
   const [bioEditOn, toggleBioEdit] = useState(false);
   const [nameEditOn, setNameEditOn] = useState(false);
   const [nameValue, setNameValue] = useState("");
+  const [gamesPlayed,setGamesPlayed] = useState(0);
+  const [pointsScored,setPointsScored] = useState(0);
+  const [songsSaved,setSongsSaved] = useState(0);
+  const [recentSongs,setRecentSongs] = useState([]);
   const [ownProfileId, setOwnProfileId] = useState(0);
   useEffect(() => {
     let isMounted = true;
@@ -31,6 +35,10 @@ const Profile = (props) => {
         setUserName(user.name);
         setBio(user.bio);
         setPfp(user.pfp);
+        setGamesPlayed(user.gamesPlayed);
+        setPointsScored(user.pointsScored);
+        setSongsSaved(user.songsSaved);
+        setRecentSongs(user.recentSongs);
     });
   },[]);
   const handlePfpEdit = (event) => {
@@ -130,6 +138,11 @@ const Profile = (props) => {
       </div>):(<></>)}
     </div>
   );
+
+  let songDisplay = [];
+  for(let i = recentSongs.length-1; i >=0; i--){
+      songDisplay.push(<div className="profile-songInfo-wrapper"><SongInfo song={recentSongs[i]} /></div>);
+  }
   return (
     <div>
       <div className="profile-container-1">
@@ -146,6 +159,32 @@ const Profile = (props) => {
           {bioField}
         </div>
       </div>
+      <div className = "profile-lower-container">
+      <div>
+          <div className = "profile-stats-text">
+            User Statistics
+          </div>
+          <div className = "profile-stats">
+              <div className = "profile-stat">
+                <span className = "profile-stat-title">Games Played: </span> {gamesPlayed}
+              </div>
+              <div className = "profile-stat">
+                <span className = "profile-stat-title">Points Scored: </span> {pointsScored}
+              </div>
+              <div className = "profile-stat">
+                <span className = "profile-stat-title">Songs Saved: </span> {songsSaved}
+              </div>
+          </div>
+      </div>
+      <div>
+          <div className = "profile-recentSongs-text">
+              Recently Saved Songs
+          </div>
+          <div className = "profile-songList">
+            {songDisplay}
+          </div>
+      </div>
+    </div>
     </div>
   );
 }; //TODO
