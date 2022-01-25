@@ -98,7 +98,6 @@ router.get("/testPlaylists", async (req, res) => {
     loggedInSpotifyApi.refreshAccessToken().then(async (data) => {
       console.log("Access Token Refreshed!");
       loggedInSpotifyApi.setAccessToken(data.body["access_token"]);
-      console.log(req.query.playlistID);
       const result = await loggedInSpotifyApi.getPlaylist(req.query.playlistID);
       let trackList = [];
       for (let i=0; i<result.body.tracks.items.length; i++) {
@@ -324,6 +323,8 @@ router.post("/joinGame", (req, res) => {
     if (flag) {
       game.userData.push({ _id: req.body.userId, name: req.body.name, score: 0, active: true});
       socketManager.getIo().to(req.body.gameCode).emit("new player", req.body.userId);
+      console.log("player joining room "+req.body.gameCode);
+      socketManager.getIo().emit("player joining", {gameCode: req.body.gameCode});
     }
     res.send({
       status: "game found" + flag ? "" : ", user is already in game",
@@ -432,7 +433,6 @@ router.get("/getPopularSongs", (req, res) => {
   loggedInSpotifyApi.refreshAccessToken().then(async (data) => {
     loggedInSpotifyApi.setAccessToken(data.body["access_token"]);
     let result = await loggedInSpotifyApi.getPlaylist("37i9dQZF1DXcBWIGoYBM5M");
-    console.log(result.body.tracks.items[0].track);
     result = result.body.tracks.items;
     for(let i = 0; i < result.length; i++){
       if(!result[i].track.preview_url){

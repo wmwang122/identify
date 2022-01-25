@@ -30,7 +30,6 @@ const SongInfo = (props) => {
     if(artistString.length > 16){
       artistString = artistString.substring(0,13)+"...";
     }
-    console.log(JSON.stringify(props.song));
     return (
       <a href={props.song.external_urls.spotify} target="_blank" className="songInfo-link">
       <div className="songInfo-container">

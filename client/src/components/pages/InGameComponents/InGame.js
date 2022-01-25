@@ -69,7 +69,6 @@ const shuffle = (array) => {
 
   const initialize = () => {
     get("/api/getGameData", { code: gameCode }).then((data) => {
-      console.log(JSON.stringify(data));
       setUserData(data.userData);
       setUserBuzz(data.userBuzz);
       setGameChat(data.gameChat);
@@ -99,21 +98,18 @@ const shuffle = (array) => {
     initialize();
   }, []);
 
-  useEffect(()=>{
-    userData.sort((userA,userB) =>{
-      return userA.score-userB.score;
-    });
-  },[userData])
+  const sortUserData = () => {
+    setUserData(userData.sort((userA,userB) =>{
+      return userB.score-userA.score;
+    }));
+  }
 
   useEffect(() => {
     let createTrackList = [];
 
     for (let i=0; i<playlistIDs.length; i++) {
        get("/api/testPlaylists", {playlistID: playlistIDs[i]}).then((body) =>{
-        // console.log(body.length);
-        // console.log(body);
         createTrackList = createTrackList.concat(body);
-        // console.log(createTrackList);
         setTrackList(createTrackList);
         if (i===(playlistIDs.length-1)) {
           setTrackList(shuffle(createTrackList));
@@ -139,7 +135,7 @@ const shuffle = (array) => {
         setTrackList(body);
       });
     }
-  },[]);
+  },[]); //this is user-side, so everyone gets a different song! fix!!
 
   useEffect(() => {
     socket.on("new message", (message) => {
@@ -219,7 +215,6 @@ const shuffle = (array) => {
       if (userData[i]._id === userId) {
         found = true;
         setUserBuzz(userData[i]);
-        console.log("user2: " + JSON.stringify(userData[i]));
         break;
       }
     }
@@ -287,6 +282,7 @@ const shuffle = (array) => {
   const handleSubmit = async (data) => {
     await handleTimerEnd(data.submission);
     if (data.submission) {
+      sortUserData();
       setRoundOngoing(false);
       let message = data.name + " got the correct answer: ";
       setEndingMessage(message);
@@ -306,13 +302,11 @@ const shuffle = (array) => {
 
   useEffect(() => {
       if(!roundOngoing){
-        console.log("this useeffect is being called here");
         if (myAudio) {
           myAudio.pause();
         }
         if(trackList){
           while(trackNum < trackList.length && !trackList[trackNum].preview_url){
-            console.log(trackList[trackNum]);
             trackList.splice(trackNum,1);
           }
           if(trackNum >= trackList.length){
@@ -324,7 +318,6 @@ const shuffle = (array) => {
         }
         setAudioMounted(true);
       } else if (!audioMounted && !userBuzz) {
-      console.log("this useeffect is being called there");
       if (myAudio) {
         myAudio.currentTime = 30 - songTimeLeft;
       }
@@ -442,9 +435,7 @@ const shuffle = (array) => {
       />{" "}
     </div>
     {gameEnded?<GameEndScreen 
-      leaderboard={userData.sort((userA,userB) =>{
-      return userA.score-userB.score;
-    }).slice(0,Math.min(3,userData.length))}
+      leaderboard={userData.slice(0,Math.min(3,userData.length))}
       savedSongs={savedSongs}
       trackList={trackList}/>:<div/>}
     </>
