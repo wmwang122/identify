@@ -59,3 +59,58 @@
   opacity: 100%;
   margin-top: 0px;
 }
+
+.createGame-panel{
+  display: flex;
+  flex-direction: column;
+  width: 50vw;
+  background-color: var(--brightgreen);
+  margin: 5vh 1vw 5vh;
+  padding: 2vh 2vw 2vh 2vw;
+  border-radius: 5vh;
+}
+
+.create-game-text{
+  font-size: 6vh;
+  padding-bottom: 1.5vh;
+}
+
+.gameJoin-container{
+  display: flex;
+}
+
+.joinGame-panel{
+  background-color: var(--brightgreen);
+  padding: 2vh 2vw 2vh 2vw;
+  border-radius: 5vh;
+  width: 30vw;
+  height: 30vh;
+}
+
+.joinGame-container{
+  margin: 5vh 5vw 5vh 1vw;
+}
+
+.joinGame-description{
+  width: 30vw;
+  margin-top: 2vh;
+  margin-left: 1vw;
+  font-size: 3vh;
+}
+
+.join-game-text{
+  font-size: 6vh;
+}
+
+.join-game-input-container{
+  font-size: 3.5vh;
+  font-weight: 400;
+  display: flex;
+}
+
+.gamePage-container{
+  margin-left: 8vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}

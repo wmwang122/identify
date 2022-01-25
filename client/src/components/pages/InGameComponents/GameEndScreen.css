@@ -1,0 +1,92 @@
+.firstdiv {
+    background: black;
+    margin: 0;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    opacity: 80%;
+    position: absolute;
+}
+
+.gameEndScreen-popup {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    border: 5px solid #d0ffb7;
+    background-color: #d0ffb7;
+    padding: 10px;
+    opacity: 100%;
+    border-radius: 20px;
+    z-index: 5;
+    width: 50vw;
+    height: 80vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.gameEnd-button{
+    position: absolute;
+    bottom: 0;
+    align-self: center;
+    font-size: 5vh;
+    background-color: var(--turquoisegreen);
+    border-radius: 5vh;
+    padding: 1vh 2vw 1vh 2vw;
+    text-align: center;
+    margin-top: 5vh;
+    margin-bottom: 1.5vh;
+    width: 80%;
+}
+
+.gameEnd-button:hover{
+    font-weight: 400;
+}
+
+.gameEnd-content-container{
+    height: 85%;
+    overflow-y: scroll;
+}
+
+.gameEnd-leaderboard-title{
+    font-size: 7vh;
+    margin-bottom: 1vh;
+}
+
+.gameEnd-leaderboard-content{
+    display: flex;
+    margin-left: 1vw;
+    margin-bottom: 2vh;
+    font-size: 3vh;
+}
+.gameEnd-leaderboard-name{
+    font-size: 4vh;
+    font-weight: 400;
+}
+
+.gameEnd-leaderboard-entry{
+    display: flex;
+    flex-direction: column;
+    margin: 1vh 1vw 1vh 1vw;
+}
+
+.gameEnd-savedSongs-title{
+    font-size: 7vh;
+    margin-bottom: 0vh;
+}
+
+.gameEnd-savedSongs-content{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.gameEnd-noSavedSongs-text{
+    margin-top: 1vh;
+    margin-left: 2vw;
+    margin-right: 2vw;
+    font-size: 3vh;
+}

@@ -31,6 +31,24 @@ const spotifyApi = new SpotifyWebApi({
 });
 
 const games = new Map();
+const publicGames = [];
+function shuffle(array) {
+  let currentIndex = array.length,  randomIndex;
+
+  // While there remain elements to shuffle...
+  while (currentIndex != 0) {
+
+    // Pick a remaining element...
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex--;
+
+    // And swap it with the current element.
+    [array[currentIndex], array[randomIndex]] = [
+      array[randomIndex], array[currentIndex]];
+  }
+
+  return array;
+}
 
 const generateCode = (length) => {
   var code = "";
@@ -80,18 +98,12 @@ router.get("/testPlaylists", async (req, res) => {
     loggedInSpotifyApi.refreshAccessToken().then(async (data) => {
       console.log("Access Token Refreshed!");
       loggedInSpotifyApi.setAccessToken(data.body["access_token"]);
-      const result = await loggedInSpotifyApi.getPlaylist("298KKeccSUTyyehrAJzZ9r");
-      console.log(result.body.tracks.items);
-      // const result = await loggedInSpotifyApi.getAlbum("3oVCGd8gjANVb5r2F0M8BI");
-      // console.log(result.body.tracks.items);
-      // res.status(200).send(result.body);
-      // res.status(200).send(result.body.tracks.items);
+      const result = await loggedInSpotifyApi.getPlaylist(req.query.playlistID);
       let trackList = [];
-      for (let i = 0; i < result.body.tracks.items.length; i++) {
+      for (let i=0; i<result.body.tracks.items.length; i++) {
         trackList.push(result.body.tracks.items[i].track);
-      }
-      res.status(200).send(trackList);
-      //res.status(200).send([]);
+      };
+     res.status(200).send(trackList);
     });
   } catch (err) {
     res.status(400).send(err);
@@ -271,28 +283,30 @@ router.post("/newGame", (req, res) => {
   }
   games.set(code, {
     settings: req.body.settings,
-    userData: [{ _id: req.body.userId, name: req.body.name, score: 0 }],
+    userData: [{ _id: req.body.userId, name: req.body.name, score: 0, active: true}],
     userBuzz: null,
     gameChat: [],
     gameLog: [],
-    hostName: req.body.hostName, //I JUST ADDED
-    //trackList: req.body.settings.trackList, add once settings can add playlists
-    trackNum: 0,
+    hostName: req.body.hostName,
+    playlistIDs: req.body.settings.playlistIDs,  
     trackList: [],
+    trackNum: 0,
     endingMessage: "",
     songTimeLeft: 30,
     roundOngoing: false,
   }); //maps gamecode to an array of game settings
   socketManager.addUserToGame(req.body.userId, code);
-  if (req.body.settings[0]) {
+  if (req.body.settings.isPublic) {
+    console.log("public game made");
+    publicGames.push(code);
     socketManager.getIo().emit("new public game", code);
   }
   //socketManager.getIo().to(code).emit("new player", req.body.userId);
   res.send({ gameCode: code });
-  // const game = new GameSchema({
-  //   gameCode: code,
-  // });
-  // game.save();
+});
+
+router.get("/getPublicCodes", (req,res) =>{
+  res.send(publicGames);
 });
 
 router.post("/joinGame", (req, res) => {
@@ -307,8 +321,10 @@ router.post("/joinGame", (req, res) => {
       }
     }
     if (flag) {
-      game.userData.push({ _id: req.body.userId, name: req.body.name, score: 0 });
+      game.userData.push({ _id: req.body.userId, name: req.body.name, score: 0, active: true});
       socketManager.getIo().to(req.body.gameCode).emit("new player", req.body.userId);
+      console.log("player joining room "+req.body.gameCode);
+      socketManager.getIo().emit("player joining", {gameCode: req.body.gameCode});
     }
     res.send({
       status: "game found" + flag ? "" : ", user is already in game",
@@ -382,6 +398,58 @@ router.get("/searchSpotify", (req, res) => {
   });
 });
 
+router.get("/searchByGenreSpotify", (req, res) => {
+  const loggedInSpotifyApi = new SpotifyWebApi({
+    clientId: process.env.SPOTIFY_API_ID,
+    clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
+    redirectUri: process.env.CALLBACK_URI,
+  });
+  loggedInSpotifyApi.setRefreshToken(req.user.refreshToken);
+  loggedInSpotifyApi.refreshAccessToken().then((data) => {
+    loggedInSpotifyApi.setAccessToken(data.body["access_token"]);
+    console.log("Query received: " + req.query.genre);
+    loggedInSpotifyApi.searchTracks("genre:" + req.query.genre).then((data) => {
+      ans = [];
+      for (let i = 0; i < data.body.tracks.items.length; i++) {
+        if (ans.length >= 5) {
+          break;
+        }
+        if (data.body.tracks.items[i].preview_url) {
+          ans.push(data.body.tracks.items[i]);
+        }
+      }
+      res.send(ans);
+    });
+  });
+});
+
+router.get("/getPopularSongs", (req, res) => {
+  const loggedInSpotifyApi = new SpotifyWebApi({
+    clientId: process.env.SPOTIFY_API_ID,
+    clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
+    redirectUri: process.env.CALLBACK_URI,
+  });
+  loggedInSpotifyApi.setRefreshToken(req.user.refreshToken);
+  loggedInSpotifyApi.refreshAccessToken().then(async (data) => {
+    loggedInSpotifyApi.setAccessToken(data.body["access_token"]);
+    let result = await loggedInSpotifyApi.getPlaylist("37i9dQZF1DXcBWIGoYBM5M");
+    result = result.body.tracks.items;
+    for(let i = 0; i < result.length; i++){
+      if(!result[i].track.preview_url){
+        result.splice(i,1);
+        i--;
+      }
+    }
+    result = shuffle(result);
+    result = result.slice(0,Math.min(10,result.length));
+    let ans = [];
+    for(let i = 0; i < result.length; i++){
+      ans.push(result[i].track);
+    }
+    return res.send(ans);
+  });
+});
+
 router.post("/addSong", (req, res) => {
   let game = games.get(req.body.gameCode);
   game.trackList.push(req.body.song);
@@ -394,7 +462,6 @@ router.post("/testPlaylistsInitialize", (req, res) => {
   game.trackList = req.body.data;
   res.send({});
 });
-
 router.post("/updateSongTimeLeft", (req, res) => {
   let game = games.get(req.body.gameCode);
   game.songTimeLeft = req.body.songTimeLeft;

@@ -1,10 +1,20 @@
 import React, { useEffect, useState } from "react";
 import { navigate } from "@reach/router";
 import { get, post } from "../../../utilities.js";
+import { socket } from "../../../client-socket.js";
+import "./PublicGames.css"
+import PublicGame from "./PublicGame.js";
 
 const PublicGames = (props) => {
   const [publicCodes, setPublicCodes] = useState([]);
   let publicGames = [];
+  useEffect(() => {
+    get("/api/getPublicCodes",{}).then(
+      (data) => {
+        setPublicCodes(data);
+      }
+    );
+  });
   useEffect(() => {
     socket.on("new public game", (code) => {
       setPublicCodes([...publicCodes, code]);

@@ -7,7 +7,7 @@ import { get, post } from "../../../utilities.js";
 
 const CreateGame = (props) => {
   const startGame = () => {
-    let settings = [false, false, 10, 10, false];
+    let settings = {isPublic:true, wantsOwnPlaylist:true, numberQuestions:10, time:10, playlistIDs:[]};
     console.log("Game will be started!");
     post("/api/newGame", {
       userId: props.userId,
@@ -32,12 +32,11 @@ const CreateGame = (props) => {
   };
 
   return (
-    <div className="create-button u-pointer">
-      <div className="create-text" onClick={startGame}>
-        {/* <Link to={"/game/"+gameCode}> */}
+    <div className="create-button2 u-pointer" onClick={startGame}>
+      <div className="create-text">
         Quick Create
-        {/* </Link> */}
       </div>
+      <div className="create-description">Create a new, public Identify room with default settings!</div>
     </div>
   );
 };

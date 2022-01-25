@@ -10,11 +10,13 @@ import GameChat from "./GameChat.js";
 import GameLog from "./GameLog.js";
 import SelectSong from "./SelectSong.js";
 import SongInfo from "./SongInfo.js";
+import GameEndScreen from "./GameEndScreen.js";
 
 const InGame = (props) => {
   const [userData, setUserData] = useState([]);
   const [userBuzz, setUserBuzz] = useState(null);
   const [trackList, setTrackList] = useState(null);
+  const [playlistIDs, setPlaylistIDs] = useState([]);
   const [trackNum, setTrackNum] = useState(0);
   const [myAudio, setMyAudio] = useState(null);
   const [resetTimer, setResetTimer] = useState(false);
@@ -28,9 +30,13 @@ const InGame = (props) => {
   const [hostName, setHostName] = useState(null);
   const [endingMessage, setEndingMessage] = useState("");
   const [savedSongs, setSavedSongs] = useState([]);
+  const [gameEnded, setGameEnded] = useState(false);
 
   let val = window.location.href;
   let gameCode = val.substring(val.length - 5, val.length);
+  window.addEventListener("beforeunload", function(e){
+    console.log("window closed?");
+  },false);
   const handleBuzz = async (event) => {
     if (roundOngoing && !userBuzz) {
       post("/api/buzz", {
@@ -43,9 +49,26 @@ const InGame = (props) => {
     }
   };
 
+const shuffle = (array) => {
+  let currentIndex = array.length;
+  let randomIndex = 0;
+
+  while (currentIndex != 0) {
+
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex--;
+
+    [array[currentIndex], array[randomIndex]] = [
+      array[randomIndex], array[currentIndex]];
+  }
+
+  return array;
+};
+
+
+
   const initialize = () => {
     get("/api/getGameData", { code: gameCode }).then((data) => {
-      console.log(JSON.stringify(data));
       setUserData(data.userData);
       setUserBuzz(data.userBuzz);
       setGameChat(data.gameChat);
@@ -54,10 +77,10 @@ const InGame = (props) => {
       setGameLog(data.gameLog);
       setRoundOngoing(data.roundOngoing);
       setHostName(data.hostName);
-      setTrackList(data.trackList);
+      setPlaylistIDs(data.playlistIDs);
       setSongTimeLeft(data.songTimeLeft);
+      setTrackList(data.trackList);
       setEndingMessage(data.endingMessage);
-      console.log("initialize");
     });
   };
 
@@ -75,21 +98,44 @@ const InGame = (props) => {
     initialize();
   }, []);
 
-  useEffect(()=>{
-    userData.sort((userA,userB) =>{
-      return userA.score-userB.score;
-    });
-  },[userData])
+  const sortUserData = () => {
+    setUserData(userData.sort((userA,userB) =>{
+      return userB.score-userA.score;
+    }));
+  }
 
   useEffect(() => {
-    if (!trackList) {
-      get("/api/testPlaylists").then((body) => {
-        //setTrackList(body.tracks.items);
+    let createTrackList = [];
+
+    for (let i=0; i<playlistIDs.length; i++) {
+       get("/api/testPlaylists", {playlistID: playlistIDs[i]}).then((body) =>{
+        createTrackList = createTrackList.concat(body);
+        setTrackList(createTrackList);
+        if (i===(playlistIDs.length-1)) {
+          setTrackList(shuffle(createTrackList));
+        };
+
+      })
+    };
+
+    // console.log(createTrackList);
+
+    // if (trackList) {
+    //   get("/api/testPlaylists", {playlistIDs}).then((body) => {
+    //     setTrackList(body);
+
+    // //    post("/api/testPlaylistsInitialize",{data: body, gameCode: gameCode});
+    //   }); 
+    // }
+  }, [playlistIDs]); //this useEffect should be deleted ASAP after playlists are added
+
+  useEffect(() => {
+    if(!trackList || trackList.length === 0){
+      get("/api/getPopularSongs",{}).then((body) =>{
         setTrackList(body);
-        post("/api/testPlaylistsInitialize",{data: body, gameCode: gameCode});
-      }); 
+      });
     }
-  }, []); //this useEffect should be deleted ASAP after playlists are added
+  },[]); //this is user-side, so everyone gets a different song! fix!!
 
   useEffect(() => {
     socket.on("new message", (message) => {
@@ -169,7 +215,6 @@ const InGame = (props) => {
       if (userData[i]._id === userId) {
         found = true;
         setUserBuzz(userData[i]);
-        console.log("user2: " + JSON.stringify(userData[i]));
         break;
       }
     }
@@ -237,6 +282,7 @@ const InGame = (props) => {
   const handleSubmit = async (data) => {
     await handleTimerEnd(data.submission);
     if (data.submission) {
+      sortUserData();
       setRoundOngoing(false);
       let message = data.name + " got the correct answer: ";
       setEndingMessage(message);
@@ -246,22 +292,21 @@ const InGame = (props) => {
   };
 
   const handleSaveSong = () => {
-    savedSongs.push(trackNum-1);
+    setSavedSongs([... savedSongs,trackNum-1]);
   }
 
   const handleGameEnd = () => {
     console.log("game has ended");
+    setGameEnded(true);
   }
 
   useEffect(() => {
       if(!roundOngoing){
-        console.log("this useeffect is being called here");
         if (myAudio) {
           myAudio.pause();
         }
         if(trackList){
           while(trackNum < trackList.length && !trackList[trackNum].preview_url){
-            console.log(trackList[trackNum]);
             trackList.splice(trackNum,1);
           }
           if(trackNum >= trackList.length){
@@ -273,7 +318,6 @@ const InGame = (props) => {
         }
         setAudioMounted(true);
       } else if (!audioMounted && !userBuzz) {
-      console.log("this useeffect is being called there");
       if (myAudio) {
         myAudio.currentTime = 30 - songTimeLeft;
       }
@@ -360,9 +404,10 @@ const InGame = (props) => {
   (<><div className="song-info-end">{endingMessage}
     <span className="song-name-end">{trackList[trackNum-1].name}</span>
     </div><SongInfo song = {trackList[trackNum-1]}/>
-    <div className="save-button-end" onClick = {() => handleSaveSong()}>save song for later</div></>);
+    <div className="save-button-end u-pointer" onClick = {() => handleSaveSong()}>save song for later</div></>);
 
   return (
+    <>
     <div className="inGame-container">
       <div className="inGame-container-left">
         <Scoreboard data={userData}/>
@@ -389,6 +434,11 @@ const InGame = (props) => {
         name={props.name}
       />{" "}
     </div>
+    {gameEnded?<GameEndScreen 
+      leaderboard={userData.slice(0,Math.min(3,userData.length))}
+      savedSongs={savedSongs}
+      trackList={trackList}/>:<div/>}
+    </>
   );
 };
 //TODOOOOO

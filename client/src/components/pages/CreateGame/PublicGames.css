@@ -1,0 +1,10 @@
+.public-games-container{
+    display: flex;
+    flex-wrap: wrap;
+    width: 80vw;
+}
+
+.public-game-heading{
+    font-size: 6vh;
+    margin-bottom: 2vh;
+}
