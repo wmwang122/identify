@@ -11,7 +11,9 @@ import GameLog from "./GameLog.js";
 import SelectSong from "./SelectSong.js";
 import SongInfo from "./SongInfo.js";
 import GameEndScreen from "./GameEndScreen.js";
+import SaveButton from "./SaveButton.js";
 import { useStateWithCallbackLazy } from 'use-state-with-callback';
+import useUnload from "./useUnload.js";
 
 const InGame = (props) => {
   const [userData, setUserData] = useState([]);
@@ -21,7 +23,7 @@ const InGame = (props) => {
   const [trackNum, setTrackNum] = useState(0);
   const [myAudio, setMyAudio] = useState(null);
   const [resetTimer, setResetTimer] = useState(false);
-  const [roundOngoing, setRoundOngoing] = useStateWithCallbackLazy(null);
+  const [roundOngoing, setRoundOngoing] = useState(null);
   const [canBuzz, setCanBuzz] = useState(false);
   const [gameChat, setGameChat] = useState([]);
   const [gameLog, setGameLog] = useState([]);
@@ -32,22 +34,16 @@ const InGame = (props) => {
   const [endingMessage, setEndingMessage] = useState("");
   const [savedSongs, setSavedSongs] = useState([]);
   const [gameEnded, setGameEnded] = useState(false);
-  const [startingTime, setStartingTime] = useStateWithCallbackLazy(null);
+  const [startingTime, setStartingTime] = useState(null);
   const [startingTimeLoaded,setStartingTimeLoaded] = useState(false);
   const [roundOngoingLoaded,setRoundOngoingLoaded] = useState(false);
   const [trackListLoaded, setTrackListLoaded] = useState(false);
-  const [saveMessage, setSaveMessage] = useState("save song for later");
-  const [turnHoverOffSave, setHoverOffSave] = useState(false);
+  const [closeGame, setCloseGame] = useState(0);
+
   let val = window.location.href;
   let gameCode = val.substring(val.length - 5, val.length);
   //let saveMessage = "save song for later";
-  window.addEventListener(
-    "beforeunload",
-    function (e) {
-      console.log("window closed?");
-    },
-    false
-  );
+  
   const handleBuzz = async (event) => {
     if (roundOngoing && !userBuzz) {
       post("/api/buzz", {
@@ -87,10 +83,7 @@ const InGame = (props) => {
       setSongTimeLeft(data.songTimeLeft);
       setTrackList(data.trackList);
       setEndingMessage(data.endingMessage);
-      setRoundOngoing(data.roundOngoing, () => {
-        console.log("hello!");
-        setIsLoading(isLoading+1);
-      });
+      setRoundOngoing(data.roundOngoing);
       setRoundOngoing(data.roundOngoing);
       setStartingTime(data.songTimeLeft);
       gameCode = val.substring(val.length - 5, val.length);
@@ -324,6 +317,7 @@ const InGame = (props) => {
       setRoundOngoing(false);
       let message = data.name + " got the correct answer: ";
       setEndingMessage(message);
+      setStartingTime(30);
       post("/api/setEndingMessage", { message: message, gameCode: gameCode });
     }
     setResetTimer(true);
@@ -331,8 +325,6 @@ const InGame = (props) => {
 
   const handleSaveSong = () => {
     setSavedSongs([...savedSongs, trackNum - 1]);
-    setSaveMessage("song saved!");
-    setHoverOffSave(true);
   };
 
   const handleGameEnd = () => {
@@ -382,6 +374,7 @@ const InGame = (props) => {
     post("/api/setEndingMessage", { message: message, gameCode: gameCode });
     setTrackNum(trackNum + 1);
     setRoundOngoing(false);
+    setStartingTime(30);
   };
 
   let songInfo = roundOngoing ? (
@@ -424,6 +417,12 @@ const InGame = (props) => {
       updateSongTimeLeft={(data) => setSongTimeLeft(data)}
     />
   ):<></>;
+  let gameCloseTimer = <Countdown time={1000} activate={true} resetOnUpdate = {closeGame} end={()=>handleGameEnd()} hide={true}/>
+
+  useEffect(()=>{
+    console.log("oops!");
+    setCloseGame(closeGame+1);
+  },[roundOngoing]);
   //time={30} should be changed at some point to account for reloading
   let gameTimeButton = roundOngoing ? (
     <div className="inGame-time-left">
@@ -437,15 +436,6 @@ const InGame = (props) => {
   );
   let countdownState = userBuzz ? "" : "u-hidden";
   let buzzTextState = userBuzz ? "u-hidden" : "";
-  let noHoverSave = turnHoverOffSave ? (
-    <div className="save-button-end-no-hover u-pointer" onClick={() => handleSaveSong()}>
-      {saveMessage}
-    </div>
-  ) : (
-    <div className="save-button-end u-pointer" onClick={() => handleSaveSong()}>
-      {saveMessage}
-    </div>
-  );
   let gameMainComponent =
     roundOngoing || trackNum === 0 || !trackList || trackList.length === 0 ? (
       <>
@@ -464,7 +454,7 @@ const InGame = (props) => {
           <span className="song-name-end">{trackList[trackNum - 1].name}</span>
         </div>
         <SongInfo song={trackList[trackNum - 1]} />
-        {noHoverSave}
+        <SaveButton handle ={() => handleSaveSong()}/>
       </>
     );
 
@@ -505,6 +495,7 @@ const InGame = (props) => {
       ) : (
         <div />
       )}
+      {gameCloseTimer}
     </>
   );
 };
