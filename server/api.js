@@ -33,18 +33,17 @@ const spotifyApi = new SpotifyWebApi({
 const games = new Map();
 const publicGames = [];
 function shuffle(array) {
-  let currentIndex = array.length,  randomIndex;
+  let currentIndex = array.length,
+    randomIndex;
 
   // While there remain elements to shuffle...
   while (currentIndex != 0) {
-
     // Pick a remaining element...
     randomIndex = Math.floor(Math.random() * currentIndex);
     currentIndex--;
 
     // And swap it with the current element.
-    [array[currentIndex], array[randomIndex]] = [
-      array[randomIndex], array[currentIndex]];
+    [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
   }
 
   return array;
@@ -100,10 +99,10 @@ router.get("/testPlaylists", async (req, res) => {
       loggedInSpotifyApi.setAccessToken(data.body["access_token"]);
       const result = await loggedInSpotifyApi.getPlaylist(req.query.playlistID);
       let trackList = [];
-      for (let i=0; i<result.body.tracks.items.length; i++) {
+      for (let i = 0; i < result.body.tracks.items.length; i++) {
         trackList.push(result.body.tracks.items[i].track);
-      };
-     res.status(200).send(trackList);
+      }
+      res.status(200).send(trackList);
     });
   } catch (err) {
     res.status(400).send(err);
@@ -175,16 +174,16 @@ router.post("/nameChange", (req, res) => {
   res.send({});
 });
 
-router.post("/pfpUpdate", (req, res) => {
+router.post("/pfpChange", (req, res) => {
   if (req.body.id) {
     User.findOne({ _id: req.body.id }).then((user) => {
-      user.pfp = req.body.content;
+      user.pfp = req.body.newPfp;
       user.save().then((value) => {
         console.log(value.pfp);
       });
     });
   }
-  res.send();
+  res.send({});
 });
 router.get("/userLookup", (req, res) => {
   User.findOne({ _id: req.query._id }).then((user) => {
@@ -283,12 +282,12 @@ router.post("/newGame", (req, res) => {
   }
   games.set(code, {
     settings: req.body.settings,
-    userData: [{ _id: req.body.userId, name: req.body.name, score: 0, active: true}],
+    userData: [{ _id: req.body.userId, name: req.body.name, score: 0, active: true }],
     userBuzz: null,
     gameChat: [],
     gameLog: [],
     hostName: req.body.hostName,
-    playlistIDs: req.body.settings.playlistIDs,  
+    playlistIDs: req.body.settings.playlistIDs,
     trackList: [],
     trackNum: 0,
     endingMessage: "",
@@ -305,7 +304,7 @@ router.post("/newGame", (req, res) => {
   res.send({ gameCode: code });
 });
 
-router.get("/getPublicCodes", (req,res) =>{
+router.get("/getPublicCodes", (req, res) => {
   res.send(publicGames);
 });
 
@@ -321,10 +320,10 @@ router.post("/joinGame", (req, res) => {
       }
     }
     if (flag) {
-      game.userData.push({ _id: req.body.userId, name: req.body.name, score: 0, active: true});
+      game.userData.push({ _id: req.body.userId, name: req.body.name, score: 0, active: true });
       socketManager.getIo().to(req.body.gameCode).emit("new player", req.body.userId);
-      console.log("player joining room "+req.body.gameCode);
-      socketManager.getIo().emit("player joining", {gameCode: req.body.gameCode});
+      console.log("player joining room " + req.body.gameCode);
+      socketManager.getIo().emit("player joining", { gameCode: req.body.gameCode });
     }
     res.send({
       status: "game found" + flag ? "" : ", user is already in game",
@@ -434,16 +433,16 @@ router.get("/getPopularSongs", (req, res) => {
     loggedInSpotifyApi.setAccessToken(data.body["access_token"]);
     let result = await loggedInSpotifyApi.getPlaylist("37i9dQZF1DXcBWIGoYBM5M");
     result = result.body.tracks.items;
-    for(let i = 0; i < result.length; i++){
-      if(!result[i].track.preview_url){
-        result.splice(i,1);
+    for (let i = 0; i < result.length; i++) {
+      if (!result[i].track.preview_url) {
+        result.splice(i, 1);
         i--;
       }
     }
     result = shuffle(result);
-    result = result.slice(0,Math.min(10,result.length));
+    result = result.slice(0, Math.min(10, result.length));
     let ans = [];
-    for(let i = 0; i < result.length; i++){
+    for (let i = 0; i < result.length; i++) {
       ans.push(result[i].track);
     }
     return res.send(ans);
