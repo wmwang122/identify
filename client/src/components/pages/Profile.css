@@ -138,3 +138,7 @@ textarea[type=text]{
      margin-right: 3vw;
      margin-bottom: 2vh;
  }
+
+ .stats-container{
+     width: 40%;
+ }

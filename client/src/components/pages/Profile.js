@@ -8,7 +8,7 @@ import SongInfo from "./InGameComponents/SongInfo.js";
 const Profile = (props) => {
   const [userName, setUserName] = useState("");
   const [bio, setBio] = useState("");
-  const [pfp, setPfp] = useState("");
+  const [pfp, setPfp] = useState("logo.png");
   const [bioValue, setBioValue] = useState("");
   const [bioEditOn, toggleBioEdit] = useState(false);
   const [nameEditOn, setNameEditOn] = useState(false);
@@ -53,17 +53,26 @@ const Profile = (props) => {
     });
   };
 
-  const imageHandler = (props) => {
-    const image_input = document.querySelector("#image_input");
-    image_input.addEventListener("change", function () {
-      const reader = new FileReader();
-      reader.addEventListener("load", () => {
-        const uploaded_image = reader.result;
-        document.querySelector("#display_image").style.backgroundImage = `url(${uploaded_image})`;
+  const handlePfpChange = (event) => {
+    console.log("made it to handle");
+    const reader = new FileReader();
+    reader.readAsDataURL(event.target.files[0]);
+    reader.onload = function () {
+      console.log("made it to onload");
+      post("/api/pfpChange", { newPfp: reader.result, userId: props.userId }).then((res) => {
+        setPfp(res.newPfp);
+        console.log("posted");
       });
-      reader.readAsDataURL(this.files[0]);
-    });
+    };
+    reader.onerror = function (error) {
+      console.log("There was an error:" + error + "Please try again or use a different picture.");
+    };
   };
+
+  const setPicture = (props) => {
+    <img src={props.pfp} className="pfp" />;
+  };
+
   const handleBioChange = (event) => {
     setBioValue(event.target.value);
   };
@@ -147,12 +156,13 @@ const Profile = (props) => {
     <div>
       <div className="profile-container-1">
         <div className="pfp-container u-background-turquoise">
-          <img src="logo.png" className="pfp" />
           {/*added code starts*/}
-          <input type="file" name="upload" accept="image/*" />
-          <div id="display_image"></div>
-          {imageHandler}
+          <input type="file" name="file" accept="image/*" onChange={handlePfpChange} />
+          {/*           <input type="button" value="submit" onClick={setPicture}>
+            submit
+          </input> */}
           {/*added code ends*/}
+          <img src={pfp} className="pfp" />
         </div>
         <div className="bio-container">
           <div className="profile-title">{nameField}</div>
@@ -160,7 +170,7 @@ const Profile = (props) => {
         </div>
       </div>
       <div className = "profile-lower-container">
-      <div>
+      <div className = "stats-container">
           <div className = "profile-stats-text">
             User Statistics
           </div>

@@ -16,11 +16,11 @@ const GamePlayer = (props) => {
   },[]);
 
   return (
-    <div>
-      <div className="gamePlayer-name">
+    <div className ={props.buzzed?"gamePlayer-buzzed":""}>
+      <div className={"gamePlayer-name"}>
         {userName}
       </div>
-      <div className="gamePlayer-score">
+      <div className={"gamePlayer-score"}>
         {props.score}
       </div>
     </div>
