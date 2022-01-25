@@ -4,6 +4,7 @@ import { navigate } from "@reach/router";
 import { Link } from "@reach/router";
 import { get, post } from "../../../utilities.js";
 import Playlists from "./Playlists.js";
+import GenreSelect from "./GenreSelect.js";
 
 const Options = (props) => {
   const [displayPop, setDisplayPop] = useState(false);
@@ -68,6 +69,8 @@ const Options = (props) => {
             </div>
           </div>
           <div className="showPlaylists"> {displayPlaylists} </div> 
+          <div className="showGenres"> <GenreSelect /> </div>
+          <div> search!! </div> 
           <div className="row space_evenly">
             <div className="title" onClick={() => setDisplayPop(event)}>
               cancel

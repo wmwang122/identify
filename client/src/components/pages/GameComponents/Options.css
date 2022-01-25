@@ -6,6 +6,10 @@
   display: none;
 }
 
+.center {
+  align-items: center; 
+}
+
 .popup {
   position: absolute;
   left: 50%;
@@ -24,6 +28,11 @@
 .showPlaylists {
   width: 80%;
   display: inline-block; 
+}
+
+.showGenres {
+  display: inline-block;
+  width:70%;
 }
 
 
