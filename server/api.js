@@ -13,6 +13,7 @@ const express = require("express");
 const User = require("./models/user");
 const GameSchema = require("./models/game");
 
+
 // import authentication library
 const auth = require("./auth");
 // api endpoints: all these paths will be prefixed with "/api/"
@@ -306,29 +307,30 @@ router.post("/newGame", (req, res) => {
   while (games.get(code)) {
     code = generateCode(5);
   }
-  games.set(code, {
-    settings: req.body.settings,
-    userData: [{ _id: req.body.userId, name: req.body.name, score: 0, active: true}],
-    userBuzz: null,
-    gameChat: [],
-    gameLog: [],
-    hostName: req.body.hostName,
-    playlistIDs: req.body.settings.playlistIDs,  
-    trackList: [],
-    trackNum: 0,
-    endingMessage: "",
-    songTimeLeft: 30,
-    roundOngoing: false,
-    musicType: req.body.settings.musicType,
-  }); //maps gamecode to an array of game settings
-  socketManager.addUserToGame(req.body.userId, code);
-  if (req.body.settings.isPublic) {
-    console.log("public game made");
-    publicGames.push(code);
-    socketManager.getIo().emit("new public game", code);
-  }
-  //socketManager.getIo().to(code).emit("new player", req.body.userId);
-  res.send({ gameCode: code });
+  console.log("code is: " + code);
+    games.set(code, {
+      settings: req.body.settings,
+      userData: [{ _id: req.body.userId, name: req.body.name, score: 0, active: true}],
+      userBuzz: null,
+      gameChat: [],
+      gameLog: [],
+      hostName: req.body.hostName,
+      playlistIDs: req.body.settings.playlistIDs,  
+      trackList: req.body.trackList,
+      trackNum: 0,
+      endingMessage: "",
+      songTimeLeft: 30,
+      roundOngoing: false,
+      //musicType: req.body.settings.musicType,
+    }); //maps gamecode to an array of game settings
+    socketManager.addUserToGame(req.body.userId, code);
+    if (req.body.settings.isPublic) {
+      console.log("public game made");
+      publicGames.push(code);
+      socketManager.getIo().emit("new public game", code);
+    }
+    //socketManager.getIo().to(code).emit("new player", req.body.userId);
+    res.send({ gameCode: code }); 
 });
 
 router.get("/getPublicCodes", (req,res) =>{
@@ -435,18 +437,52 @@ router.get("/searchByGenreSpotify", (req, res) => {
     loggedInSpotifyApi.setAccessToken(data.body["access_token"]);
     console.log("Query received: " + req.query.genre);
     loggedInSpotifyApi.searchTracks("genre:" + req.query.genre).then((data) => {
+      let num = req.query.num ? req.query.num : 10;
+      data = data.body.tracks.items;
+      console.log(data);
+      data = shuffle(data);
       ans = [];
-      for (let i = 0; i < data.body.tracks.items.length; i++) {
-        if (ans.length >= 5) {
+      for (let i = 0; i < data.length; i++) {
+        if (ans.length >= num) {
           break;
         }
-        if (data.body.tracks.items[i].preview_url) {
-          ans.push(data.body.tracks.items[i]);
+        if (data[i].preview_url) {
+          ans.push(data[i]);
         }
       }
       res.send(ans);
-    });
+    }); 
   });
+});
+
+router.get("/getSongsFromPlaylists", async (req, res) => {
+  try {
+    const loggedInSpotifyApi = new SpotifyWebApi({
+      clientId: process.env.SPOTIFY_API_ID,
+      clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
+      redirectUri: process.env.CALLBACK_URI,
+    });
+
+    loggedInSpotifyApi.setRefreshToken(req.user.refreshToken);
+    loggedInSpotifyApi.refreshAccessToken().then(async (data) => {
+      console.log("Access Token Refreshed!");
+      loggedInSpotifyApi.setAccessToken(data.body["access_token"]);
+      let trackList = [];
+      playlistArray = req.query.playlists.split(",");
+      for(let i = 0; i < playlistArray.length; i++){
+        const result = await loggedInSpotifyApi.getPlaylist(playlistArray[i]);
+        for (let j=0; j<result.body.tracks.items.length; j++) {
+          trackList.push(result.body.tracks.items[j].track);
+        };
+      }
+      trackList = shuffle(trackList);
+      let num = req.query.num ? req.query.num : 10;
+      trackList = trackList.slice(0,num);
+     res.status(200).send(trackList);
+    });
+  } catch (err) {
+    res.status(400).send(err);
+  }
 });
 
 router.get("/getPopularSongs", (req, res) => {
@@ -460,6 +496,7 @@ router.get("/getPopularSongs", (req, res) => {
     loggedInSpotifyApi.setAccessToken(data.body["access_token"]);
     let result = await loggedInSpotifyApi.getPlaylist("37i9dQZF1DXcBWIGoYBM5M");
     result = result.body.tracks.items;
+    let num = req.query.num ? req.query.num : 10;
     for(let i = 0; i < result.length; i++){
       if(!result[i].track.preview_url){
         result.splice(i,1);
@@ -467,7 +504,7 @@ router.get("/getPopularSongs", (req, res) => {
       }
     }
     result = shuffle(result);
-    result = result.slice(0,Math.min(2,result.length));
+    result = result.slice(0,Math.min(num,result.length));
     let ans = [];
     for(let i = 0; i < result.length; i++){
       ans.push(result[i].track);

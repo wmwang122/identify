@@ -4,6 +4,8 @@ import {get, post} from "../../../utilities.js";
 import "./SongDisplay.css";
 
 const SongDisplay = (props) => {
+    const [added, setAdded] = useState(false);
+
     let artistString = "";
     for(let i = 0; i < props.song.artists.length; i++){
         artistString += props.song.artists[i].name;
@@ -14,6 +16,7 @@ const SongDisplay = (props) => {
 
     const handleAddSong = () => {
         props.handleAddSong(props.song);
+        setAdded(true);
     }
     return (
       <div className = "songDisplay-container">
@@ -25,9 +28,13 @@ const SongDisplay = (props) => {
                 {artistString}
             </div>
         </div>
+        {added?(<div className = "songDisplay-added" onClick = {() => handleAddSong()}>
+            added
+        </div>):(
         <div className = "songDisplay-add u-pointer" onClick = {() => handleAddSong()}>
             add
-        </div>
+        </div>)
+        }
       </div>
     );
   };

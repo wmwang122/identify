@@ -9,19 +9,19 @@ const DisplayPlaylist = (props) => {
     const [selected, setSelected] = useState(false);
 
   const addOrRemove = () => {
-      console.log(props.selectedPlaylists);
-      console.log("this is getting called");
       if (props.selectedPlaylists.indexOf(props.playlistID) === -1) {
           props.selectedPlaylists.push(props.playlistID);
-          console.log("add");
           setSelected(true);
       }
       else {
           let deleteIndex = props.selectedPlaylists.indexOf(props.playlistID);
-          delete props.selectedPlaylists[deleteIndex];
-          console.log("remove"); 
+          props.selectedPlaylists.splice(deleteIndex,1);
           setSelected(false);
       }
+      props.setSelected({
+        type: "playlists",
+        playlists: props.selectedPlaylists,
+      });
   }
 
     useEffect(() => {
