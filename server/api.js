@@ -264,6 +264,23 @@ router.post("/roundStart", (req, res) => {
   res.send({});
 });
 
+router.post("/addUserBackToGame", (req, res) => {
+  let game = games.get(req.body.gameCode);
+  console.log(req.body.gameCode + " " + req.body.userId);
+  console.log(game.userData);
+  let flag = false;
+  for(let i = 0; i < game.userData.length; i++){
+    if(game.userData[i]._id === req.body.userId){
+      flag = true;
+      break;
+    }
+  }
+  if(flag){
+    socketManager.addUserToGame(req.body.userId, req.body.gameCode);
+  }
+  res.send({});
+});
+
 /*router.post("/gameInitiate",(req,res) =>{
   GameSchema.countDocuments({gameCode: req.body.code}, function (err,count){
     if(count===0){

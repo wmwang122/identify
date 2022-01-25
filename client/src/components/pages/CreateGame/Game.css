@@ -53,9 +53,8 @@
 
 .firstdiv {
   background: black;
-  height: 100vh;
+  height: 100%;
   width: 100%;
-  position: absolute;
   opacity: 100%;
   margin-top: 0px;
 }

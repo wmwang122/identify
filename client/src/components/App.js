@@ -7,7 +7,6 @@ import Home from "./pages/Home/Home.js";
 import Profile from "./pages/Profile.js";
 import HowToPlay from "./pages/howtoplay.js";
 import InGame from "./pages/InGameComponents/InGame.js";
-
 import "../utilities.css";
 
 import { socket } from "../client-socket.js";
@@ -68,7 +67,7 @@ const App = (props) => {
       <Router>
         <Home path="/" handleLogin={handleLogin} handleLogout={handleLogout} userId={userId} />
         <Game path="/lobby" userId={userId} name={name} />
-        <Profile path="/profile/" userId={userId} onSubmit={handleBioUpdate} />
+        <Profile path="/profile/:profileId" userId={userId} onSubmit={handleBioUpdate} />
         <NotFound default />
         <HowToPlay path="/howtoplay" userId={userId} handleLogin={handleLogin} />
         <InGame path="/game/:gameCode" userId={userId} name={name} />
