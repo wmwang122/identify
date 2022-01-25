@@ -3,4 +3,6 @@
     flex-direction: row;
     overflow-x: scroll;
     align-items:center;
+    justify-content: space-between;
+    padding-top: 20px;
 }
