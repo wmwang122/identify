@@ -39,7 +39,7 @@ const PublicGames = (props) => {
   });
 
   for (let i = publicCodes.length-1; i >=0; i--) {
-    publicGames.push(<PublicGame code={publicCodes[i]} />);
+    publicGames.push(<PublicGame code={publicCodes[i]} userId={props.userId} name={props.name}/>);
   }
 
   return (

@@ -243,15 +243,15 @@ router.post("/clearBuzz", (req, res) => {
 
 router.post("/submitted", (req, res) => {
   let game = games.get(req.body.gameCode);
-  if (req.body.sub) {
     for (let i = 0; i < game.userData.length; i++) {
       if (game.userData[i]._id === req.body.user._id) {
-        game.userData[i].score++;
+        game.userData[i].score+=(req.body.sub?10:-5);
         break;
       }
     }
-    game.roundOngoing = false;
-  }
+    if(req.body.sub){
+      game.roundOngoing = false;
+    }
   let newMessage = {
     content: req.body.value + " was " + (req.body.sub ? "correct." : "incorrect."),
     roundNum: req.body.roundNum,
@@ -466,7 +466,7 @@ router.get("/getPopularSongs", (req, res) => {
       }
     }
     result = shuffle(result);
-    result = result.slice(0,Math.min(10,result.length));
+    result = result.slice(0,Math.min(2,result.length));
     let ans = [];
     for(let i = 0; i < result.length; i++){
       ans.push(result[i].track);
@@ -501,7 +501,7 @@ router.post("/setEndingMessage", (req, res) => {
 
 router.post("/gameEnding", (req, res) => {
   let game = games.get(req.body.gameCode);
-  if(game.settings.isPublic){
+  if(game && game.settings.isPublic){
     for(let i = 0; i < publicGames.length; i++){
       if(publicGames[i]===req.body.gameCode){
         publicGames.splice(i,1);
@@ -511,7 +511,20 @@ router.post("/gameEnding", (req, res) => {
     }
   }
   socketManager.getIo().to(req.body.gameCode).emit("game end", {});
-  map.delete(gameCode);
+  games.delete(req.body.gameCode);
+  res.send({});
+});
+
+router.post("/updateUserStats", (req, res) => {
+  console.log("asdf");
+  User.findOne({_id: req.body.user._id}).then((user)=>{
+    console.log(JSON.stringify(user));
+    user.gamesPlayed++;
+    user.songsSaved+= req.body.songsSaved;
+    user.pointsScored+=req.body.user.score;
+    user.save();
+  });
+  res.send({});
 });
 
 /*router.get("/getGame",(req,res) =>{

@@ -34,6 +34,10 @@ function getOrCreateUser(user, refreshToken) {
         spotifyId: user.id,
         refreshToken: refreshToken,
         profileId: ans,
+        recentSongs: [],
+        gamesPlayed: 0,
+        songsSaved: 0,
+        pointsScored: 0
       });
       return newUser.save();
     });
