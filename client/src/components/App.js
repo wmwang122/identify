@@ -70,8 +70,8 @@ const App = (props) => {
       <NavBar handleLogin={handleLogin} handleLogout={handleLogout} userId={userId} />
       <Router>
         <Home path="/" handleLogin={handleLogin} handleLogout={handleLogout} userId={userId} />
-        <Game path="/lobby" userId={userId} name={name} />
-        <Redirect from="/profile" to={"/profile/"+profileId}/>
+        {userId?(<Redirect from="/profile" to={"/profile/"+profileId}/>):(<Redirect from="/profile" to="/"/>)}
+        {userId?(<Game path="/lobby" userId={userId} name={name} />):(<Redirect from="/lobby" to="/"/>)}
         <Profile path="/profile" userId={userId} onSubmit={handleBioUpdate} profileId={profileId}/>
         <Profile path="/profile/:profileId" userId={userId} onSubmit={handleBioUpdate} />
         <NotFound default />

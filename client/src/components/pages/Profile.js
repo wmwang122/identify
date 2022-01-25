@@ -110,7 +110,7 @@ const Profile = (props) => {
   ) : (
     <>
       <div>{userName}</div>
-      {ownProfileId.toString()===props.profileId?(<div className="name-edit u-pointer" onClick={() => handleUsernameChange()}>
+      {ownProfileId && ownProfileId.toString()===props.profileId?(<div className="name-edit u-pointer" onClick={() => handleUsernameChange()}>
         ✎
       </div>):(<></>)}
     </>
@@ -125,7 +125,7 @@ const Profile = (props) => {
   ) : (
     <div className="bio-subContainer">
       <div className="bio-Content">{bio}</div>
-      {ownProfileId.toString()===props.profileId?(<div className="editBio-button u-background-turquoise u-pointer" onClick={handleBioEdit}>
+      {ownProfileId && ownProfileId.toString()===props.profileId?(<div className="editBio-button u-background-turquoise u-pointer" onClick={handleBioEdit}>
         Edit Bio
       </div>):(<></>)}
     </div>

@@ -8,6 +8,7 @@ const UserSchema = new mongoose.Schema({
   pfp: String,
   gamesplayed: Number,
   profileId: Number,
+  recentSongs: [Object],
   friends: [String],
 });
 
