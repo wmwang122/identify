@@ -145,6 +145,12 @@ router.get("/whoami", (req, res) => {
   });
 });
 
+router.get("/getProfileId", (req,res) => {
+  User.findOne({_id: req.query._id}).then((user) =>{
+    res.send(""+user.profileId);
+  });
+});
+
 router.post("/initsocket", (req, res) => {
   // do nothing if user not logged in
   if (req.user)

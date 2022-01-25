@@ -143,6 +143,9 @@ const Profile = (props) => {
   for(let i = recentSongs.length-1; i >=0; i--){
       songDisplay.push(<div className="profile-songInfo-wrapper"><SongInfo song={recentSongs[i]} /></div>);
   }
+  if(songDisplay.length === 0){
+      songDisplay.push(<div className="profile-no-songs-saved">No songs saved yet!</div>);
+  }
   return (
     <div>
       <div className="profile-container-1">

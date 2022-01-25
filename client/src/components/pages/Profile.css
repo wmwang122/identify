@@ -142,3 +142,7 @@ textarea[type=text]{
  .stats-container{
      width: 40%;
  }
+
+ .profile-no-songs-saved{
+     font-size: 3vh;
+ }
