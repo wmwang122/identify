@@ -35,6 +35,13 @@
   width:70%;
 }
 
+.showSearch {
+  display:inline-block;
+  width: 90%;
+  align-items:center;
+  justify-content: center;
+}
+
 
 
 
@@ -279,3 +286,19 @@ body {
 *:after {
   box-sizing: border-box;
 }
+
+
+
+.showChoices {
+  display:inline-block;
+  width: 90%;
+}
+
+
+.spacing1 {
+    background-color: #d0ffb7;
+    width: 5vh;
+    height: 5vh;
+}
+
+

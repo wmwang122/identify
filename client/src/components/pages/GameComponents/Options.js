@@ -5,6 +5,8 @@ import { Link } from "@reach/router";
 import { get, post } from "../../../utilities.js";
 import Playlists from "./Playlists.js";
 import GenreSelect from "./GenreSelect.js";
+import SelectSong1 from "./SelectSong1.js";
+import MusicSelect from "./MusicSelect.js";
 
 const Options = (props) => {
   const [displayPop, setDisplayPop] = useState(false);
@@ -13,18 +15,60 @@ const Options = (props) => {
   const [numberQuestions, setQuestions] = useState(0);
   const [time, setTime] = useState(0);
   const [playlists, setPlaylists] = useState([]);
+  const [selectedMusicType, setSelectedMusicType] = useState("");
+  
 
-  let gameSettings = {isPublic:isPublic, wantsOwnPlaylist:wantsOwnPlaylist, numberQuestions:numberQuestions, time:time, playlistIDs:playlists};
 
-  let displayPlaylists = wantsOwnPlaylist ? (
+  const handleAddSong = (newSong) => {
+    <div> </div>;
+  };
+
+  let gameSettings = {
+    isPublic: isPublic,
+    wantsOwnPlaylist: wantsOwnPlaylist,
+    numberQuestions: numberQuestions,
+    time: time,
+    playlistIDs: playlists,
+  };
+
+  let choosePlaylists = (selectedMusicType === "my playlists") ? (
     <div>
-    <Playlists selectedPlaylists={playlists}/>
+      <Playlists selectedPlaylists={playlists} />
     </div>
   ) : (
-    <div>
-    
-    </div>
+    <></>
   );
+
+  let chooseGenre = (selectedMusicType === "genres") ? (
+    <div>
+      <GenreSelect />
+    </div>) : (
+    <></>
+  );
+
+  let chooseSearch = (selectedMusicType === "search songs") ? (
+    <div> 
+    <SelectSong1 handleAddSong={(song) => handleAddSong(song)} /> </div>
+  ) : (
+      <></> 
+      
+  );
+  
+  let showSelectMusic = wantsOwnPlaylist ? (
+                <MusicSelect
+              selectedMusicType={selectedMusicType}
+              setSelectedMusicType={setSelectedMusicType}
+            />
+
+  ): (<></> );
+
+
+
+
+  //          <SelectSong handleAddSong={(song) => handleAddSong(song)} />
+  //  const handleAddSong = (newSong) => {
+  //  post("/api/addSong", { song: newSong, gameCode: gameCode });
+  // };
 
   let PopUpBox =
     displayPop === true ? (
@@ -36,8 +80,13 @@ const Options = (props) => {
             <div className="text"> make game public </div>
             <input type="checkbox" name="switch" id="switch" onClick={() => handlePublic(event)} />
             <label for="switch"></label>
-            <div className="text"> use my own playlists </div>
-            <input type="checkbox" name="switch" id="switch2" onClick={() => handleWantsOwnPlaylist(event)}/>
+            <div className="text"> choose music </div>
+            <input
+              type="checkbox"
+              name="switch"
+              id="switch2"
+              onClick={() => handleWantsOwnPlaylist(event)}
+            />
             <label for="switch2"></label>
           </div>
           <div className="row space_between">
@@ -68,21 +117,22 @@ const Options = (props) => {
               </div>
             </div>
           </div>
-          <div className="showPlaylists"> {displayPlaylists} </div> 
-          <div className="showGenres"> <GenreSelect /> </div>
-          <div> search!! </div> 
+          <div className="selectMusic">
+            {showSelectMusic}
+          </div>
+
+          <div className="showPlaylists"> {choosePlaylists} </div>
+          <div className="showGenres"> {chooseGenre} </div>
+          <div className="showSearch"> {chooseSearch} </div>
           <div className="row space_evenly">
             <div className="title" onClick={() => setDisplayPop(event)}>
               cancel
             </div>
-            <div onClick={() => submitGameOptions(event)} className="title"> 
-          submit
-          </div>
-        
-
+            <div onClick={() => submitGameOptions(event)} className="title">
+              submit
+            </div>
           </div>
         </div>
-        
       </>
     ) : (
       <> </>
@@ -112,30 +162,27 @@ const Options = (props) => {
 
   const submitGameOptions = () => {
     console.log(JSON.stringify(gameSettings));
-    post("/api/newGame", { settings: gameSettings, userId: props.userId, name: props.name,hostName: props.name,}).then((gameInfo) => {
+    post("/api/newGame", {
+      settings: gameSettings,
+      userId: props.userId,
+      name: props.name,
+      hostName: props.name,
+    }).then((gameInfo) => {
       navigate(`/game/${gameInfo.gameCode}`, { state: gameInfo });
     });
   };
 
-
-
-
   return (
     <>
-    <div className="options-button2 u-pointer" onClick={PopUp}>
-      <div className="options-text">
-        Advanced Options
+      <div className="options-button2 u-pointer" onClick={PopUp}>
+        <div className="options-text">Advanced Options</div>
+        <div className="options-description">
+          Choose your own songs, set private mode, and more to customize your identify experience!
+        </div>
       </div>
-      <div className="options-description">
-      Choose your own songs, set private mode, and more to customize your identify experience!
-      </div>
-    </div>
-    {PopUpBox}
+      {PopUpBox}
     </>
   );
-
-  
-
 };
 
 export default Options;
