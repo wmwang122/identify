@@ -92,21 +92,21 @@ const InGame = (props) => {
   };
 
   useEffect(() => {
-    if(startingTime){
+    if (startingTime) {
       setStartingTimeLoaded(true);
     }
-  },[startingTime]);
-  useEffect(()=>{
-    if(roundOngoing){
+  }, [startingTime]);
+  useEffect(() => {
+    if (roundOngoing) {
       setRoundOngoingLoaded(true);
     }
-  },[roundOngoing]);
+  }, [roundOngoing]);
 
-  useEffect(()=>{
-    if(trackList && trackList.length > 0){
+  useEffect(() => {
+    if (trackList && trackList.length > 0) {
       setTrackListLoaded(true);
     }
-  },[trackList]);
+  }, [trackList]);
 
   useEffect(() => {
     for (let i = 0; i < userData.length; i++) {

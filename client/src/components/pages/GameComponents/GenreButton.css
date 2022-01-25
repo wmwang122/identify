@@ -1,0 +1,24 @@
+.genreButton-container {
+    background-color: #f0ffe8;
+    border-radius:  10px;
+    padding-left: 2vh;
+    padding-right: 2vh;
+    margin-bottom: 1vh;
+}
+
+.genreButton-container:hover {
+    background-color: #93ff96; 
+}
+
+.genreButton-selected {
+    background-color: #93ff96;
+}
+
+.genreButton-text{
+    font-size: 3vh;
+}
+
+.spacing {
+    background-color: #d0ffb7;
+    width: 5vh;
+}
