@@ -199,9 +199,6 @@ const Options = (props) => {
     <>
       <div className="options-button2 u-pointer" onClick={PopUp}>
         <div className="options-text">Advanced Options</div>
-        <div className="options-description">
-          Choose your own songs, set private mode, and more to customize your identify experience!
-        </div>
       </div>
       {PopUpBox}
     </>

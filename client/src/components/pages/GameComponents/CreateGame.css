@@ -36,22 +36,23 @@ label {
 }
 
 .create-button2 {
-  background-color: rgba(134,231,184,0.7);
+  background-color: rgba(134, 231, 184, 0.7);
   border: none;
   color: black;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   text-decoration: none;
   display: flex;
-  height: 35vh;
-  width: 20vw;
+  height: 13vh;
+  width: 16vw;
   min-width: 35vh;
   margin-left: 2vw;
   margin-right: 2vw;
-  padding-left: 2vw;
-  padding-right: 2vw;
-  padding-top: 3vh;
-  border-radius: 10vh;
+  padding-left: 1vw;
+  padding-right: 1vw;
+  padding-top: 2vh;
+  border-radius: 5vh;
   /*position: absolute;*/
 }
 .create-button2:hover{
