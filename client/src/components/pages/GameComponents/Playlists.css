@@ -1,8 +1,9 @@
-.box {
+.playlists-box {
     display: flex;
     flex-direction: row;
     overflow-x: scroll;
     align-items:center;
     justify-content: space-between;
-    padding-top: 20px;
+    padding-top: 3vh;
+    height: 35vh;
 }

@@ -38,13 +38,13 @@ const DisplayPlaylist = (props) => {
   let src = props && props.playlistImage && props.playlistImage.url ? props.playlistImage.url : "logo.png";
 
   let displayImage = selected ? (
-    <div>
-    <img src={src} width="140" height="140"/>
+    <div className="imageSelected">
+    <img src={src} width="100%" height="100%"/>
     selected
     </div>
   ) : (
     <div className="imageNotSelected">
-    <img src={src} width="140" height="140"/>
+    <img src={src} width="100%" height="100%"/>
     </div>
   );
 

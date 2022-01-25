@@ -59,7 +59,7 @@ const SelectSong1 = (props) => {
 
   return (
       <div className="select-song-window1">
-        <div className="selectPopup-header">
+        <div className="selectPopup-header1">
           <input
             type="text"
             placeholder={props.defaultText}
@@ -71,7 +71,7 @@ const SelectSong1 = (props) => {
             search
           </button>
         </div>
-        <div className="selectPopup-content">{output}</div>
+        <div className="selectPopup-content1">{output}</div>
 
       </div>
   );

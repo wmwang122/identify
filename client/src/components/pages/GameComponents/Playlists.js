@@ -19,7 +19,7 @@ const Playlists = (props) => {
 
 
     return (
-     <div className = "box"> 
+     <div className = "playlists-box"> 
      {playlists.map((playlist) => (
        <DisplayPlaylist playlistImage = {playlist.images[0]} playlistName = {playlist.name} playlistID = {playlist.id} selectedPlaylists = {props.selectedPlaylists}/>
 
