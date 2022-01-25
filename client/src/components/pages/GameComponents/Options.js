@@ -15,43 +15,41 @@ const Options = (props) => {
   const [wantsOwnPlaylist, setWantsOwnPlaylist] = useState(false);
   const [numberQuestions, setQuestions] = useState(0);
   const [time, setTime] = useState(0);
-  const [playlists, setPlaylists] = useState([]);
   const [selectedMusicType, setSelectedMusicType] = useState("");
+  const [selectedSongs, setSelectedSongs] = useState(null);
   
-
-
-  const handleAddSong = (newSong) => {
-    <div> </div>;
-  };
+  useEffect(()=>{
+    console.log(selectedSongs);
+  },[selectedSongs]);
 
   let gameSettings = {
     isPublic: isPublic,
     wantsOwnPlaylist: wantsOwnPlaylist,
     numberQuestions: numberQuestions,
     time: time,
-    playlistIDs: playlists,
+    selectedSongs: selectedSongs,
   };
 
 
 
   let choosePlaylists = (selectedMusicType === "my playlists") ? (
-    <div className="showPlaylists">
-      <Playlists selectedPlaylists={playlists} />
+    <div>
+      <Playlists setSelected = {(data)=>setSelectedSongs(data)}/>
     </div>
   ) : (
     <></>
   );
 
   let chooseGenre = (selectedMusicType === "genres") ? (
-    <div className="showGenres">
-      <GenreSelect />
+    <div>
+      <GenreSelect setSelected = {(data)=>setSelectedSongs(data)}/>
     </div>) : (
     <></>
   );
 
   let chooseSearch = (selectedMusicType === "search songs") ? (
-    <div className="showSearch"> 
-    <SelectSong1 handleAddSong={(song) => handleAddSong(song)} /> </div>
+    <div> 
+    <SelectSong1 setSelected = {(data)=>setSelectedSongs(data)}/> </div>
   ) : (
       <></> 
       
@@ -193,16 +191,45 @@ const Options = (props) => {
     console.log(event.target.value);
   };
 
-  const submitGameOptions = () => {
-    console.log(JSON.stringify(gameSettings));
+  const makeGame = (trackList) => {
     post("/api/newGame", {
       settings: gameSettings,
       userId: props.userId,
       name: props.name,
       hostName: props.name,
+      trackList: trackList,
     }).then((gameInfo) => {
       navigate(`/game/${gameInfo.gameCode}`, { state: gameInfo });
     });
+  }
+
+  const submitGameOptions = async () => {
+    console.log(JSON.stringify(gameSettings));
+    if(gameSettings.selectedSongs && gameSettings.selectedSongs.type){
+      if(gameSettings.selectedSongs.type === "playlists"){
+        get("/api/getSongsFromPlaylists", {playlists: gameSettings.selectedSongs.playlists}).then((songs)=>{
+          makeGame(songs);
+        });
+      }
+      else if(gameSettings.selectedSongs.type === "genre"){
+        get("/api/searchByGenreSpotify", {genre: gameSettings.selectedSongs.genre}).then((songs) =>{
+          makeGame(songs);
+        });
+      }
+      else if(gameSettings.selectedSongs.type === "select"){
+        makeGame(gameSettings.selectedSongs.selectedSongs);
+      }
+      else{
+        get("/api/getPopularSongs",{num: 10}).then((songs) =>{
+          makeGame(songs);
+        });
+      }
+    }
+    else{
+      post("/api/getPopularSongs",{num:10}).then((songs) =>{
+        makeGame(songs);
+      });
+    }
   };
 
   return (

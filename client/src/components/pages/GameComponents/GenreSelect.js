@@ -8,6 +8,18 @@ const GenreSelect = (props) => {
   const genres = ["country", "emo", "folk", "hip-hop", "indie", "latino", "pop", "rock", "techno"];
   const [selectedGenre, setSelectedGenre] = useState("");
     let genreButtons = [];
+
+    useEffect(()=>{
+      props.setSelected(null);
+    },[]);
+
+    useEffect(()=>{
+      props.setSelected({
+        type: "genre",
+        genre: selectedGenre,
+      })
+    },[selectedGenre]);
+    
     for(let i = 0; i < genres.length; i++){
       genreButtons.push(<GenreButton genre={genres[i]} setSelectedGenre={setSelectedGenre} selectedGenre={selectedGenre}/>);
     }

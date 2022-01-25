@@ -130,7 +130,7 @@ const InGame = (props) => {
     );
   };
 
-  useEffect(() => {
+  /*useEffect(() => {
     let createTrackList = [];
 
     for (let i = 0; i < playlistIDs.length; i++) {
@@ -152,7 +152,7 @@ const InGame = (props) => {
     // //    post("/api/testPlaylistsInitialize",{data: body, gameCode: gameCode});
     //   });
     // }
-  }, [playlistIDs]); //this useEffect should be deleted ASAP after playlists are added
+  }, [playlistIDs]);*/ //this useEffect should be deleted ASAP after playlists are added
 
   /*useEffect(() => {
     if (!trackList || trackList.length === 0) {

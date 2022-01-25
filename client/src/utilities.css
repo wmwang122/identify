@@ -195,4 +195,5 @@ form {
   left: 0;
   opacity: 80%;
   position: fixed;
+  z-index: 4;
 }

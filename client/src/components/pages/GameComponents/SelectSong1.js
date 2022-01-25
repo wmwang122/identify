@@ -8,10 +8,16 @@ const SelectSong1 = (props) => {
   const [value, setValue] = useState("");
   const [songArray, setSongArray] = useState([]);
   const [selecting, setSelecting] = useState(false);
+  const [selectedSongs, setSelectedSongs] = useState([]);
+
+  useEffect(()=>{
+    props.setSelected(null);
+  },[]);
+
   let output = [];
   for (let i = 0; i < songArray.length; i++) {
     output.push(
-      <SongDisplay1 song={songArray[i]} handleAddSong={(song) => props.handleAddSong(song)} />
+      <SongDisplay1 song={songArray[i]} setSelected = {props.setSelected} selectedSongs = {selectedSongs}/>
     );
   }
 

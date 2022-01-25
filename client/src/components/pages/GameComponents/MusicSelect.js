@@ -7,7 +7,6 @@ import MusicTypeButton from "./MusicTypeButton.js";
 import "./MusicSelect.css";
 
 const MusicSelect = (props) => {
-
   return (
     <div className="genreSelect-container">
       <div className="musicSelect-title">choose music</div>
