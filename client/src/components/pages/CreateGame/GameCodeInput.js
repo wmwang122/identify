@@ -41,12 +41,14 @@ const GameCodeInput = (props) => {
       );
 
   return (
-    <div>
-      <input type="text" value={inputText} onChange={handleInputChange} />
-      <button onClick={checkCode} className="enterText-button">
-        {" "}
-        submit{" "}
-      </button>
+    <div className="invalidColumn">
+      <div className="gameCodeRow">
+        <div className="submitText">code: </div>
+        <input type="text" value={inputText} onChange={handleInputChange} />
+        <div onClick={checkCode} className="enterText-button">
+          <div className="submitText">submit</div>
+        </div>
+      </div>
       {textBox}
     </div>
   );

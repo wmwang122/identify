@@ -1,12 +1,12 @@
  .enterText-button {
-    font-size: 10vh;
     border-radius: 15vh;
-    height: 30vh;
-    width: 75vw;
+    height: 8vh;
+    width: 70vw;
     text-align: center;
-    line-height: 30vh;
+    line-height: 20vh;
     display:flex;
     justify-content:center; 
+    background-color: rgba(134, 231, 184, 0.7);
 }
 
 .enterGameCode{
@@ -15,7 +15,26 @@
 }
 
 .invalid {
-    margin-top: 3vh;
-    margin-left: 3vw;
-    font-size: 5vh;
+    margin-top: 1.5vh;
+    font-size: 2.5vh;
+}
+
+.submitText {
+    font-size: 3vh;
+}
+
+.gameCodeRow {
+    display:flex;
+    flex-direction: row;
+    align-items:center;
+    justify-content: center;
+    margin-top: 2.5vh;
+
+}
+
+.invalidColumn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center; 
 }

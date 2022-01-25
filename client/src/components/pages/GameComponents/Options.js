@@ -29,6 +29,8 @@ const Options = (props) => {
     selectedSongs: selectedSongs,
   };
 
+
+
   let choosePlaylists = (selectedMusicType === "my playlists") ? (
     <div>
       <Playlists setSelected = {(data)=>setSelectedSongs(data)}/>
@@ -123,7 +125,7 @@ const Options = (props) => {
           <div className="showGenres"> {chooseGenre} </div>
           <div className="showSearch"> {chooseSearch} </div>
           <div className="row space_evenly">
-            <div className="title" onClick={() => handleCancel(event)}>
+            <div className="title" onClick={() => handleCancel()}>
               cancel
             </div>
             <div onClick={() => submitGameOptions(event)} className="title">
@@ -139,25 +141,18 @@ const Options = (props) => {
 
   const PopUp = () => {
     setDisplayPop(!displayPop);
-    if (!displayPop === false) {
-      setIsPublic(false);
-      setWantsOwnPlaylist(false);
-      setTime(0);
-      setPlaylists([]);
-      setSelectedMusicType("");
-    }
+    console.log(gameSettings);
   };
 
-    const handleCancel = () => {
-      setDisplayPop(false);
-
-      if (!displayPop === false) {
-        setIsPublic(false);
-        setWantsOwnPlaylist(false);
-        setTime(0);
-        setPlaylists([]);
-        setSelectedMusicType("");
-      }
+  const handleCancel =  () => {
+     setDisplayPop(false);
+    
+    setVisible(false);
+    setWantsOwnPlaylist(false);
+    setTime(0);
+    setPlaylists([]);
+    setSelectedMusicType("");
+                
     };
 
    const handleWantsOwnPlaylist =   () => {
@@ -226,9 +221,6 @@ const Options = (props) => {
     <>
       <div className="options-button2 u-pointer" onClick={PopUp}>
         <div className="options-text">Advanced Options</div>
-        <div className="options-description">
-          Choose your own songs, set private mode, and more to customize your identify experience!
-        </div>
       </div>
       {PopUpBox}
     </>
