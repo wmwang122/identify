@@ -70,7 +70,7 @@ const App = (props) => {
         <Profile path="/profile/:profileId" userId={userId} onSubmit={handleBioUpdate} />
         <NotFound default />
         <HowToPlay path="/howtoplay" userId={userId} handleLogin={handleLogin} />
-        <InGame path="/game/:gameCode" userId={userId} name={name} />
+        <InGame path="/game/:gameCode" userId={userId} name={name}/>
       </Router>
     </>
   );
