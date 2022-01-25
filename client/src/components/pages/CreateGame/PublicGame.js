@@ -33,8 +33,19 @@ const PublicGame = (props) => {
     host = data.hostName;
   }
 
+  const handleClick = () => {
+    post("/api/joinGame", {gameCode: props.code, userId: props.userId, name: props.name}).then((gameInfo) => {
+      console.log(gameInfo.status);
+      if (gameInfo.status !== "game not found") {
+        navigate(`/game/${gameInfo.gameCode}`, { state: gameInfo });
+      } else {
+        console.log("game does not exist");
+      }
+    });
+  }
+
   return (
-    <div className="public-game-container">
+    <div className="public-game-container u-pointer" onClick = {() => handleClick()}>
       <div className="host-participants">Host: {host} | Participants: {participants}</div>
       <div className="code-in-game-panel">{props.code}</div>
     </div>

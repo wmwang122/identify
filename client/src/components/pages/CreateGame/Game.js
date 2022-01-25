@@ -42,7 +42,7 @@ const Game = (props) => {
       </div>
       </div>
     </div>
-        <PublicGames/>  
+        <PublicGames userId={props.userId} name={props.name}/>  
     </div>
   );
 };

@@ -216,6 +216,27 @@ const InGame = (props) => {
     };
   });
 
+  useEffect(()=>{
+    socket.on("game end", handleSocketEndGame);
+    return () => {
+      socket.off("game end");
+    };
+  });
+
+  const handleSocketEndGame = (data) => {
+    let user=undefined;
+    for(let i = 0; i < userData.length; i++){
+      if(props.userId === userData[i]._id){
+        user = userData[i];
+        break;
+      }
+    }
+    if(user){
+      post("/api/updateUserStats",{user: user, songsSaved: savedSongs.length});
+    }
+    setGameEnded(true);
+  };
+
   useEffect(() => {
     post("/api/updateSongTimeLeft", { gameCode: gameCode, songTimeLeft: songTimeLeft });
   }, [songTimeLeft]);
@@ -252,12 +273,10 @@ const InGame = (props) => {
 
   const handleTimerEnd = async (success) => {
     setUserBuzz(null);
-    if (success) {
-      for (let i = 0; i < userData.length; i++) {
-        if (userData[i]._id === userBuzz._id) {
-          userData[i].score++;
-          break;
-        }
+    for (let i = 0; i < userData.length; i++) {
+      if (userData[i]._id === userBuzz._id) {
+        userData[i].score+=(success?10:-5);
+        break;
       }
     }
     await post("/api/clearBuzz", { gameCode: gameCode });
@@ -330,6 +349,7 @@ const InGame = (props) => {
   const handleGameEnd = () => {
     console.log("game has ended");
     setGameEnded(true);
+    post("/api/gameEnding", {gameCode: gameCode});
   };
 
   useEffect(() => {
