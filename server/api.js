@@ -151,6 +151,14 @@ router.post("/initsocket", (req, res) => {
   res.send({});
 });
 
+router.get("/getProfile", (req,res) => {
+  if(req.query.profileId){
+    User.findOne({profileId: req.query.profileId}).then((user)=>{
+      res.send(user);
+    });
+  }
+});
+
 router.post("/bioUpdate", (req, res) => {
   if (req.body.id) {
     User.findOne({ _id: req.body.id }).then((user) => {
@@ -489,6 +497,21 @@ router.post("/setEndingMessage", (req, res) => {
   let game = games.get(req.body.gameCode);
   game.endingMessage = req.body.message;
   res.send({});
+});
+
+router.post("/gameEnding", (req, res) => {
+  let game = games.get(req.body.gameCode);
+  if(game.settings.isPublic){
+    for(let i = 0; i < publicGames.length; i++){
+      if(publicGames[i]===req.body.gameCode){
+        publicGames.splice(i,1);
+        socketManager.getIo().emit("public game end", req.body.gameCode);
+        break;
+      }
+    }
+  }
+  socketManager.getIo().to(req.body.gameCode).emit("game end", {});
+  map.delete(gameCode);
 });
 
 /*router.get("/getGame",(req,res) =>{

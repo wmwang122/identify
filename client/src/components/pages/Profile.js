@@ -13,14 +13,12 @@ const Profile = (props) => {
   const [bioEditOn, toggleBioEdit] = useState(false);
   const [nameEditOn, setNameEditOn] = useState(false);
   const [nameValue, setNameValue] = useState("");
+  const [ownProfileId, setOwnProfileId] = useState(0);
   useEffect(() => {
     let isMounted = true;
     if (isMounted) {
       get("/api/whoami").then((user) => {
-        setUserName(user.name);
-        setBio(user.bio);
-        setPfp(user.pfp);
-        console.log("set name and bio and pfp");
+        setOwnProfileId(user.profileId);
         console.log(JSON.stringify(user));
       });
     }
@@ -28,6 +26,13 @@ const Profile = (props) => {
       isMounted = false;
     };
   }, []);
+  useEffect(() => {
+    get("/api/getProfile",{profileId: props.profileId}).then((user) => {
+        setUserName(user.name);
+        setBio(user.bio);
+        setPfp(user.pfp);
+    });
+  },[]);
   const handlePfpEdit = (event) => {
     const image_input = document.querySelector("#image_input");
     image_input.addEventListener("change", function () {
@@ -105,9 +110,9 @@ const Profile = (props) => {
   ) : (
     <>
       <div>{userName}</div>
-      <div className="name-edit u-pointer" onClick={() => handleUsernameChange()}>
+      {ownProfileId.toString()===props.profileId?(<div className="name-edit u-pointer" onClick={() => handleUsernameChange()}>
         ✎
-      </div>
+      </div>):(<></>)}
     </>
   );
   const bioField = bioEditOn ? (
@@ -120,9 +125,9 @@ const Profile = (props) => {
   ) : (
     <div className="bio-subContainer">
       <div className="bio-Content">{bio}</div>
-      <div className="editBio-button u-background-turquoise u-pointer" onClick={handleBioEdit}>
+      {ownProfileId.toString()===props.profileId?(<div className="editBio-button u-background-turquoise u-pointer" onClick={handleBioEdit}>
         Edit Bio
-      </div>
+      </div>):(<></>)}
     </div>
   );
   return (

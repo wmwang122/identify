@@ -7,6 +7,7 @@ const UserSchema = new mongoose.Schema({
   bio: String,
   pfp: String,
   gamesplayed: Number,
+  profileId: Number,
   friends: [String],
 });
 

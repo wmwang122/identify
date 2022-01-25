@@ -14,6 +14,10 @@ function verify(token) {
     .then((ticket) => ticket.getPayload());
 }
 
+const generateProfileId = () => {
+  return Math.floor(900000*Math.random()+100000);
+}
+
 // gets user from DB, or makes a new account if it doesn't exist yet
 function getOrCreateUser(user, refreshToken) {
   // the "sub" field means "subject", which is a unique identifier for each user
@@ -23,13 +27,16 @@ function getOrCreateUser(user, refreshToken) {
       existingUser.refreshToken = refreshToken;
       return existingUser.save();
     }
-    const newUser = new User({
-      name: user.display_name,
-      spotifyId: user.id,
-      refreshToken: refreshToken,
+    User.find().then((users)=>{
+      let ans = users.length+31415;
+      const newUser = new User({
+        name: user.display_name,
+        spotifyId: user.id,
+        refreshToken: refreshToken,
+        profileId: ans,
+      });
+      return newUser.save();
     });
-
-    return newUser.save();
   });
 }
 

@@ -216,6 +216,15 @@ const InGame = (props) => {
     };
   });
 
+  useEffect(()=>{
+    socket.on("game end", (data) => {
+      handleGameEnd();
+    });
+    return () => {
+      socket.off("game end");
+    };
+  });
+
   useEffect(() => {
     post("/api/updateSongTimeLeft", { gameCode: gameCode, songTimeLeft: songTimeLeft });
   }, [songTimeLeft]);
@@ -330,6 +339,7 @@ const InGame = (props) => {
   const handleGameEnd = () => {
     console.log("game has ended");
     setGameEnded(true);
+    post("/api/gameEnding", {gameCode: gameCode});
   };
 
   useEffect(() => {

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Router } from "@reach/router";
+import { Router, Redirect} from "@reach/router";
 import NotFound from "./pages/NotFound.js";
 import Game from "./pages/CreateGame/Game.js";
 import NavBar from "./modules/NavBar.js";
@@ -18,6 +18,7 @@ import { get, post } from "../utilities";
  */
 const App = (props) => {
   const [userId, setUserId] = useState(undefined);
+  const [profileId, setProfileId] = useState(0);
   const [name, setName] = useState(undefined);
 
   useEffect(() => {
@@ -28,6 +29,9 @@ const App = (props) => {
       }
       if (user.name) {
         setName(user.name);
+      }
+      if (user.profileId){
+        setProfileId(user.profileId);
       }
     });
   }, []);
@@ -67,6 +71,8 @@ const App = (props) => {
       <Router>
         <Home path="/" handleLogin={handleLogin} handleLogout={handleLogout} userId={userId} />
         <Game path="/lobby" userId={userId} name={name} />
+        <Redirect from="/profile" to={"/profile/"+profileId}/>
+        <Profile path="/profile" userId={userId} onSubmit={handleBioUpdate} profileId={profileId}/>
         <Profile path="/profile/:profileId" userId={userId} onSubmit={handleBioUpdate} />
         <NotFound default />
         <HowToPlay path="/howtoplay" userId={userId} handleLogin={handleLogin} />
