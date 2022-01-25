@@ -17,6 +17,10 @@ const Countdown = (props) => {
     setTimeLeft(props.time);
   }
 
+  useEffect(()=> {
+    setTimeLeft(props.time);
+  },[props.resetOnUpdate]);
+
   useEffect(() => {
     reset();
   },[props.time]);
@@ -70,9 +74,9 @@ const Countdown = (props) => {
   //const button = props.visible?(<button onClick={toggle}>{buttonText}</button>):<></>;
 
   return (
-    <div>
+    props.hide?(<></>):(<div>
       <div>{timeLeft}s</div>
-    </div>
+    </div>)
   );
 };
 

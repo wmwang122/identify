@@ -36,7 +36,6 @@ const CreateGame = (props) => {
       <div className="create-text">
         Quick Create
       </div>
-      <div className="create-description">Create a new, public Identify room with default settings!</div>
     </div>
   );
 };

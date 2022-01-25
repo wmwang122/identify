@@ -1,0 +1,31 @@
+.songDisplay-container{
+    display: flex;
+    justify-content: space-between;
+    background-color: var(--turquoisegreen);
+    margin: 2vh 1vw 2vh 1vw;
+    padding: 3vh 2vw 3vh 2vw;
+    border-radius: 5vh;
+}
+
+.songDisplay-info{
+    display: flex;
+    flex-direction: column;
+}
+
+.songDisplay-songName{
+    font-weight: 500;
+    font-size: 2.8vh;
+    margin-bottom: 1vh;
+}
+
+.songDisplay-add:hover{
+    font-weight: 500;
+}
+
+.songDisplay-container:hover{
+    background-color: #7bff7f;
+}
+
+.songDisplay-add > .songDisplay-container:hover{
+    visibility: visible;
+}

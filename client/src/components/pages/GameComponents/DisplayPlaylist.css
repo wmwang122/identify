@@ -7,7 +7,29 @@
     flex-direction: row;
 }
 
-.column{
+.name_image{
     display: flex;
     flex-direction: column;
+    margin-right: 20px;
+    margin-left: 20px;
+    justify-content: space-between;
+    height: 25vh;
+    width: 20vh;
+}
+
+.playlistName {
+    font-size: 2vh;
+}
+
+.name_image:hover{
+    opacity: 80%;
+}
+
+.imageNotSelected{
+    opacity: 30%;
+}
+
+.imageSelected{
+    text-align: center;
+    font-size: 2.5vh;
 }

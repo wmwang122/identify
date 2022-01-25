@@ -150,6 +150,14 @@ router.post("/initsocket", (req, res) => {
   res.send({});
 });
 
+router.get("/getProfile", (req, res) => {
+  if (req.query.profileId) {
+    User.findOne({ profileId: req.query.profileId }).then((user) => {
+      res.send(user);
+    });
+  }
+});
+
 router.post("/bioUpdate", (req, res) => {
   if (req.body.id) {
     User.findOne({ _id: req.body.id }).then((user) => {
@@ -234,13 +242,13 @@ router.post("/clearBuzz", (req, res) => {
 
 router.post("/submitted", (req, res) => {
   let game = games.get(req.body.gameCode);
-  if (req.body.sub) {
-    for (let i = 0; i < game.userData.length; i++) {
-      if (game.userData[i]._id === req.body.user._id) {
-        game.userData[i].score++;
-        break;
-      }
+  for (let i = 0; i < game.userData.length; i++) {
+    if (game.userData[i]._id === req.body.user._id) {
+      game.userData[i].score += req.body.sub ? 10 : -5;
+      break;
     }
+  }
+  if (req.body.sub) {
     game.roundOngoing = false;
   }
   let newMessage = {
@@ -263,6 +271,23 @@ router.post("/roundStart", (req, res) => {
   res.send({});
 });
 
+router.post("/addUserBackToGame", (req, res) => {
+  let game = games.get(req.body.gameCode);
+  console.log(req.body.gameCode + " " + req.body.userId);
+  console.log(game.userData);
+  let flag = false;
+  for (let i = 0; i < game.userData.length; i++) {
+    if (game.userData[i]._id === req.body.userId) {
+      flag = true;
+      break;
+    }
+  }
+  if (flag) {
+    socketManager.addUserToGame(req.body.userId, req.body.gameCode);
+  }
+  res.send({});
+});
+
 /*router.post("/gameInitiate",(req,res) =>{
   GameSchema.countDocuments({gameCode: req.body.code}, function (err,count){
     if(count===0){
@@ -280,6 +305,7 @@ router.post("/newGame", (req, res) => {
   while (games.get(code)) {
     code = generateCode(5);
   }
+  console.log("code is: " + code);
   games.set(code, {
     settings: req.body.settings,
     userData: [{ _id: req.body.userId, name: req.body.name, score: 0, active: true }],
@@ -288,11 +314,12 @@ router.post("/newGame", (req, res) => {
     gameLog: [],
     hostName: req.body.hostName,
     playlistIDs: req.body.settings.playlistIDs,
-    trackList: [],
+    trackList: req.body.trackList,
     trackNum: 0,
     endingMessage: "",
     songTimeLeft: 30,
     roundOngoing: false,
+    //musicType: req.body.settings.musicType,
   }); //maps gamecode to an array of game settings
   socketManager.addUserToGame(req.body.userId, code);
   if (req.body.settings.isPublic) {
@@ -408,18 +435,52 @@ router.get("/searchByGenreSpotify", (req, res) => {
     loggedInSpotifyApi.setAccessToken(data.body["access_token"]);
     console.log("Query received: " + req.query.genre);
     loggedInSpotifyApi.searchTracks("genre:" + req.query.genre).then((data) => {
+      let num = req.query.num ? req.query.num : 10;
+      data = data.body.tracks.items;
+      console.log(data);
+      data = shuffle(data);
       ans = [];
-      for (let i = 0; i < data.body.tracks.items.length; i++) {
-        if (ans.length >= 5) {
+      for (let i = 0; i < data.length; i++) {
+        if (ans.length >= num) {
           break;
         }
-        if (data.body.tracks.items[i].preview_url) {
-          ans.push(data.body.tracks.items[i]);
+        if (data[i].preview_url) {
+          ans.push(data[i]);
         }
       }
       res.send(ans);
     });
   });
+});
+
+router.get("/getSongsFromPlaylists", async (req, res) => {
+  try {
+    const loggedInSpotifyApi = new SpotifyWebApi({
+      clientId: process.env.SPOTIFY_API_ID,
+      clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
+      redirectUri: process.env.CALLBACK_URI,
+    });
+
+    loggedInSpotifyApi.setRefreshToken(req.user.refreshToken);
+    loggedInSpotifyApi.refreshAccessToken().then(async (data) => {
+      console.log("Access Token Refreshed!");
+      loggedInSpotifyApi.setAccessToken(data.body["access_token"]);
+      let trackList = [];
+      playlistArray = req.query.playlists.split(",");
+      for (let i = 0; i < playlistArray.length; i++) {
+        const result = await loggedInSpotifyApi.getPlaylist(playlistArray[i]);
+        for (let j = 0; j < result.body.tracks.items.length; j++) {
+          trackList.push(result.body.tracks.items[j].track);
+        }
+      }
+      trackList = shuffle(trackList);
+      let num = req.query.num ? req.query.num : 10;
+      trackList = trackList.slice(0, num);
+      res.status(200).send(trackList);
+    });
+  } catch (err) {
+    res.status(400).send(err);
+  }
 });
 
 router.get("/getPopularSongs", (req, res) => {
@@ -433,6 +494,7 @@ router.get("/getPopularSongs", (req, res) => {
     loggedInSpotifyApi.setAccessToken(data.body["access_token"]);
     let result = await loggedInSpotifyApi.getPlaylist("37i9dQZF1DXcBWIGoYBM5M");
     result = result.body.tracks.items;
+    let num = req.query.num ? req.query.num : 10;
     for (let i = 0; i < result.length; i++) {
       if (!result[i].track.preview_url) {
         result.splice(i, 1);
@@ -440,7 +502,7 @@ router.get("/getPopularSongs", (req, res) => {
       }
     }
     result = shuffle(result);
-    result = result.slice(0, Math.min(10, result.length));
+    result = result.slice(0, Math.min(num, result.length));
     let ans = [];
     for (let i = 0; i < result.length; i++) {
       ans.push(result[i].track);
@@ -470,6 +532,42 @@ router.post("/updateSongTimeLeft", (req, res) => {
 router.post("/setEndingMessage", (req, res) => {
   let game = games.get(req.body.gameCode);
   game.endingMessage = req.body.message;
+  res.send({});
+});
+
+router.post("/gameEnding", (req, res) => {
+  let game = games.get(req.body.gameCode);
+  if (game && game.settings.isPublic) {
+    for (let i = 0; i < publicGames.length; i++) {
+      if (publicGames[i] === req.body.gameCode) {
+        publicGames.splice(i, 1);
+        socketManager.getIo().emit("public game end", req.body.gameCode);
+        break;
+      }
+    }
+  }
+  socketManager.getIo().to(req.body.gameCode).emit("game end", {});
+  games.delete(req.body.gameCode);
+  res.send({});
+});
+
+router.post("/updateUserStats", (req, res) => {
+  console.log("asdf");
+  User.findOne({ _id: req.body.user._id }).then((user) => {
+    console.log(JSON.stringify(user));
+    user.gamesPlayed++;
+    user.songsSaved += req.body.savedSongs.length;
+    user.pointsScored += req.body.user.score;
+    for (let i = 0; i < req.body.savedSongs.length; i++) {
+      if (user.recentSongs.length < 15) {
+        user.recentSongs.push(req.body.trackList[req.body.savedSongs[i]]);
+      } else {
+        user.recentSongs.splice(0, 1);
+        user.recentSongs.push(req.body.trackList[req.body.savedSongs[i]]);
+      }
+    }
+    user.save();
+  });
   res.send({});
 });
 

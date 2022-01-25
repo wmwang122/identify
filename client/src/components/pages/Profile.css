@@ -104,3 +104,37 @@ textarea[type=text]{
     font-weight: 300;
     background-color: rgba(255,255,255,0.8);
  }
+
+ .profile-lower-container{
+     display: flex;
+ }
+
+ .profile-stats-text{
+    font-size: 6vh;
+    margin: 4vh 2vw 1vh 3vw;
+ }
+.profile-stat{
+    font-size: 3.5vh;
+    margin-top: 0.5vh;
+    margin-left: 3vw;
+}
+ .profile-stat-title{
+    font-weight: 500;
+ }
+
+ .profile-recentSongs-text{
+    font-size: 6vh;
+    margin: 4vh 2vw 1vh 3vw;
+ }
+
+ .profile-songList{
+     margin-left: 3vw;
+     display: flex;
+     flex-wrap: wrap;
+     padding-bottom: 5vh;
+ }
+
+ .profile-songInfo-wrapper{
+     margin-right: 3vw;
+     margin-bottom: 2vh;
+ }

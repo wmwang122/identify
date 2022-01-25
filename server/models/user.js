@@ -6,7 +6,11 @@ const UserSchema = new mongoose.Schema({
   refreshToken: String,
   bio: String,
   pfp: String,
-  gamesplayed: Number,
+  gamesPlayed: Number,
+  pointsScored: Number,
+  songsSaved: Number,
+  profileId: Number,
+  recentSongs: [Object],
   friends: [String],
 });
 

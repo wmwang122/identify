@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Router } from "@reach/router";
+import { Router, Redirect} from "@reach/router";
 import NotFound from "./pages/NotFound.js";
 import Game from "./pages/CreateGame/Game.js";
 import NavBar from "./modules/NavBar.js";
@@ -7,7 +7,6 @@ import Home from "./pages/Home/Home.js";
 import Profile from "./pages/Profile.js";
 import HowToPlay from "./pages/howtoplay.js";
 import InGame from "./pages/InGameComponents/InGame.js";
-
 import "../utilities.css";
 
 import { socket } from "../client-socket.js";
@@ -19,6 +18,7 @@ import { get, post } from "../utilities";
  */
 const App = (props) => {
   const [userId, setUserId] = useState(undefined);
+  const [profileId, setProfileId] = useState(0);
   const [name, setName] = useState(undefined);
 
   useEffect(() => {
@@ -29,6 +29,9 @@ const App = (props) => {
       }
       if (user.name) {
         setName(user.name);
+      }
+      if (user.profileId){
+        setProfileId(user.profileId);
       }
     });
   }, []);
@@ -67,11 +70,13 @@ const App = (props) => {
       <NavBar handleLogin={handleLogin} handleLogout={handleLogout} userId={userId} />
       <Router>
         <Home path="/" handleLogin={handleLogin} handleLogout={handleLogout} userId={userId} />
-        <Game path="/lobby" userId={userId} name={name} />
-        <Profile path="/profile/" userId={userId} onSubmit={handleBioUpdate} />
+        {userId?(<Redirect from="/profile" to={"/profile/"+profileId}/>):(<Redirect from="/profile" to="/"/>)}
+        {userId?(<Game path="/lobby" userId={userId} name={name} />):(<Redirect from="/lobby" to="/"/>)}
+        <Profile path="/profile" userId={userId} onSubmit={handleBioUpdate} profileId={profileId}/>
+        <Profile path="/profile/:profileId" userId={userId} onSubmit={handleBioUpdate} />
         <NotFound default />
         <HowToPlay path="/howtoplay" userId={userId} handleLogin={handleLogin} />
-        <InGame path="/game/:gameCode" userId={userId} name={name} />
+        <InGame path="/game/:gameCode" userId={userId} name={name}/>
       </Router>
     </>
   );

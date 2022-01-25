@@ -162,3 +162,7 @@
 .save-button-end:hover {
   font-weight: 400;
 }
+
+.game-ending-timer {
+    visibility: hidden;
+}

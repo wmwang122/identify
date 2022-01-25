@@ -1,14 +1,11 @@
-.genreSelect-content {
+.musicSelect-content {
     display: flex;
-    flex-wrap: wrap;
     flex-direction: row;
     justify-content: space-evenly;
 }
 
-.genreSelect-title {
+.musicSelect-title {
     font-size: 3vh;
     margin-bottom: 2vh;
     font-weight: 400;
 }
-
-
