@@ -125,7 +125,7 @@ const Options = (props) => {
           <div className="showGenres"> {chooseGenre} </div>
           <div className="showSearch"> {chooseSearch} </div>
           <div className="row space_evenly">
-            <div className="title" onClick={() => setDisplayPop(event)}>
+            <div className="title" onClick={() => handleCancel(event)}>
               cancel
             </div>
             <div onClick={() => submitGameOptions(event)} className="title">
@@ -138,13 +138,36 @@ const Options = (props) => {
       <> </>
     );
 
+
   const PopUp = () => {
     setDisplayPop(!displayPop);
+    if (!displayPop === false) {
+      setIsPublic(false);
+      setWantsOwnPlaylist(false);
+      setTime(0);
+      setPlaylists([]);
+      setSelectedMusicType("");
+    }
   };
 
-  const handleWantsOwnPlaylist = () => {
-    setWantsOwnPlaylist(!wantsOwnPlaylist);
-  };
+    const handleCancel = () => {
+      setDisplayPop(false);
+
+      if (!displayPop === false) {
+        setIsPublic(false);
+        setWantsOwnPlaylist(false);
+        setTime(0);
+        setPlaylists([]);
+        setSelectedMusicType("");
+      }
+    };
+
+   const handleWantsOwnPlaylist =   () => {
+      setWantsOwnPlaylist(!wantsOwnPlaylist);
+     if (!wantsOwnPlaylist === false) {
+       setSelectedMusicType("");
+     }
+   };
 
   const handlePublic = () => {
     setVisible(!isPublic);
