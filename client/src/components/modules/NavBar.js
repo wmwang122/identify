@@ -5,7 +5,7 @@ import "./NavBar.css";
 
 const NavBar = (props) => {
   var toggleState = props.userId?(<ul className="nav-item u-pointer fixed-width-medium" onClick={props.handleLogout}>
-  logout
+  Logout
 </ul>):(<ul className="nav-item u-pointer fixed-width-medium" onClick={props.handleLogin}>
   login
 </ul>);
@@ -19,17 +19,17 @@ const NavBar = (props) => {
       <div className="nav-elements">
       {props.userId?(<ul className="nav-item fixed-width-large">
           <Link to="/lobby">
-            play a game
+            Play a Game
           </Link>
       </ul>):<></>}
       <ul className="nav-item fixed-width-large">
           <Link to="/howtoplay">
-            instructions
+            Instructions
           </Link>
         </ul>
         {props.userId?(<ul className="nav-item fixed-width-medium">
           <Link to="/profile">
-            profile
+            Profile
           </Link>
         </ul>):(<></>)}
         {toggleState}

@@ -24,11 +24,11 @@ const DisplayPlaylist = (props) => {
       });
   }
 
-    useEffect(() => {
+  useEffect(() => {
     if (props.playlistName.length > 35) {
         let shortName = props.playlistName;
-        shortName = shortName.slice(0,35) + "...";
-        setName(shortName);
+      shortName = shortName.slice(0, 35) + "...";
+      setName(shortName);
     }
     else {
         setName(props.playlistName);
@@ -39,12 +39,12 @@ const DisplayPlaylist = (props) => {
 
   let displayImage = selected ? (
     <div className="imageSelected">
-    <img src={src} width="100%" height="100%"/>
+    <img src={src} width="130vw" height="130vh"/>
     selected
     </div>
   ) : (
     <div className="imageNotSelected">
-    <img src={src} width="100%" height="100%"/>
+    <img src={src} width="130vw" height="130vh"/>
     </div>
   );
 
