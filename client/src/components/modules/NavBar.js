@@ -17,21 +17,21 @@ const NavBar = (props) => {
         </Link>
         </div>
       <div className="nav-elements">
-        <ul className="nav-item fixed-width-large">
+      {props.userId?(<ul className="nav-item fixed-width-large">
           <Link to="/lobby">
             play a game
           </Link>
-      </ul>
+      </ul>):<></>}
       <ul className="nav-item fixed-width-large">
           <Link to="/howtoplay">
             instructions
           </Link>
         </ul>
-        <ul className="nav-item fixed-width-medium">
+        {props.userId?(<ul className="nav-item fixed-width-medium">
           <Link to="/profile">
             profile
           </Link>
-        </ul>
+        </ul>):(<></>)}
         {toggleState}
       </div>
     </div>
