@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import "./CreateGame.css";
 import { navigate } from "@reach/router";
 import { get, post } from "../../../utilities.js";
 import DisplayPlaylist from "./DisplayPlaylist.js";
+import "./Playlists.css"
 
 // const [gameCode, setGameCode] = useState("");
 
@@ -19,7 +19,7 @@ const Playlists = (props) => {
 
 
     return (
-     <div className = "row"> 
+     <div className = "box"> 
      {playlists.map((playlist) => (
        <DisplayPlaylist playlistImage = {playlist.images[0]} playlistName = {playlist.name} playlistID = {playlist.id} selectedPlaylists = {props.selectedPlaylists}/>
 

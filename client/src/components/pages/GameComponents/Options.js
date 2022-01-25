@@ -21,6 +21,7 @@ const Options = (props) => {
     </div>
   ) : (
     <div>
+    
     </div>
   );
 
@@ -66,6 +67,7 @@ const Options = (props) => {
               </div>
             </div>
           </div>
+          <div className="showPlaylists"> {displayPlaylists} </div> 
           <div className="row space_evenly">
             <div className="title" onClick={() => setDisplayPop(event)}>
               cancel
@@ -76,10 +78,8 @@ const Options = (props) => {
         
 
           </div>
-    
-          
-      {displayPlaylists}
         </div>
+        
       </>
     ) : (
       <> </>
