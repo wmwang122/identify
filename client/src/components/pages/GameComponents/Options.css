@@ -28,11 +28,13 @@
 .showPlaylists {
   width: 80%;
   display: inline-block; 
+  margin-top: 1vh;
 }
 
 .showGenres {
   display: inline-block;
   width:70%;
+  margin-top: 1vh;
 }
 
 .showSearch {
@@ -40,6 +42,7 @@
   width: 90%;
   align-items:center;
   justify-content: center;
+  margin-top: 1vh;
 }
 
 
@@ -132,7 +135,7 @@ input[type="number"] {
 
 label {
   display: block;
-  width: 150px;
+  width: 125px;
   height: 60px;
   background-color: white;
   border-radius: 100px;
@@ -169,16 +172,21 @@ label:active:after {
 }
 
 .text {
-  font-size: 33px;
+  font-size: 3.5vh;
   font: "Red Hat Text", sans-serif;
   font-weight: 200;
   display: flex;
-  justify-content: space-between;
+  text-align: left;
+  align-items: left;
+  justify-content: left;
 }
 
 .title {
   font-size: 60px;
   text-align: center;
+  margin-bottom: 2vh;
+  margin-top: 2vh;
+  font-weight: 350;
 }
 
 .row {
@@ -186,8 +194,22 @@ label:active:after {
   flex-direction: row;
 }
 
+.column1 {
+  display: flex;
+  flex-direction: column; 
+  align-items:flex-start;
+}
+
+.column-marginright{
+  margin-right: 2vw;
+}
+.left-align {
+  align-items: left;
+}
+
 .space_between {
   justify-content: space-between;
+  display:flex;
 }
 
 .space_evenly {
@@ -231,6 +253,12 @@ label:active:after {
 
 .options-panel-closed {
   display: none;
+}
+
+.inline{
+  display:inline-block;
+  justify-content: center;
+  align-items:center;
 }
 
 .options-panel-open {
@@ -280,6 +308,7 @@ body {
 .showChoices {
   display:inline-block;
   width: 90%;
+  margin-top: 1vh;
 }
 
 
@@ -289,4 +318,29 @@ body {
     height: 5vh;
 }
 
+.cancel-submit {
+  background-color: white;
+  border: none;
+  color: black;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  display: flex;
+  height: 6vh;
+  width: 3vw;
+  min-width: 20vh;
+  border-radius: 3vh;
+  font-size: 4vh;
+  margin-top: 3vh;
+  /*position: absolute;*/
+}
+
+.cancel-submit:hover{
+  background-color: #93FE97;
+}
+
+.cancel-submit-marginleft{
+  margin-left: 2vw;
+}
 

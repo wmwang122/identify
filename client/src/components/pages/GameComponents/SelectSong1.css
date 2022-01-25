@@ -1,6 +1,6 @@
 .select-song-window1 {
-   /*position: absolute;*/
- /*   left: 50%;
+  /*position: absolute;*/
+  /*   left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);*/
   background-color: var(--brightgreen);
@@ -36,7 +36,7 @@
 
 .selectPopup-content1 {
   height: 23vh;
-  overflow-y: scroll; 
+  overflow-y: scroll;
 }
 
 .selectPopup-footer1 {
@@ -62,4 +62,36 @@
 
 .close-select-button:hover {
   font-weight: 400;
+}
+
+.searchButton {
+  background-color: #f0ffe8;
+  border-radius: 10px;
+  padding-left: 2vh;
+  padding-right: 2vh;
+  height: 4vh;
+  justify-content: center;
+  text-align: center;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}
+
+.searcbButton:hover {
+  background-color: #93ff96;
+}
+
+.searchButton-text {
+  font-size: 2vh;
+  margin-top: 0.5vh;
+}
+
+.selectSonginline {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.displayInLine {
+  display: inline-block;
 }

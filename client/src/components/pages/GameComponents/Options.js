@@ -7,6 +7,7 @@ import Playlists from "./Playlists.js";
 import GenreSelect from "./GenreSelect.js";
 import SelectSong1 from "./SelectSong1.js";
 import MusicSelect from "./MusicSelect.js";
+import "../../../utilities.css";
 
 const Options = (props) => {
   const [displayPop, setDisplayPop] = useState(false);
@@ -72,64 +73,78 @@ const Options = (props) => {
 
   let PopUpBox =
     displayPop === true ? (
-      <div className = "popUpContainer">
+      <div className="popUpContainer">
         <div className="firstdiv"></div>
         <div className="popup">
-          <div className="title column">advanced options</div>
-          <div className="row space_between">
-            <div className="text"> make game public </div>
-            <input type="checkbox" name="switch" id="switch" onClick={() => handlePublic(event)} />
-            <label for="switch"></label>
-            <div className="text"> choose music </div>
-            <input
-              type="checkbox"
-              name="switch"
-              id="switch2"
-              onClick={() => handleWantsOwnPlaylist(event)}
-            />
-            <label for="switch2"></label>
-          </div>
-          <div className="row space_between">
-            <div className="text">
-              num of questions:
-              <div>
+          <div className="title column space_between">Advanced Options</div>
+          <div className="row space_between inline">
+            <div className=" row space_between"> 
+            <div className="column1 column-marginright">
+              <div className="row space_evenly inline">
+                {" "}
+                <div className="text"> Make Game Public </div>
                 <input
-                  type="number"
-                  id="questions"
-                  name="questions"
-                  min="0"
-                  max="10000"
-                  onChange={() => handleQuestions(event)}
-                ></input>
+                  type="checkbox"
+                  name="switch"
+                  id="switch"
+                  onClick={() => handlePublic(event)}
+                />
+                <label for="switch"></label>
+              </div>
+              <div className="row space_evenly inline left-align">
+                <div className="text">
+                  # of Questions:
+                  <div>
+                    <input
+                      type="number"
+                      id="questions"
+                      name="questions"
+                      min="0"
+                      max="10000"
+                      onChange={() => handleQuestions(event)}
+                    ></input>
+                  </div>
+                </div>
               </div>
             </div>
-            <div className="row space_between">
-              <div className="text">
-                time to answer:
+            <div className="column1">
+              <div className="row space_evenly inline">
+                <div className="text"> Choose Music </div>
                 <input
-                  type="number"
-                  id="time"
-                  name="time"
-                  min="0"
-                  max="10000"
-                  onChange={() => handleTime(event)}
-                ></input>
+                  type="checkbox"
+                  name="switch"
+                  id="switch2"
+                  onClick={() => handleWantsOwnPlaylist(event)}
+                />
+                <label for="switch2"></label>
               </div>
-            </div>
+              <div className="row space_evenly inline">
+                <div className="text">
+                  Time to Answer:
+                  <input
+                    type="number"
+                    id="time"
+                    name="time"
+                    min="0"
+                    max="10000"
+                    onChange={() => handleTime(event)}
+                  ></input>
+                </div>
+              </div>
+              </div>
+              </div>
           </div>
-          <div className="selectMusic">
-            {showSelectMusic}
-          </div>
+          <div className="selectMusic">{showSelectMusic}</div>
 
-          <div className="showPlaylists"> {choosePlaylists} </div>
-          <div className="showGenres"> {chooseGenre} </div>
-          <div className="showSearch"> {chooseSearch} </div>
-          <div className="row space_evenly">
-            <div className="title" onClick={() => handleCancel()}>
-              cancel
+          {choosePlaylists}
+          {chooseGenre}
+          {chooseSearch}
+          <div className="row center inline">
+            <div className="cancel-submit u-pointer"  onClick={() => handleCancel()}>
+              Cancel
             </div>
-            <div onClick={() => submitGameOptions(event)} className="title">
-              submit
+            <div onClick={() => submitGameOptions(event)} className="cancel-submit u-pointer cancel-submit-marginleft">
+              Submit
             </div>
           </div>
         </div>
