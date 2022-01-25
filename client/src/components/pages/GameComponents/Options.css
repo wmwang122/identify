@@ -13,8 +13,8 @@
 .popup {
   position: absolute;
   left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
+  top: 53vw;
+  transform: translate(-50%, -50vw);
   border: 5px solid #d0ffb7;
   background-color: #d0ffb7;
   padding: 10px;
@@ -262,19 +262,6 @@ html,
 body {
   margin: 0px;
   height: 100%;
-}
-
-.firstdiv {
-  background: black;
-  margin: 0;
-  height: 100%;
-  width: 100%;
-  top: 0;
-  bottom: 0;
-  right: 0;
-  left: 0;
-  opacity: 80%;
-  position: absolute;
 }
 
 :root {

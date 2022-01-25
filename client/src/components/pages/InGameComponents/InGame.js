@@ -154,13 +154,13 @@ const InGame = (props) => {
     // }
   }, [playlistIDs]); //this useEffect should be deleted ASAP after playlists are added
 
-  useEffect(() => {
+  /*useEffect(() => {
     if (!trackList || trackList.length === 0) {
       get("/api/getPopularSongs", {}).then((body) => {
         setTrackList(body);
       });
     }
-  }, []); //this is user-side, so everyone gets a different song! fix!!
+  }, []);*/ //this is user-side, so everyone gets a different song! fix!!
 
   useEffect(() => {
     socket.on("new message", (message) => {

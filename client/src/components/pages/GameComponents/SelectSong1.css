@@ -5,10 +5,11 @@
     transform: translate(-50%, -50%);*/
   background-color: var(--brightgreen);
   border-radius: 3vh;
-  height: 50vh;
+  height: 35vh;
   opacity: 100%;
   width: 40vw;
   margin-left: 3vh;
+  overflow-y: hidden;
 }
 
 .selectSong-add-music {
@@ -23,19 +24,19 @@
   font-weight: 400;
 }
 
-.selectPopup-header {
+.selectPopup-header1 {
   border-top-left-radius: 4vh;
   border-top-right-radius: 4vh;
-  padding-top: 3vh;
+  padding-top: 2vh;
   padding-left: 3vw;
-  padding-bottom: 2vh;
+  padding-bottom: 1vh;
   background-color: var(--brightgreen);
   display: flex;
 }
 
-.selectPopup-content {
-  overflow-y: scroll;
-  height: 40vh;
+.selectPopup-content1 {
+  height: 23vh;
+  overflow-y: scroll; 
 }
 
 .selectPopup-footer1 {

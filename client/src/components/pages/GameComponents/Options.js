@@ -72,7 +72,7 @@ const Options = (props) => {
 
   let PopUpBox =
     displayPop === true ? (
-      <>
+      <div className = "popUpContainer">
         <div className="firstdiv"></div>
         <div className="popup">
           <div className="title column">advanced options</div>
@@ -133,7 +133,7 @@ const Options = (props) => {
             </div>
           </div>
         </div>
-      </>
+      </div>
     ) : (
       <> </>
     );

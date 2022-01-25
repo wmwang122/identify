@@ -319,6 +319,7 @@ router.post("/newGame", (req, res) => {
     endingMessage: "",
     songTimeLeft: 30,
     roundOngoing: false,
+    musicType: req.body.settings.musicType,
   }); //maps gamecode to an array of game settings
   socketManager.addUserToGame(req.body.userId, code);
   if (req.body.settings.isPublic) {

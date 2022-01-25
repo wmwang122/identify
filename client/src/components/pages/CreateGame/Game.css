@@ -51,14 +51,6 @@
   justify-content: space-around;
 }
 
-.firstdiv {
-  background: black;
-  height: 100%;
-  width: 100%;
-  opacity: 100%;
-  margin-top: 0px;
-}
-
 .createGame-panel{
   display: flex;
   flex-direction: column;

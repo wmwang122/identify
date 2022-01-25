@@ -1,17 +1,3 @@
-.firstdiv {
-    background: black;
-    margin: 0;
-    height: 100%;
-    width: 100%;
-    top: 0px;
-    bottom: 0px;
-    right: 0px;
-    left: 0px;
-    opacity: 80%;
-    position: absolute;
-    z-index: 4;
-  }
-
   .select-song-window {
     position: absolute;
     left: 50%;
