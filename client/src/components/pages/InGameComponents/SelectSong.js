@@ -12,26 +12,35 @@ const SelectSong = (props) => {
     for(let i = 0; i < songArray.length; i++){
         output.push(<SongDisplay song={songArray[i]} handleAddSong = {(song)=>props.handleAddSong(song)}/>);
     }
-    let popUp = selecting?<><div className="firstdiv"/><div className="select-song-window">
-    <div className = "selectPopup-header">
-    <input
-    type="text"
-    placeholder={props.defaultText}
-    value={value}
-    onChange={(data) => handleChange(data)}
-    className=""
-  />
-  <button
-    type="submit"
-    className=""
-    value="Submit"
-    onClick={() => handleSubmit()}
-  >
-    search
-  </button>
-  </div>
-  <div className = "selectPopup-content">{output}</div>
-  <div className = "selectPopup-footer"><div className="close-select-button u-pointer" onClick={() => handleCloseSelect()}>Close</div></div></div></>:<></>;
+    let popUp = selecting ? (
+      <>
+        <div className="firstdiv" />
+        <div className="select-song-window">
+          <div className="selectPopup-header">
+            <div className="selectSonginline">
+              <input
+                type="text"
+                placeholder={props.defaultText}
+                value={value}
+                onChange={(data) => handleChange(data)}
+                className="displayInLine"
+              />
+              <div className="searchButton u-pointer displayInLine" onClick={() => handleSubmit()}>
+                <div className="searchButton-text">search </div>
+              </div>
+            </div>
+          </div>
+          <div className="selectPopup-content">{output}</div>
+          <div className="selectPopup-footer">
+            <div className="close-select-button u-pointer" onClick={() => handleCloseSelect()}>
+              Close
+            </div>
+          </div>
+        </div>
+      </>
+    ) : (
+      <></>
+    );
     const handleChange = (event) => {
         setValue(event.target.value);
     };

@@ -42,10 +42,10 @@ const GameCodeInput = (props) => {
 
   return (
     <div className="invalidColumn">
-      <div className="gameCodeRow">
+      <div className="gameCodeinline">
         <div className="submitText">code: </div>
         <input type="text" value={inputText} onChange={handleInputChange} />
-        <div onClick={checkCode} className="enterText-button">
+        <div onClick={checkCode} className="enterCode-button u-pointer">
           <div className="submitText">submit</div>
         </div>
       </div>

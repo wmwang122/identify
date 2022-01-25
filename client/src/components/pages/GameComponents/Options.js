@@ -33,7 +33,7 @@ const Options = (props) => {
 
 
   let choosePlaylists = (selectedMusicType === "my playlists") ? (
-    <div>
+    <div className="showPlaylists">
       <Playlists setSelected = {(data)=>setSelectedSongs(data)}/>
     </div>
   ) : (
@@ -41,14 +41,14 @@ const Options = (props) => {
   );
 
   let chooseGenre = (selectedMusicType === "genres") ? (
-    <div>
+    <div className="showGenres">
       <GenreSelect setSelected = {(data)=>setSelectedSongs(data)}/>
     </div>) : (
     <></>
   );
 
   let chooseSearch = (selectedMusicType === "search songs") ? (
-    <div> 
+    <div className="showSearch"> 
     <SelectSong1 setSelected = {(data)=>setSelectedSongs(data)}/> </div>
   ) : (
       <></> 
