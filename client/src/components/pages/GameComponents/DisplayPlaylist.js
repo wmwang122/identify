@@ -20,8 +20,9 @@ const DisplayPlaylist = (props) => {
   }
 
   return (
-    <div onClick={() => addOrRemove()}>
-        {props.playlistName}
+    <div onClick={() => addOrRemove()} className = "column">
+    <div> {props.playlistName} </div>
+    <div>    <img src={props.playlistImage.url} width="100" height="100"/> </div>
     </div>
   );
 };
