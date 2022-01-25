@@ -216,7 +216,6 @@ router.post("/buzz", (req, res) => {
       console.log(game.userData[i]);
       flag = false;
       game.userBuzz = game.userData[i];
-      console.log(JSON.stringify(game.userData));
       let newMessage = {
         content: game.userData[i].name + " has buzzed!",
         roundNum: req.body.roundNum,
@@ -244,7 +243,7 @@ router.post("/submitted", (req, res) => {
   let game = games.get(req.body.gameCode);
   for (let i = 0; i < game.userData.length; i++) {
     if (game.userData[i]._id === req.body.user._id) {
-      game.userData[i].score += req.body.sub ? 10 : -5;
+      game.userData[i].score += req.body.sub ? (req.body.early ? 15 : 10) : -5;
       break;
     }
   }
@@ -260,7 +259,11 @@ router.post("/submitted", (req, res) => {
   socketManager
     .getIo()
     .to(req.body.gameCode)
-    .emit("submitted", { submission: req.body.sub, name: req.body.user.name });
+    .emit("submitted", {
+      submission: req.body.sub,
+      name: req.body.user.name,
+      early: req.body.early,
+    });
   res.send({});
 });
 
@@ -308,7 +311,9 @@ router.post("/newGame", (req, res) => {
   console.log("code is: " + code);
   games.set(code, {
     settings: req.body.settings,
-    userData: [{ _id: req.body.userId, name: req.body.name, score: 0, active: true }],
+    userData: [
+      { _id: req.body.userId, name: req.body.name, score: 0, active: true, buzzed: false },
+    ],
     userBuzz: null,
     gameChat: [],
     gameLog: [],
@@ -347,7 +352,13 @@ router.post("/joinGame", (req, res) => {
       }
     }
     if (flag) {
-      game.userData.push({ _id: req.body.userId, name: req.body.name, score: 0, active: true });
+      game.userData.push({
+        _id: req.body.userId,
+        name: req.body.name,
+        score: 0,
+        active: true,
+        buzzed: false,
+      });
       socketManager.getIo().to(req.body.gameCode).emit("new player", req.body.userId);
       console.log("player joining room " + req.body.gameCode);
       socketManager.getIo().emit("player joining", { gameCode: req.body.gameCode });
@@ -384,15 +395,23 @@ router.post("/songEnded", (req, res) => {
   let game = games.get(req.body.gameCode);
   game.roundOngoing = false;
   game.trackNum++;
-  newMessage = {
-    content: "Time is up! The answer was: " + JSON.stringify(req.body.song.name),
+  /*newMessage = {
+    content: "The timer has ended! The song was: " + JSON.stringify(req.body.song.name),
     roundNum: req.body.roundNum,
-  };
-  game.gameLog.push(newMessage);
-  socketManager.getIo().to(req.body.gameCode).emit("new log", newMessage);
+  };*/
   res.send({});
 });
 
+router.post("/everyoneBuzzed", (req, res) => {
+  let game = games.get(req.body.gameCode);
+  game.roundOngoing = false;
+  game.trackNum++;
+  /*newMessage = {
+    content: "Everyone has guessed wrong! The song was: " + JSON.stringify(req.body.song.name),
+    roundNum: req.body.roundNum,
+  };*/
+  res.send({});
+});
 router.post("/gameTimerUpdate", (req, res) => {
   let game = games.get(req.body.gameCode);
   game.songTimeLeft = req.body.time;

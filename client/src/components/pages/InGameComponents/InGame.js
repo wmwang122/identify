@@ -45,7 +45,13 @@ const InGame = (props) => {
   //let saveMessage = "save song for later";
   
   const handleBuzz = async (event) => {
-    if (roundOngoing && !userBuzz) {
+    if (roundOngoing && !userBuzz && canBuzz) {
+      for(let i = 0; i < userData.length; i++){
+        if(userData[i]._id===props.userId){
+          userData[i].buzzed = true;
+          setCanBuzz(false);
+        } 
+      }
       post("/api/buzz", {
         userId: props.userId,
         gameCode: gameCode,
@@ -223,6 +229,14 @@ const InGame = (props) => {
     };
   });
 
+  useEffect(()=>{
+    if(!roundOngoing){
+      for(let i = 0; i < userData.length; i++){
+        userData[i].buzzed = false;
+      }
+    }
+  },[roundOngoing]);
+
   const handleSocketEndGame = (data) => {
     let user=undefined;
     for(let i = 0; i < userData.length; i++){
@@ -242,14 +256,21 @@ const InGame = (props) => {
   }, [songTimeLeft]);
 
   useEffect(() => {
+    let alreadyBuzzed = true;
+    for(let i = 0; i < userData.length; i++){
+      if(userData[i]._id === props.userId){
+        alreadyBuzzed = userData[i].buzzed;
+        break;
+      }
+    }
     if (userBuzz) {
       setCanBuzz(false);
-    } else if (roundOngoing) {
+    } else if (roundOngoing && !alreadyBuzzed) {
       setCanBuzz(true);
     } else {
       setCanBuzz(false);
     }
-  }, [roundOngoing, userBuzz]);
+  }, [roundOngoing, userBuzz, userData]);
 
   const addData = (userId) => {
     setUserData([...userData, { _id: userId, score: 0 }]);
@@ -261,6 +282,7 @@ const InGame = (props) => {
       if (userData[i]._id === userId) {
         found = true;
         setUserBuzz(userData[i]);
+        userData[i].buzzed = true;
         break;
       }
     }
@@ -271,28 +293,55 @@ const InGame = (props) => {
     setAudioMounted(false);
   };
 
-  const handleTimerEnd = async (success) => {
+  const handleTimerEnd = async (data) => {
     setUserBuzz(null);
     for (let i = 0; i < userData.length; i++) {
       if (userData[i]._id === userBuzz._id) {
-        userData[i].score+=(success?10:-5);
+        userData[i].score+=(data.success?(data.early?15:10):-5);
         break;
       }
     }
     await post("/api/clearBuzz", { gameCode: gameCode });
-    if (typeof success !== undefined && myAudio) {
-      success ? myAudio.pause() : myAudio.play();
+    if (typeof data.success !== undefined && myAudio) {
+      data.success ? myAudio.pause() : myAudio.play();
     } else if (myAudio) {
       myAudio.pause();
     }
-    if (success && trackNum + 1) {
+    if (data.success && trackNum + 1) {
       setTrackNum(trackNum + 1);
       post("/api/increaseTrackNum", { gameCode: gameCode });
     }
-    console.log("ending timer");
     if (roundOngoing) {
       myAudio.play();
     }
+    if (!data.success && trackNum + 1){
+      if(userData.length > 0){
+        let stillExistsUser = false;
+        console.log(userData);
+      for(let i = 0; i < userData.length; i++){
+        if(!userData[i].buzzed){
+          stillExistsUser = true;
+          break;
+        }
+      }
+      if(!stillExistsUser){
+        myAudio.pause();
+        post("/api/everyoneBuzzed", {
+          gameCode: gameCode,
+          song: trackList[trackNum],
+          roundNum: trackNum + 1,
+        });
+        let message = "Everyone has guessed wrong! The song was: ";
+        setEndingMessage(message);
+        post("/api/setEndingMessage", { message: message, gameCode: gameCode });
+        setTrackNum(trackNum + 1);
+        setRoundOngoing(false);
+        setStartingTime(30);
+      }
+    }
+    }
+
+    console.log("ending timer");
   };
 
   const handleAddSong = (newSong) => {
@@ -307,7 +356,7 @@ const InGame = (props) => {
     post("/api/roundStart", { gameCode: gameCode });
   };
   const handleRoundStartedByUser = (data) => {
-    if (trackNum < trackList.length) {
+    if (trackList && trackNum < trackList.length) {
       setRoundOngoing(true);
       myAudio.play();
     } else {
@@ -317,6 +366,7 @@ const InGame = (props) => {
 
   const handleOnSubmit = (value) => {
     let success = value.toLowerCase() === trackList[trackNum].name.toLowerCase();
+    let early = (songTimeLeft > 15);
     //trackList[trackNum].track.name.toLowerCase(); //ALSO PLS DONT RB
     post("/api/submitted", {
       gameCode: gameCode,
@@ -325,12 +375,13 @@ const InGame = (props) => {
       curr: trackNum,
       value: value,
       roundNum: trackNum + 1,
+      early: early,
     });
   };
 
   //initialize + new game
   const handleSubmit = async (data) => {
-    await handleTimerEnd(data.submission);
+    await handleTimerEnd({success: data.submission, early: data.early});
     if (data.submission) {
       sortUserData();
       setRoundOngoing(false);
@@ -519,5 +570,4 @@ const InGame = (props) => {
     </>
   );
 };
-//TODOOOOO
 export default InGame;
