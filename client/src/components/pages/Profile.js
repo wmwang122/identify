@@ -160,7 +160,7 @@ const Profile = (props) => {
         </div>
       </div>
       <div className = "profile-lower-container">
-      <div>
+      <div className = "stats-container">
           <div className = "profile-stats-text">
             User Statistics
           </div>
