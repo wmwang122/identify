@@ -31,45 +31,46 @@ const InGame = (props) => {
   const [endingMessage, setEndingMessage] = useState("");
   const [savedSongs, setSavedSongs] = useState([]);
   const [gameEnded, setGameEnded] = useState(false);
-
+  const [saveMessage, setSaveMessage] = useState("save song for later");
+  const [turnHoverOffSave, setHoverOffSave] = useState(false);
   let val = window.location.href;
   let gameCode = val.substring(val.length - 5, val.length);
-  window.addEventListener("beforeunload", function(e){
-    console.log("window closed?");
-  },false);
+  //let saveMessage = "save song for later";
+  window.addEventListener(
+    "beforeunload",
+    function (e) {
+      console.log("window closed?");
+    },
+    false
+  );
   const handleBuzz = async (event) => {
     if (roundOngoing && !userBuzz) {
       post("/api/buzz", {
         userId: props.userId,
         gameCode: gameCode,
         name: props.name,
-        roundNum: trackNum+1,
+        roundNum: trackNum + 1,
       });
       myAudio.pause();
     }
   };
 
-const shuffle = (array) => {
-  let currentIndex = array.length;
-  let randomIndex = 0;
+  const shuffle = (array) => {
+    let currentIndex = array.length;
+    let randomIndex = 0;
 
-  while (currentIndex != 0) {
+    while (currentIndex != 0) {
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex--;
 
-    randomIndex = Math.floor(Math.random() * currentIndex);
-    currentIndex--;
+      [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
+    }
 
-    [array[currentIndex], array[randomIndex]] = [
-      array[randomIndex], array[currentIndex]];
-  }
-
-  return array;
-};
-
-
+    return array;
+  };
 
   const initialize = () => {
     get("/api/getGameData", { code: gameCode }).then((data) => {
-      console.log(JSON.stringify(data));
       setUserData(data.userData);
       setUserBuzz(data.userBuzz);
       setGameChat(data.gameChat);
@@ -99,28 +100,26 @@ const shuffle = (array) => {
     initialize();
   }, []);
 
-  useEffect(()=>{
-    userData.sort((userA,userB) =>{
-      return userA.score-userB.score;
-    });
-  },[userData])
+  const sortUserData = () => {
+    setUserData(
+      userData.sort((userA, userB) => {
+        return userB.score - userA.score;
+      })
+    );
+  };
 
   useEffect(() => {
     let createTrackList = [];
 
-    for (let i=0; i<playlistIDs.length; i++) {
-       get("/api/testPlaylists", {playlistID: playlistIDs[i]}).then((body) =>{
-        // console.log(body.length);
-        // console.log(body);
+    for (let i = 0; i < playlistIDs.length; i++) {
+      get("/api/testPlaylists", { playlistID: playlistIDs[i] }).then((body) => {
         createTrackList = createTrackList.concat(body);
-        // console.log(createTrackList);
         setTrackList(createTrackList);
-        if (i===(playlistIDs.length-1)) {
+        if (i === playlistIDs.length - 1) {
           setTrackList(shuffle(createTrackList));
-        };
-
-      })
-    };
+        }
+      });
+    }
 
     // console.log(createTrackList);
 
@@ -129,17 +128,17 @@ const shuffle = (array) => {
     //     setTrackList(body);
 
     // //    post("/api/testPlaylistsInitialize",{data: body, gameCode: gameCode});
-    //   }); 
+    //   });
     // }
   }, [playlistIDs]); //this useEffect should be deleted ASAP after playlists are added
 
   useEffect(() => {
-    if(!trackList || trackList.length === 0){
-      get("/api/getPopularSongs",{}).then((body) =>{
+    if (!trackList || trackList.length === 0) {
+      get("/api/getPopularSongs", {}).then((body) => {
         setTrackList(body);
       });
     }
-  },[]);
+  }, []); //this is user-side, so everyone gets a different song! fix!!
 
   useEffect(() => {
     socket.on("new message", (message) => {
@@ -192,12 +191,12 @@ const shuffle = (array) => {
     socket.on("added song", addSong);
     return () => {
       socket.off("added song");
-    }
+    };
   });
 
   useEffect(() => {
-    post("/api/updateSongTimeLeft", {gameCode: gameCode, songTimeLeft: songTimeLeft});
-  },[songTimeLeft]);
+    post("/api/updateSongTimeLeft", { gameCode: gameCode, songTimeLeft: songTimeLeft });
+  }, [songTimeLeft]);
 
   useEffect(() => {
     if (userBuzz) {
@@ -219,7 +218,6 @@ const shuffle = (array) => {
       if (userData[i]._id === userId) {
         found = true;
         setUserBuzz(userData[i]);
-        console.log("user2: " + JSON.stringify(userData[i]));
         break;
       }
     }
@@ -246,7 +244,7 @@ const shuffle = (array) => {
     } else if (myAudio) {
       myAudio.pause();
     }
-    if (success && (trackNum+1)) {
+    if (success && trackNum + 1) {
       setTrackNum(trackNum + 1);
       post("/api/increaseTrackNum", { gameCode: gameCode });
     }
@@ -257,22 +255,21 @@ const shuffle = (array) => {
   };
 
   const handleAddSong = (newSong) => {
-    post("/api/addSong", {song: newSong, gameCode: gameCode});
-  }
+    post("/api/addSong", { song: newSong, gameCode: gameCode });
+  };
 
   const addSong = (newSong) => {
-    setTrackList([... trackList, newSong]);
-  }
+    setTrackList([...trackList, newSong]);
+  };
 
   const handleRoundStart = () => {
-    post("/api/roundStart", { gameCode: gameCode })
+    post("/api/roundStart", { gameCode: gameCode });
   };
   const handleRoundStartedByUser = (data) => {
-    if(trackNum < trackList.length){
+    if (trackNum < trackList.length) {
       setRoundOngoing(true);
       myAudio.play();
-    }
-    else{
+    } else {
       handleGameEnd();
     }
   };
@@ -280,51 +277,57 @@ const shuffle = (array) => {
   const handleOnSubmit = (value) => {
     let success = value.toLowerCase() === trackList[trackNum].name.toLowerCase();
     //trackList[trackNum].track.name.toLowerCase(); //ALSO PLS DONT RB
-    post("/api/submitted",{gameCode: gameCode, user: userBuzz, sub: success, curr: trackNum, value: value, roundNum: trackNum+1});
+    post("/api/submitted", {
+      gameCode: gameCode,
+      user: userBuzz,
+      sub: success,
+      curr: trackNum,
+      value: value,
+      roundNum: trackNum + 1,
+    });
   };
 
-//initialize + new game 
+  //initialize + new game
   const handleSubmit = async (data) => {
     await handleTimerEnd(data.submission);
     if (data.submission) {
+      sortUserData();
       setRoundOngoing(false);
       let message = data.name + " got the correct answer: ";
       setEndingMessage(message);
-      post("/api/setEndingMessage",{message: message, gameCode: gameCode});
+      post("/api/setEndingMessage", { message: message, gameCode: gameCode });
     }
     setResetTimer(true);
   };
 
   const handleSaveSong = () => {
-    setSavedSongs([... savedSongs,trackNum-1]);
-  }
+    setSavedSongs([...savedSongs, trackNum - 1]);
+    setSaveMessage("song saved!");
+    setHoverOffSave(true);
+  };
 
   const handleGameEnd = () => {
     console.log("game has ended");
     setGameEnded(true);
-  }
+  };
 
   useEffect(() => {
-      if(!roundOngoing){
-        console.log("this useeffect is being called here");
-        if (myAudio) {
-          myAudio.pause();
+    if (!roundOngoing) {
+      if (myAudio) {
+        myAudio.pause();
+      }
+      if (trackList) {
+        while (trackNum < trackList.length && !trackList[trackNum].preview_url) {
+          trackList.splice(trackNum, 1);
         }
-        if(trackList){
-          while(trackNum < trackList.length && !trackList[trackNum].preview_url){
-            console.log(trackList[trackNum]);
-            trackList.splice(trackNum,1);
-          }
-          if(trackNum >= trackList.length){
-            console.log("no more songs");
-          }
-          else{
-            setMyAudio(new Audio(trackList[trackNum].preview_url));
-          }
+        if (trackNum >= trackList.length) {
+          console.log("no more songs");
+        } else {
+          setMyAudio(new Audio(trackList[trackNum].preview_url));
         }
-        setAudioMounted(true);
-      } else if (!audioMounted && !userBuzz) {
-      console.log("this useeffect is being called there");
+      }
+      setAudioMounted(true);
+    } else if (!audioMounted && !userBuzz) {
       if (myAudio) {
         myAudio.currentTime = 30 - songTimeLeft;
       }
@@ -340,10 +343,14 @@ const shuffle = (array) => {
   }, [myAudio]);
 
   const handleSongEnd = () => {
-    post("/api/songEnded", { gameCode: gameCode, song: trackList[trackNum], roundNum: trackNum+1 });
+    post("/api/songEnded", {
+      gameCode: gameCode,
+      song: trackList[trackNum],
+      roundNum: trackNum + 1,
+    });
     let message = "The timer has ended! The song was: ";
     setEndingMessage(message);
-    post("/api/setEndingMessage",{message: message, gameCode: gameCode});
+    post("/api/setEndingMessage", { message: message, gameCode: gameCode });
     setTrackNum(trackNum + 1);
     setRoundOngoing(false);
   };
@@ -352,7 +359,7 @@ const shuffle = (array) => {
     userBuzz ? (
       <div>{userBuzz.name} has buzzed!</div>
     ) : (
-      <div>Song #{trackNum+1} is playing</div>
+      <div>Song #{trackNum + 1} is playing</div>
     )
   ) : (
     <div>There is currently no song playing</div>
@@ -396,57 +403,79 @@ const shuffle = (array) => {
     </div>
   ) : (
     <div className={"u-pointer inGame-next-button"} onClick={() => handleRoundStart()}>
-      {!trackList || trackNum===trackList.length ? "end game" : "proceed to next round"}
+      {!trackList || trackNum === trackList.length ? "end game" : "proceed to next round"}
     </div>
   );
   let countdownState = userBuzz ? "" : "u-hidden";
   let buzzTextState = userBuzz ? "u-hidden" : "";
-  let gameMainComponent = (roundOngoing||trackNum===0||!trackList||trackList.length===0)?(<><div className="song-info">{songInfo}</div>
-  <div className={"game-buzzer u-noSelect " + buzzerState} onClick={() => handleBuzz()}>
-    <div className="inGame-buzzer-text-container">
-      <div className={buzzTextState + " inGame-buzzer-text"}>buzz</div>
-      <div className={countdownState + " inGame-buzzer-text"}>{countdownTimer}</div>
+  let noHoverSave = turnHoverOffSave ? (
+    <div className="save-button-end-no-hover u-pointer" onClick={() => handleSaveSong()}>
+      {saveMessage}
     </div>
-  </div></>):
-  (<><div className="song-info-end">{endingMessage}
-    <span className="song-name-end">{trackList[trackNum-1].name}</span>
-    </div><SongInfo song = {trackList[trackNum-1]}/>
-    <div className="save-button-end u-pointer" onClick = {() => handleSaveSong()}>save song for later</div></>);
+  ) : (
+    <div className="save-button-end u-pointer" onClick={() => handleSaveSong()}>
+      {saveMessage}
+    </div>
+  );
+  let gameMainComponent =
+    roundOngoing || trackNum === 0 || !trackList || trackList.length === 0 ? (
+      <>
+        <div className="song-info">{songInfo}</div>
+        <div className={"game-buzzer u-noSelect " + buzzerState} onClick={() => handleBuzz()}>
+          <div className="inGame-buzzer-text-container">
+            <div className={buzzTextState + " inGame-buzzer-text"}>buzz</div>
+            <div className={countdownState + " inGame-buzzer-text"}>{countdownTimer}</div>
+          </div>
+        </div>
+      </>
+    ) : (
+      <>
+        <div className="song-info-end">
+          {endingMessage}
+          <span className="song-name-end">{trackList[trackNum - 1].name}</span>
+        </div>
+        <SongInfo song={trackList[trackNum - 1]} />
+        {noHoverSave}
+      </>
+    );
 
   return (
     <>
-    <div className="inGame-container">
-      <div className="inGame-container-left">
-        <Scoreboard data={userData}/>
-        <SelectSong handleAddSong = {(song) => handleAddSong(song)}/>
-      </div>
-      <div className="inGame-vertical-line"/>
-      <div className="inGame-container-main">
-        <div className="inGame-header">
-          <div className="inGame-title">{hostName}'s Game</div>
-          <div>Room Code: {gameCode}</div>
+      <div className="inGame-container">
+        <div className="inGame-container-left">
+          <Scoreboard data={userData} />
+          <SelectSong handleAddSong={(song) => handleAddSong(song)} />
         </div>
-        {gameMainComponent}
-        {textBox}
+        <div className="inGame-vertical-line" />
+        <div className="inGame-container-main">
+          <div className="inGame-header">
+            <div className="inGame-title">{hostName}'s Game</div>
+            <div>Room Code: {gameCode}</div>
+          </div>
+          {gameMainComponent}
+          {textBox}
+        </div>
+        <br></br>
+        <div className="inGame-container-right">
+          {gameTimeButton}
+          <GameLog messages={gameLog} />
+        </div>
+        <GameChat
+          userId={props.userId}
+          messages={gameChat}
+          gameCode={props.gameCode}
+          name={props.name}
+        />{" "}
       </div>
-      <br></br>
-      <div className="inGame-container-right">
-        {gameTimeButton}
-        <GameLog messages={gameLog} />
-      </div>
-      <GameChat
-        userId={props.userId}
-        messages={gameChat}
-        gameCode={props.gameCode}
-        name={props.name}
-      />{" "}
-    </div>
-    {gameEnded?<GameEndScreen 
-      leaderboard={userData.sort((userA,userB) =>{
-      return userA.score-userB.score;
-    }).slice(0,Math.min(3,userData.length))}
-      savedSongs={savedSongs}
-      trackList={trackList}/>:<div/>}
+      {gameEnded ? (
+        <GameEndScreen
+          leaderboard={userData.slice(0, Math.min(3, userData.length))}
+          savedSongs={savedSongs}
+          trackList={trackList}
+        />
+      ) : (
+        <div />
+      )}
     </>
   );
 };

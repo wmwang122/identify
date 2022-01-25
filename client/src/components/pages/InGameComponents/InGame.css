@@ -1,152 +1,164 @@
-.game-buzzer{
-    position: relative;
-    height: 200px;
-    width: 200px;
-    text-align: center;
-    vertical-align: middle;
-    line-height: 200px;
-    border-radius: 100px;
-    font-size: 40px;
-    margin-bottom: 20px;
-    background-color: var(--brightgreen);
+.game-buzzer {
+  position: relative;
+  height: 200px;
+  width: 200px;
+  text-align: center;
+  vertical-align: middle;
+  line-height: 200px;
+  border-radius: 100px;
+  font-size: 40px;
+  margin-bottom: 20px;
+  background-color: var(--brightgreen);
 }
 
-.inGame-buzzer-locked{
-    background-color: #d8ffd3;
-    color: #888888;
+.inGame-buzzer-locked {
+  background-color: #d8ffd3;
+  color: #888888;
 }
 
-.inGame-container{
-    display: flex;
-    padding-top: 2rem;
-    padding-left: 4rem;
-    justify-content: space-around;
+.inGame-container {
+  display: flex;
+  padding-top: 2rem;
+  padding-left: 4rem;
+  justify-content: space-around;
 }
-.inGame-container-left{
-    width: 12vw;
-    margin-right: 2vw;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    height: 75vh;
+.inGame-container-left {
+  width: 12vw;
+  margin-right: 2vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 75vh;
 }
-.inGame-vertical-line{
-    border-left: 0.2vw solid black;
+.inGame-vertical-line {
+  border-left: 0.2vw solid black;
 }
-.inGame-horizontal-line{
-    border-top: 0.2vw solid black;
+.inGame-horizontal-line {
+  border-top: 0.2vw solid black;
 }
-.inGame-container-main{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 30vw;
+.inGame-container-main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 30vw;
 }
-.inGame-add-music{
-    font-size: 3.5vh;
-    text-align: center;
-    background-color: var(--lightbrightgreen);
-    padding: 2vh 1vw 2vh 1vw;
-    border-radius: 4vh;
-}
-
-.inGame-container-right{
-    display: flex;
-    flex-direction: column;
-    width: 20vw;
+.inGame-add-music {
+  font-size: 3.5vh;
+  text-align: center;
+  background-color: var(--lightbrightgreen);
+  padding: 2vh 1vw 2vh 1vw;
+  border-radius: 4vh;
 }
 
-.inGame-title{
-    font-weight: 500;
+.inGame-container-right {
+  display: flex;
+  flex-direction: column;
+  width: 20vw;
 }
 
-.inGame-header{
-    font-size: 30px;
-    text-align: center;
-    background-color: var(--lightbrightgreen);
-    padding: 15px 30px 15px 30px;
-    border-radius: 30px;
+.inGame-title {
+  font-weight: 500;
 }
 
-.song-info{
-    font-size: 20px;
-    padding: 20px 0 20px 0;
+.inGame-header {
+  font-size: 30px;
+  text-align: center;
+  background-color: var(--lightbrightgreen);
+  padding: 15px 30px 15px 30px;
+  border-radius: 30px;
 }
 
-.inGame-buzzer-text{
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+.song-info {
+  font-size: 20px;
+  padding: 20px 0 20px 0;
 }
 
-.inGame-buzzerEffect:hover{
-    background-color: #a2ff96;
-    font-weight: 400;
-    transform: scale(1.05);
+.inGame-buzzer-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
-.inGame-next-button{
-    display: flex;
-    height: 16vh;
-    width: 20vw;
-    padding: 1vh 1vw 1vh 1vw;
-    border-radius: 8vh;
-    background-color: var(--lightbrightgreen);
-    font-size: 4vh;
-    text-align: center;
-    justify-content: center;
-    align-items: center;
+.inGame-buzzerEffect:hover {
+  background-color: #a2ff96;
+  font-weight: 400;
+  transform: scale(1.05);
 }
 
-.inGame-next-button:hover{
-    font-weight: 400;
+.inGame-next-button {
+  display: flex;
+  height: 16vh;
+  width: 20vw;
+  padding: 1vh 1vw 1vh 1vw;
+  border-radius: 8vh;
+  background-color: var(--lightbrightgreen);
+  font-size: 4vh;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
 }
 
-.inGame-time-left{
-    display: flex;
-    height: 16vh;
-    width: 20vw;
-    padding: 1vh 1vw 1vh 1vw;
-    border-radius: 8vh;
-    background-color: #e5ffd8;
-    font-size: 4vh;
-    text-align: center;
-    justify-content: center;
-    align-items: center;
+.inGame-next-button:hover {
+  font-weight: 400;
 }
 
-.inGame-time-left-text{
-    padding-right: 0.3em;
+.inGame-time-left {
+  display: flex;
+  height: 16vh;
+  width: 20vw;
+  padding: 1vh 1vw 1vh 1vw;
+  border-radius: 8vh;
+  background-color: #e5ffd8;
+  font-size: 4vh;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
 }
 
-.button-invisible{
-    visibility: hidden;
+.inGame-time-left-text {
+  padding-right: 0.3em;
 }
 
-.song-info-end{
-    font-size: 20px;
-    padding: 20px 0 20px 0;
-    text-align: center;
-    width: 20vw;
+.button-invisible {
+  visibility: hidden;
 }
 
-.song-name-end{
-    font-weight: 500;
+.song-info-end {
+  font-size: 20px;
+  padding: 20px 0 20px 0;
+  text-align: center;
+  width: 20vw;
 }
 
-.save-button-end{
-    position: relative;
-    top: 10vh;
-    text-align: center;
-    font-size: 4vh;
-    width: 20vw;
-    min-width: 40vh;
-    padding: 1vh 2vw 1vh 2vw;
-    border-radius: 5vh;
-    background-color: var(--lightbrightgreen);
+.song-name-end {
+  font-weight: 500;
 }
 
-.save-button-end:hover{
-    font-weight: 400;
+.save-button-end {
+  position: relative;
+  top: 10vh;
+  text-align: center;
+  font-size: 4vh;
+  width: 20vw;
+  min-width: 40vh;
+  padding: 1vh 2vw 1vh 2vw;
+  border-radius: 5vh;
+  background-color: var(--lightbrightgreen);
+}
+
+.save-button-end-no-hover {
+  position: relative;
+  top: 10vh;
+  text-align: center;
+  font-size: 4vh;
+  width: 20vw;
+  min-width: 40vh;
+  padding: 1vh 2vw 1vh 2vw;
+  border-radius: 5vh;
+  background-color: var(--lightbrightgreen);
+}
+
+.save-button-end:hover {
+  font-weight: 400;
 }
