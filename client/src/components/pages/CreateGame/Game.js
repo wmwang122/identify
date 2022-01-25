@@ -17,6 +17,7 @@ const Game = (props) => {
       <div className="options-text">Advanced Options</div>
     </div>
   ); */
+  
   return (
     <div className="gamePage-container">
       <div className="gameJoin-container">

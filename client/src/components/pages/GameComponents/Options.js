@@ -31,6 +31,8 @@ const Options = (props) => {
     playlistIDs: playlists,
   };
 
+
+
   let choosePlaylists = (selectedMusicType === "my playlists") ? (
     <div>
       <Playlists selectedPlaylists={playlists} />
@@ -125,7 +127,7 @@ const Options = (props) => {
           <div className="showGenres"> {chooseGenre} </div>
           <div className="showSearch"> {chooseSearch} </div>
           <div className="row space_evenly">
-            <div className="title" onClick={() => handleCancel(event)}>
+            <div className="title" onClick={() => handleCancel()}>
               cancel
             </div>
             <div onClick={() => submitGameOptions(event)} className="title">
@@ -141,25 +143,18 @@ const Options = (props) => {
 
   const PopUp = () => {
     setDisplayPop(!displayPop);
-    if (!displayPop === false) {
-      setIsPublic(false);
-      setWantsOwnPlaylist(false);
-      setTime(0);
-      setPlaylists([]);
-      setSelectedMusicType("");
-    }
+    console.log(gameSettings);
   };
 
-    const handleCancel = () => {
-      setDisplayPop(false);
-
-      if (!displayPop === false) {
-        setIsPublic(false);
-        setWantsOwnPlaylist(false);
-        setTime(0);
-        setPlaylists([]);
-        setSelectedMusicType("");
-      }
+  const handleCancel =  () => {
+     setDisplayPop(false);
+    
+    setVisible(false);
+    setWantsOwnPlaylist(false);
+    setTime(0);
+    setPlaylists([]);
+    setSelectedMusicType("");
+                
     };
 
    const handleWantsOwnPlaylist =   () => {
