@@ -5,7 +5,7 @@ import "./GenreSelect.css";
 import GenreButton from "./GenreButton.js";
 
 const GenreSelect = (props) => {
-  const genres = ["country", "disney", "emo", "folk", "hip-hop", "indie", "latino", "pop", "rock", "techno"];
+  const genres = ["country", "emo", "folk", "hip-hop", "indie", "latino", "pop", "rock", "techno"];
   const [selectedGenre, setSelectedGenre] = useState("");
     let genreButtons = [];
     for(let i = 0; i < genres.length; i++){

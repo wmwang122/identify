@@ -15,31 +15,6 @@ const SelectSong1 = (props) => {
     );
   }
 
-  let popUp = selecting ? (
-    <>
-      <div className="select-song-window">
-        <div className="selectPopup-header">
-          <input
-            type="text"
-            placeholder={props.defaultText}
-            value={value}
-            onChange={(data) => handleChange(data)}
-            className=""
-          />
-          <button type="submit" className="" value="Submit" onClick={() => handleSubmit()}>
-            search
-          </button>
-        </div>
-        <div className="selectPopup-content">{output}</div>
-              <div className="selectPopup-footer1">
-                  mhm
-  
-        </div>
-      </div>
-    </>
-  ) : (
-    <></>
-  );
   const handleChange = (event) => {
     setValue(event.target.value);
   };
@@ -58,22 +33,23 @@ const SelectSong1 = (props) => {
   };
 
   return (
-      <div className="select-song-window1">
-        <div className="selectPopup-header1">
+    <div className="select-song-window1">
+      <div className="selectPopup-header1">
+        <div className="selectSonginline">
           <input
             type="text"
             placeholder={props.defaultText}
             value={value}
             onChange={(data) => handleChange(data)}
-            className=""
+            className="displayInLine"
           />
-          <button type="submit" className="" value="Submit" onClick={() => handleSubmit()}>
-            search
-          </button>
+          <div className="searchButton u-pointer displayInLine" onClick={() => handleSubmit()}>
+            <div className="searchButton-text">search </div>
+          </div>
         </div>
-        <div className="selectPopup-content1">{output}</div>
-
       </div>
+      <div className="selectPopup-content1">{output}</div>
+    </div>
   );
 };
 
