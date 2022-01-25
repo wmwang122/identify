@@ -6,6 +6,7 @@ import { get, post } from "../../../utilities.js";
 import Playlists from "./Playlists.js";
 import GenreSelect from "./GenreSelect.js";
 import SelectSong1 from "./SelectSong1.js";
+import MusicSelect from "./MusicSelect.js";
 
 const Options = (props) => {
   const [displayPop, setDisplayPop] = useState(false);
@@ -14,10 +15,13 @@ const Options = (props) => {
   const [numberQuestions, setQuestions] = useState(0);
   const [time, setTime] = useState(0);
   const [playlists, setPlaylists] = useState([]);
+  const [selectedMusicType, setSelectedMusicType] = useState("");
+  
 
-    const handleAddSong = (newSong) => {
-      <div> </div>;
-    };
+
+  const handleAddSong = (newSong) => {
+    <div> </div>;
+  };
 
   let gameSettings = {
     isPublic: isPublic,
@@ -27,19 +31,44 @@ const Options = (props) => {
     playlistIDs: playlists,
   };
 
-  let displayPlaylists = wantsOwnPlaylist ? (
+  let choosePlaylists = (selectedMusicType === "my playlists") ? (
     <div>
       <Playlists selectedPlaylists={playlists} />
     </div>
   ) : (
-    <div></div>
+    <></>
   );
+
+  let chooseGenre = (selectedMusicType === "genres") ? (
+    <div>
+      <GenreSelect />
+    </div>) : (
+    <></>
+  );
+
+  let chooseSearch = (selectedMusicType === "search songs") ? (
+    <div> 
+    <SelectSong1 handleAddSong={(song) => handleAddSong(song)} /> </div>
+  ) : (
+      <></> 
+      
+  );
+  
+  let showSelectMusic = wantsOwnPlaylist ? (
+                <MusicSelect
+              selectedMusicType={selectedMusicType}
+              setSelectedMusicType={setSelectedMusicType}
+            />
+
+  ): (<></> );
+
+
+
 
   //          <SelectSong handleAddSong={(song) => handleAddSong(song)} />
   //  const handleAddSong = (newSong) => {
   //  post("/api/addSong", { song: newSong, gameCode: gameCode });
   // };
-
 
   let PopUpBox =
     displayPop === true ? (
@@ -89,17 +118,12 @@ const Options = (props) => {
             </div>
           </div>
           <div className="selectMusic">
-            <div className="selectMusicButton-container selectMusicButton-text"> my playlists </div>
-            <div className="selectMusicButton-container selectMusicButton-text"> genres </div>
-            <div className="selectMusicButton-container selectMusicButton-text"> search songs </div>
+            {showSelectMusic}
           </div>
-          <div className="showPlaylists"> {displayPlaylists} </div>
-          <div className="showGenres">
-            <GenreSelect />
-          </div>
-          <div className="showSearch">
-            <SelectSong1 handleAddSong={(song) => handleAddSong(song)} />
-          </div>
+
+          <div className="showPlaylists"> {choosePlaylists} </div>
+          <div className="showGenres"> {chooseGenre} </div>
+          <div className="showSearch"> {chooseSearch} </div>
           <div className="row space_evenly">
             <div className="title" onClick={() => setDisplayPop(event)}>
               cancel

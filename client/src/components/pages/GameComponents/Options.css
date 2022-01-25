@@ -287,39 +287,13 @@ body {
   box-sizing: border-box;
 }
 
-.selectMusicButton-container {
-    background-color: #f0ffe8;
-    border-radius:  15px;
-    padding-left: 2vh;
-    padding-right: 2vh;
-    padding-top: 1vh;
-    padding-bottom: 1vh;
-    margin-bottom: 1vh;
-    margin-top: 2vh;
-}
 
-.selectMusicButton-container:hover {
-    background-color: #93ff96; 
-}
-
-.selectMusicButton-selected {
-    background-color: #93ff96;
-}
-
-.selectMusicButton-text{
-    font-size: 4vh;
-}
-
-.selectMusic {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-evenly;
-}
 
 .showChoices {
   display:inline-block;
   width: 90%;
 }
+
 
 .spacing1 {
     background-color: #d0ffb7;
