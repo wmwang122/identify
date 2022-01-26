@@ -8,6 +8,7 @@ import Profile from "./pages/Profile.js";
 import HowToPlay from "./pages/howtoplay.js";
 import InGame from "./pages/InGameComponents/InGame.js";
 import "../utilities.css";
+import { useLocation } from "@reach/router";
 
 import { socket } from "../client-socket.js";
 

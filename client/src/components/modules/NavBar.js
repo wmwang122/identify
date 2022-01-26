@@ -1,9 +1,16 @@
-import React from "react";
-import { Link } from "@reach/router";
+import React, { useEffect } from "react";
+import { Link, useLocation } from "@reach/router";
+import { useState } from "react";
 
 import "./NavBar.css";
 
 const NavBar = (props) => {
+  const [location, setLoc] = useState("/");
+  useEffect(() => {
+    setLoc(window.location.pathname);
+    console.log("location changed: " + location);
+  }, [window.location.pathname]);
+  console.log("location: " + location);
   let toggleState = props.userId ? (
     <ul className="nav-item u-pointer fixed-width-medium" onClick={props.handleLogout}>
       Logout
