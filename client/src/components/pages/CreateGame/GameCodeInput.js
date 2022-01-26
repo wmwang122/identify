@@ -18,27 +18,27 @@ const GameCodeInput = (props) => {
   };
 
   const checkCode = () => {
-    post("/api/joinGame", { gameCode: inputText, userId: props.userId, name: props.name}).then((gameInfo) => {
-      console.log(gameInfo.status);
-      if (gameInfo.status !== "game not found") {
-        navigate(`/game/${gameInfo.gameCode}`, { state: gameInfo });
-      } else {
-        console.log(invalid);
-        setInvalid("true");
-        setInputText("");
+    post("/api/joinGame", { gameCode: inputText, userId: props.userId, name: props.name }).then(
+      (gameInfo) => {
+        console.log(gameInfo.status);
+        if (gameInfo.status !== "game not found") {
+          navigate(`/game/${gameInfo.gameCode}`, { state: gameInfo });
+        } else {
+          console.log(invalid);
+          setInvalid("true");
+          setInputText("");
+        }
       }
-    });
+    );
     //  console.log(inputText);
   };
 
-    var textBox =
-      invalid === "true" ? (
-        <div className = "invalid">
-          invalid game code, please try again
-        </div>
-      ) : (
-        <> </>
-      );
+  let textBox =
+    invalid === "true" ? (
+      <div className="invalid">invalid game code, please try again</div>
+    ) : (
+      <> </>
+    );
 
   return (
     <div className="invalidColumn">

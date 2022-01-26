@@ -6,7 +6,7 @@ import CreateGame from "./GameComponents/CreateGame";
 import AdvancedOptions from "./GameComponents/AdvancedOptions";
 
 const Game = (props) => {
-/*   var optionsButton = props.userId ? (
+  /*   let optionsButton = props.userId ? (
     <>
       <div className="options-button">
         <div className="options-text">Advanced Options</div>
@@ -29,8 +29,8 @@ const Game = (props) => {
               <GameCodeInput />
             </div>
           </div>
-          <CreateGame/>
-          <AdvancedOptions/>
+          <CreateGame />
+          <AdvancedOptions />
           <div className="rand-line"></div>
         </div>
       </div>

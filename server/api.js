@@ -50,7 +50,7 @@ function shuffle(array) {
 }
 
 const generateCode = (length) => {
-  var code = "";
+  let code = "";
   let characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
   for (let i = 0; i < length; i++) {
     code += characters.charAt(Math.floor(Math.random() * characters.length));
@@ -143,9 +143,9 @@ router.get("/whoami", (req, res) => {
   });
 });
 
-router.get("/getProfileId", (req,res) => {
-  User.findOne({_id: req.query._id}).then((user) =>{
-    res.send(""+user.profileId);
+router.get("/getProfileId", (req, res) => {
+  User.findOne({ _id: req.query._id }).then((user) => {
+    res.send("" + user.profileId);
   });
 });
 
@@ -262,14 +262,11 @@ router.post("/submitted", (req, res) => {
   };
   game.gameLog.push(newMessage);
   socketManager.getIo().to(req.body.gameCode).emit("new log", newMessage);
-  socketManager
-    .getIo()
-    .to(req.body.gameCode)
-    .emit("submitted", {
-      submission: req.body.sub,
-      name: req.body.user.name,
-      early: req.body.early,
-    });
+  socketManager.getIo().to(req.body.gameCode).emit("submitted", {
+    submission: req.body.sub,
+    name: req.body.user.name,
+    early: req.body.early,
+  });
   res.send({});
 });
 

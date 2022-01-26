@@ -4,7 +4,7 @@ import "./Home.css";
 import Name from "./Name.js";
 
 const Home = (props) => {
-  var homeButton = props.userId ? (
+  let homeButton = props.userId ? (
     <>
       <div
         className="login-button u-pointer u-fade-in-pop inst-delay-5"
