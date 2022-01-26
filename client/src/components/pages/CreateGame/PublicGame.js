@@ -15,6 +15,7 @@ const PublicGame = (props) => {
     });
   },[]);
   let host = "";
+  let num = 0;
 
   useEffect(() => {
     socket.on("player joining", (data) => {
@@ -31,6 +32,7 @@ const PublicGame = (props) => {
 
   if (data) {
     host = data.hostName;
+    num = data.trackList.length;
   }
 
   const handleClick = () => {
@@ -47,6 +49,7 @@ const PublicGame = (props) => {
   return (
     <div className="public-game-container u-pointer" onClick = {() => handleClick()}>
       <div className="host-participants">Host: {host} | Participants: {participants}</div>
+      <div className="game-type">Number of Questions: {num}</div>
       <div className="code-in-game-panel">{props.code}</div>
     </div>
   );

@@ -7,12 +7,14 @@ import GameLogMessage from "./GameLogMessage.js";
 const GameLog = (props) => {
     let content = [];
     let curr = 1;
-    for(let i = 0; i < props.messages.length; i++){
-        if(props.messages[i].roundNum !== curr){
-            curr = props.messages[i].roundNum;
-            content.push(<br></br>);
+    if(props.messages){
+        for(let i = 0; i < props.messages.length; i++){
+            if(props.messages[i].roundNum !== curr){
+                curr = props.messages[i].roundNum;
+                content.push(<br></br>);
+            }
+            content.push((<GameLogMessage message={props.messages[i].content}/>));
         }
-        content.push((<GameLogMessage message={props.messages[i].content}/>));
     }
   return (
     <div className = "game-log-parent">

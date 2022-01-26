@@ -1,4 +1,5 @@
 import React, { Component, useEffect, useState } from "react";
+import { navigate } from "@reach/router";
 import "../../../utilities.css";
 import "./InGame.css";
 import Scoreboard from "./Scoreboard.js";
@@ -16,7 +17,8 @@ import { useStateWithCallbackLazy } from "use-state-with-callback";
 import useUnload from "./useUnload.js";
 
 const InGame = (props) => {
-  const [userData, setUserData] = useState([]);
+  const [userData, setUserData] = useState(null);
+  const [isHost, setIsHost] = useState(false);
   const [userBuzz, setUserBuzz] = useState(null);
   const [trackList, setTrackList] = useState(null);
   const [playlistIDs, setPlaylistIDs] = useState([]);
@@ -29,6 +31,8 @@ const InGame = (props) => {
   const [gameLog, setGameLog] = useState([]);
   const [buzzTime, setBuzzTime] = useState(5);
   const [songTimeLeft, setSongTimeLeft] = useState(30);
+  const [buzzTimeLeft, setBuzzTimeLeft] = useState(null);
+  const [buzzStartingTime, setBuzzStartingTime] = useState(null);
   const [audioMounted, setAudioMounted] = useState(false);
   const [hostName, setHostName] = useState(null);
   const [endingMessage, setEndingMessage] = useState("");
@@ -37,19 +41,32 @@ const InGame = (props) => {
   const [startingTime, setStartingTime] = useState(null);
   const [startingTimeLoaded, setStartingTimeLoaded] = useState(false);
   const [roundOngoingLoaded, setRoundOngoingLoaded] = useState(false);
+  const [buzzStartingTimeLoaded, setBuzzStartingTimeLoaded] = useState(false);
+  const [userBuzzLoaded, setUserBuzzLoaded] = useState(false);
   const [trackListLoaded, setTrackListLoaded] = useState(false);
   const [closeGame, setCloseGame] = useState(0);
 
   let val = window.location.href;
-  let gameCode = val.substring(val.length - 5, val.length);
+  let gameCode = props.gameCode;
   //let saveMessage = "save song for later";
-
+  useEffect(()=>{
+    var getUserDataInterval = setInterval(function(){
+      get("/api/getGameData", {code: gameCode}).then((data)=>{
+        if(!data || !data.userData || data.userData.length===0){
+          console.log("navigate1");
+          clearInterval(getUserDataInterval);
+          navigate("/lobby");
+        }
+        setUserData(data.userData);
+      });
+    },2000);
+  },[]);
   const handleBuzz = async (event) => {
+    setCanBuzz(false);
     if (roundOngoing && !userBuzz && canBuzz) {
       for (let i = 0; i < userData.length; i++) {
         if (userData[i]._id === props.userId) {
           userData[i].buzzed = true;
-          setCanBuzz(false);
         }
       }
       post("/api/buzz", {
@@ -82,16 +99,18 @@ const InGame = (props) => {
       setUserBuzz(data.userBuzz);
       setGameChat(data.gameChat);
       setTrackNum(data.trackNum);
-      setBuzzTime(data.settings.time ? data.settings.time : 5);
+      setBuzzTime(data.settings && data.settings.time ? data.settings.time : 5);
       setGameLog(data.gameLog);
       setHostName(data.hostName);
       setPlaylistIDs(data.playlistIDs);
       setSongTimeLeft(data.songTimeLeft);
+      setBuzzTimeLeft(data.buzzTimeLeft);
       setTrackList(data.trackList);
       setEndingMessage(data.endingMessage);
       setRoundOngoing(data.roundOngoing);
       setRoundOngoing(data.roundOngoing);
       setStartingTime(data.songTimeLeft);
+      setBuzzStartingTime(data.buzzTimeLeft);
       gameCode = val.substring(val.length - 5, val.length);
       //post("/api/addUserBackToGame",{gameCode: gameCode, userId: props.userId});
     });
@@ -102,11 +121,42 @@ const InGame = (props) => {
       setStartingTimeLoaded(true);
     }
   }, [startingTime]);
+
+  useEffect(()=> {
+    if(buzzStartingTime !== null){
+      setBuzzStartingTimeLoaded(true);
+    }
+  }, [buzzStartingTime]);
+
+  useEffect(()=> {
+    let flag = false;
+    if(userData){
+      for(let i = 0; i < userData.length; i++){
+        if(userData[i]._id === props.userId){
+          if(userData[i].isHost){
+            setIsHost(true);
+          }
+          flag = true;
+          break;
+        }
+      }
+      if(!flag){
+        console.log("navigate2");
+        navigate("/lobby");
+      }
+    }
+  },[userData]);
   useEffect(() => {
     if (roundOngoing) {
       setRoundOngoingLoaded(true);
     }
   }, [roundOngoing]);
+
+  useEffect(() =>{
+    if (userBuzz !== null) {
+      setUserBuzzLoaded(true);
+    }
+  }, [userBuzz]);
 
   useEffect(() => {
     if (trackList && trackList.length > 0) {
@@ -115,11 +165,13 @@ const InGame = (props) => {
   }, [trackList]);
 
   useEffect(() => {
-    for (let i = 0; i < userData.length; i++) {
-      if (!userData[i].name) {
-        get("/api/userLookup", { _id: userData[i]._id }).then((user) => {
-          userData[i].name = user.name;
-        });
+    if(userData){
+      for (let i = 0; i < userData.length; i++) {
+        if (!userData[i].name) {
+          get("/api/userLookup", { _id: userData[i]._id }).then((user) => {
+            userData[i].name = user.name;
+          });
+        }
       }
     }
   }, [userData]);
@@ -127,16 +179,6 @@ const InGame = (props) => {
   useEffect(() => {
     initialize();
   }, []);
-  setTimeout(()=>{
-    console.log("loaded");
-  },2000);
-  if(trackList && roundOngoing && !audioMounted){
-    console.log("hello! initialized!");
-    myAudio = new Audio(trackList[trackNum].preview_url);
-    myAudio.currentTime = 30 - songTimeLeft;
-    myAudio.play();
-    setAudioMounted(true);
-  }
 
   useEffect(()=>{
     return () => {
@@ -249,7 +291,7 @@ const InGame = (props) => {
   });
 
   useEffect(() => {
-    if (!roundOngoing) {
+    if (!roundOngoing && userData) {
       for (let i = 0; i < userData.length; i++) {
         userData[i].buzzed = false;
       }
@@ -273,13 +315,18 @@ const InGame = (props) => {
   useEffect(() => {
     post("/api/updateSongTimeLeft", { gameCode: gameCode, songTimeLeft: songTimeLeft });
   }, [songTimeLeft]);
+  useEffect(() => {
+    post("/api/updateBuzzTimeLeft", { gameCode: gameCode, buzzTimeLeft: buzzTimeLeft });
+  }, [buzzTimeLeft]);
 
   useEffect(() => {
     let alreadyBuzzed = true;
-    for (let i = 0; i < userData.length; i++) {
-      if (userData[i]._id === props.userId) {
-        alreadyBuzzed = userData[i].buzzed;
-        break;
+    if(userData){
+      for (let i = 0; i < userData.length; i++) {
+        if (userData[i]._id === props.userId) {
+          alreadyBuzzed = userData[i].buzzed;
+          break;
+        }
       }
     }
     if (userBuzz) {
@@ -312,27 +359,29 @@ const InGame = (props) => {
   };
 
   const handleTimerEnd = async (data) => {
-    setUserBuzz(null);
+    setUserBuzz(false);
+    setBuzzStartingTime(buzzTime);
     for (let i = 0; i < userData.length; i++) {
       if (userData[i]._id === userBuzz._id) {
-        userData[i].score += data.success ? (data.early ? 15 : 10) : -5;
+        userData[i].buzzed = true;
+        userData[i].score += data?data.success ? (data.early ? 15 : 10) : -5:0;
         break;
       }
     }
     await post("/api/clearBuzz", { gameCode: gameCode });
-    if (typeof data.success !== undefined && myAudio) {
+    if (data && typeof data.success !== undefined && myAudio) {
       data.success ? myAudio.pause() : myAudio.play();
     } else if (myAudio) {
       myAudio.pause();
     }
-    if (data.success && trackNum + 1) {
+    if (data && data.success && trackNum + 1) {
       setTrackNum(trackNum + 1);
       post("/api/increaseTrackNum", { gameCode: gameCode });
     }
     if (roundOngoing) {
       myAudio.play();
     }
-    if (!data.success && trackNum + 1) {
+    if ((!data || !data.success) && trackNum + 1) {
       if (userData.length > 0) {
         let stillExistsUser = false;
         console.log(userData);
@@ -516,13 +565,16 @@ const InGame = (props) => {
 
   let buzzerState = canBuzz ? "u-pointer inGame-buzzerEffect" : "inGame-buzzer-locked";
   let countdownTimer = (
+    userBuzzLoaded && buzzStartingTimeLoaded ? (
     <Countdown
-      time={buzzTime}
+      time={buzzStartingTime}
       activate={userBuzz ? true : false}
       end={() => handleTimerEnd()}
       forceReset={resetTimer}
       visible="false"
-    />
+      updateTimeLeft={(data) => setBuzzTimeLeft(data)}
+    />):
+    (<></>)
   );
   let gameTimer =
     roundOngoingLoaded && startingTimeLoaded ? (
@@ -534,20 +586,11 @@ const InGame = (props) => {
         visible="false"
         isGameTimer={true}
         gameCode={gameCode}
-        updateSongTimeLeft={(data) => setSongTimeLeft(data)}
+        updateTimeLeft={(data) => setSongTimeLeft(data)}
       />
     ) : (
       <></>
     );
-  let gameCloseTimer = (
-    <Countdown
-      time={1000}
-      activate={true}
-      resetOnUpdate={closeGame}
-      end={() => handleGameEnd()}
-      hide={true}
-    />
-  );
 
   useEffect(() => {
     console.log("oops!");
@@ -601,7 +644,7 @@ const InGame = (props) => {
       <div className="inGame-container">
         <div className="inGame-container-left">
           <Scoreboard data={userData} />
-          <SelectSong handleAddSong={(song) => handleAddSong(song)} />
+          <SelectSong handleAddSong={(song) => handleAddSong(song)} active = {isHost}/>
         </div>
         <div className="inGame-vertical-line" />
         <div className="inGame-container-main">
@@ -626,14 +669,13 @@ const InGame = (props) => {
       </div>
       {gameEnded ? (
         <GameEndScreen
-          leaderboard={userData.slice(0, Math.min(3, userData.length))}
+          leaderboard={userData?userData.slice(0, Math.min(3, userData.length)):[]}
           savedSongs={savedSongs}
           trackList={trackList}
         />
       ) : (
         <div />
       )}
-      {gameCloseTimer}
     </>
   );
 };

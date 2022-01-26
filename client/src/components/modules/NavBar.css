@@ -86,7 +86,7 @@
   flex-grow: 1;
   align-items: center;
   justify-content: space-around;
-  margin-right: 5vh;
+  margin-right: 10vh;
 }
 
 
@@ -97,10 +97,11 @@
 }
 
 .fixed-width-large{
-  width: 29vh;
+  width: 14vw;
+  min-width: 38vh;
 }
 .fixed-width-medium{
-  width: 12vh;
+  width: 10vh;
 }
 
 .nav-item:hover {

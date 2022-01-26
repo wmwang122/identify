@@ -35,9 +35,7 @@ const Countdown = (props) => {
     let interval = null;
     if (isActive) {
       interval = setInterval(() => {
-        if(props.isGameTimer){
-          props.updateSongTimeLeft(timeLeft-1);
-        }
+        props.updateTimeLeft(timeLeft-1);
         setTimeLeft((timeLeft) => timeLeft - 1);
       }, 1000);
       if (timeLeft <= 0) {

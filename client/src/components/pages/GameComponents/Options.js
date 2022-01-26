@@ -203,15 +203,16 @@ const Options = (props) => {
   }
 
   const submitGameOptions = async () => {
+    let num = numberQuestions > 0 ? numberQuestions <= 25 ? numberQuestions : 25 : 10;
     console.log(JSON.stringify(gameSettings));
     if(gameSettings.selectedSongs && gameSettings.selectedSongs.type){
       if(gameSettings.selectedSongs.type === "playlists"){
-        get("/api/getSongsFromPlaylists", {playlists: gameSettings.selectedSongs.playlists}).then((songs)=>{
+        get("/api/getSongsFromPlaylists", {playlists: gameSettings.selectedSongs.playlists, num: num}).then((songs)=>{
           makeGame(songs);
         });
       }
       else if(gameSettings.selectedSongs.type === "genre"){
-        get("/api/searchByGenreSpotify", {genre: gameSettings.selectedSongs.genre}).then((songs) =>{
+        get("/api/searchByGenreSpotify", {genre: gameSettings.selectedSongs.genre, num: num}).then((songs) =>{
           makeGame(songs);
         });
       }
@@ -219,13 +220,13 @@ const Options = (props) => {
         makeGame(gameSettings.selectedSongs.selectedSongs);
       }
       else{
-        get("/api/getPopularSongs",{num: 10}).then((songs) =>{
+        get("/api/getPopularSongs",{num: num}).then((songs) =>{
           makeGame(songs);
         });
       }
     }
     else{
-      post("/api/getPopularSongs",{num:10}).then((songs) =>{
+      get("/api/getPopularSongs",{num:num}).then((songs) =>{
         makeGame(songs);
       });
     }

@@ -20,6 +20,9 @@ const Profile = (props) => {
   const [ownProfileId, setOwnProfileId] = useState(0);
   const [spotifyId, setSpotifyId] = useState(null);
   useEffect(() => {
+    console.log("pfp: " + pfp);
+  }, [pfp]);
+  useEffect(() => {
     let isMounted = true;
     if (isMounted) {
       get("/api/whoami").then((user) => {
@@ -35,7 +38,8 @@ const Profile = (props) => {
     get("/api/getProfile", { profileId: props.profileId }).then((user) => {
       setUserName(user.name);
       setBio(user.bio);
-      setPfp(user.pfp);
+      setPfp(user.pfp ? user.pfp : "/logo.png");
+      console.log(user.pfp);
       setGamesPlayed(user.gamesPlayed);
       setPointsScored(user.pointsScored);
       setSongsSaved(user.songsSaved);
@@ -43,26 +47,11 @@ const Profile = (props) => {
       setSpotifyId(user.spotifyId);
     });
   }, []);
-  const handlePfpEdit = (event) => {
-    const image_input = document.querySelector("#image_input");
-    image_input.addEventListener("change", function () {
-      const reader = new FileReader();
-      reader.addEventListener("load", () => {
-        const uploaded_image = reader.result;
-        document.querySelector("#display_image").style.backgroundImage = `url(${uploaded_image})`;
-      });
-      reader.readAsDataURL(this.files[0]);
-    });
-  };
 
   const handlePfpChange = (event) => {
-    console.log("made it to handle");
     const reader = new FileReader();
     reader.readAsDataURL(event.target.files[0]);
     reader.onload = function () {
-      console.log("made it to onload");
-      console.log(reader.result);
-      console.log(props.userId);
       post("/api/pfpChange", { newPfp: reader.result, userId: props.userId }).then((res) => {
         setPfp(res.pfp);
         console.log(res);
@@ -173,39 +162,52 @@ const Profile = (props) => {
         <div className="pfp-super-container">
           <div className="pfp-container u-background-turquoise">
             {" "}
-            <img src={pfp} class="rounded" />
+            <label for="pfpUpload">
+              <img src={pfp} className="rounded" onClick={handlePfpChange} />
+            </label>
           </div>
-          <input type="file" name="file" accept="image/*" onChange={handlePfpChange} />
-          <div
-            className="spotify-follow"
-            onClick={() => {
-              location.href = "https://open.spotify.com/user/" + spotifyId;
-            }}
-          >
-            Follow on Spotify!
-          </div>
+          <input
+            type="file"
+            name="file"
+            id="pfpUpload"
+            className="imageUpload"
+            accept="image/*"
+            onChange={handlePfpChange}
+          />
         </div>
         <div className="bio-container">
           <div className="profile-title">{nameField}</div>
           {bioField}
         </div>
-      </div>
-      <div className="profile-lower-container">
-        <div className="stats-container">
-          <div className="profile-stats-text">User Statistics</div>
-          <div className="profile-stats">
-            <div className="profile-stat">
-              <span className="profile-stat-title">Games Played: </span> {gamesPlayed}
-            </div>
-            <div className="profile-stat">
-              <span className="profile-stat-title">Points Scored: </span> {pointsScored}
-            </div>
-            <div className="profile-stat">
-              <span className="profile-stat-title">Songs Saved: </span> {songsSaved}
+        <div className="spotify-and-text">
+          <div className="stats-container">
+            <div className="profile-stats-text">User Statistics</div>
+            <div className="profile-stats">
+              <div className="profile-stat">
+                <span className="profile-stat-title">Games Played: </span> {gamesPlayed}
+              </div>
+              <div className="profile-stat">
+                <span className="profile-stat-title">Points Scored: </span> {pointsScored}
+              </div>
+              <div className="profile-stat">
+                <span className="profile-stat-title">Songs Saved: </span> {songsSaved}
+              </div>
             </div>
           </div>
+          <div className="spotify-text">
+            <div className="follow-text">Follow on Spotify:</div>
+            <img
+              src="/spotify.png"
+              className="spotify-follow"
+              onClick={() => {
+                location.href = "https://open.spotify.com/user/" + spotifyId;
+              }}
+            />
+          </div>
         </div>
-        <div>
+      </div>
+      <div className="profile-lower-container">
+        <div className="recentSongs-container">
           <div className="profile-recentSongs-text">Recently Saved Songs</div>
           <div className="profile-songList">{songDisplay}</div>
         </div>
