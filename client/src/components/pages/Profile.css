@@ -73,6 +73,10 @@
   font-size: 2.8vh;
   white-space: pre-line;
   overflow: hidden;
+  background-color: var(--turqoise);
+  margin-bottom: 3vh;
+  border-radius: 3vh;
+  padding: 2vh;
 }
 
 .bio-subContainer {
@@ -155,7 +159,10 @@ textarea[type="text"] {
 }
 
 .stats-container {
-  width: 40%;
+  width: 50vh;
+  background-color: var(--turqoise);
+  border-radius: 5vh;
+  margin: 3vh;
 }
 
 .profile-no-songs-saved {
