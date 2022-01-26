@@ -5,3 +5,6 @@
     width: 24.6vw;
     border-radius: 3vh;
 }
+
+.public-game-container:hover{
+    background-color:#93ff96;}

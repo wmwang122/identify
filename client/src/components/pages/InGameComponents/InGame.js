@@ -170,6 +170,7 @@ const InGame = (props) => {
 
   useEffect(() => {
     socket.on("new message", (message) => {
+      console.log(`heard message: ${message}`)
       setGameChat([...gameChat, message]);
     });
     return () => {
@@ -365,8 +366,35 @@ const InGame = (props) => {
   };
 
   const handleOnSubmit = (value) => {
-    let success = value.toLowerCase() === trackList[trackNum].name.toLowerCase();
-    let early = songTimeLeft > 15;
+        console.log("inside answer checker");
+        let trackName = trackList[trackNum].name.toLowerCase();
+        console.log(trackName);
+
+        if (trackName.indexOf("(") !== -1) {
+          let index = trackName.indexOf("(");
+          trackName = trackName.slice(0, index).trim();
+          console.log("parenthesess found " + trackName);
+          console.log(trackName.length);
+
+        }
+
+        if (trackName.indexOf("-") !== -1) {
+          let index = trackName.indexOf("-");
+          trackName = trackName.slice(0, index).trim();
+          console.log("- found" + trackName);
+          console.log(trackName.length);
+        }
+
+        let userAnswer = value.toLowerCase();
+        let length = trackName.length;
+        userAnswer = userAnswer.slice(0, length);
+        console.log("spliced user answer: " + userAnswer);
+
+        let success = userAnswer === trackName;
+        console.log("successful? " + success);
+    
+   // let success = value.toLowerCase() === trackList[trackNum].name.toLowerCase();
+    let early = (songTimeLeft > 15);
     //trackList[trackNum].track.name.toLowerCase(); //ALSO PLS DONT RB
     post("/api/submitted", {
       gameCode: gameCode,
