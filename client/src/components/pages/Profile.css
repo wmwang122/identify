@@ -15,6 +15,9 @@
   max-height: 32vw;
   max-width: 32vw;
 }
+/* .pfp-container > input {
+  display: hidden;
+} */
 
 .pfp-mega-container {
   display: flex;
@@ -35,7 +38,6 @@
   display: flex;
   align-items: flex-end;
   font-size: 6vh;
-  margin-bottom: 2vh;
   max-width: 60vh;
 }
 .pfp-super-container {
@@ -69,7 +71,7 @@
 }
 .bio-Content {
   height: 25vh;
-  width: 50vw;
+  width: 40vw;
   font-size: 2.8vh;
   white-space: pre-line;
   overflow: hidden;
@@ -77,6 +79,22 @@
   margin-bottom: 3vh;
   border-radius: 3vh;
   padding: 2vh;
+}
+
+.spotify-name-flex {
+  display: flex;
+  flex-direction: row;
+  width: 40vh;
+  align-items: center;
+}
+
+.imageUpload {
+  width: 0.1px;
+  height: 0.1px;
+  opacity: 0;
+  overflow: hidden;
+  position: absolute;
+  z-index: -1;
 }
 
 .bio-subContainer {
@@ -130,8 +148,17 @@ textarea[type="text"] {
 
 .profile-stats-text {
   font-size: 6vh;
-  margin: 4vh 2vw 1vh 3vw;
+  margin: 1vh 2vw 1vh 3vw;
 }
+
+.recentSongs-container {
+  background-color: var(--turqoise);
+  width: 108vh;
+  margin: 5vh;
+  padding: 2vh;
+  border-radius: 5vh;
+}
+
 .profile-stat {
   font-size: 3.5vh;
   margin-top: 0.5vh;
@@ -159,10 +186,11 @@ textarea[type="text"] {
 }
 
 .stats-container {
-  width: 50vh;
+  width: 75vh;
   background-color: var(--turqoise);
   border-radius: 5vh;
-  margin: 3vh;
+  margin: 5vh;
+  padding: 2vh;
 }
 
 .profile-no-songs-saved {
@@ -170,21 +198,44 @@ textarea[type="text"] {
 }
 
 .spotify-follow {
-  font-weight: 500;
-  font-size: 3.5vh;
-  margin-top: 1vh;
-  background-color: rgba(134, 231, 184, 0.7);
-  border-radius: 5vh;
-  padding: 1.5vh;
+  width: 5vh;
+  height: 5vh;
+  vertical-align: middle;
+  margin-right: 1.5vh;
 }
 
 .spotify-follow:hover {
-  background-color: rgba(134, 231, 184, 1);
+  width: 6vh;
+  height: 6vh;
 }
 
-img.rounded {
+.spotify-text {
+  display: flex;
+  vertical-align: middle;
+  align-items: center;
+}
+
+.follow-text {
+  font-size: 4vh;
+}
+
+.rounded {
   border-radius: 50%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  position: absolute;
   object-fit: cover;
   width: 30vh;
   height: 30vh;
+  z-index: 4;
+}
+
+.rounded:hover {
+  opacity: 0.7;
+}
+input[type="file"] {
+  position: fixed;
+  right: 100%;
+  bottom: 100%;
 }
