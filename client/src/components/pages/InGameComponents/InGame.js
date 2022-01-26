@@ -57,6 +57,7 @@ const InGame = (props) => {
           clearInterval(getUserDataInterval);
           navigate("/lobby");
         }
+        console.log(data.userData);
         setUserData(data.userData);
       });
     },2000);
@@ -67,6 +68,7 @@ const InGame = (props) => {
       for (let i = 0; i < userData.length; i++) {
         if (userData[i]._id === props.userId) {
           userData[i].buzzed = true;
+          post("/api/userBuzzSet", {gameCode: gameCode, index: i, val: true});
         }
       }
       post("/api/buzz", {
@@ -294,6 +296,7 @@ const InGame = (props) => {
     if (!roundOngoing && userData) {
       for (let i = 0; i < userData.length; i++) {
         userData[i].buzzed = false;
+        post("/api/userBuzzSet", {gameCode: gameCode, index: i, val: false});
       }
     }
   }, [roundOngoing]);
@@ -349,6 +352,7 @@ const InGame = (props) => {
         found = true;
         setUserBuzz(userData[i]);
         userData[i].buzzed = true;
+        post("/api/userBuzzSet", {gameCode: gameCode, index: i, val: true});
         break;
       }
     }
@@ -364,6 +368,7 @@ const InGame = (props) => {
     for (let i = 0; i < userData.length; i++) {
       if (userData[i]._id === userBuzz._id) {
         userData[i].buzzed = true;
+        post("/api/userBuzzSet", {gameCode: gameCode, index: i, val: true});
         userData[i].score += data?data.success ? (data.early ? 15 : 10) : -5:0;
         break;
       }

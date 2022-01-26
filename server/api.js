@@ -620,6 +620,11 @@ router.post("/updateUserStats", (req, res) => {
   res.send({});
 });
 
+router.post("/userBuzzSet", (req,res) => {
+  let game =socketManager.games.get(req.body.gameCode);
+  game.userData[req.body.index].buzzed = req.body.val;
+  res.send({});
+});
 /*router.get("/getGame",(req,res) =>{
   GameSchema.findOne({gameCode: req.query.code}).then((game)=>{
     if(game && game.currentBuzz)
