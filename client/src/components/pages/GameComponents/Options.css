@@ -123,14 +123,16 @@ input[type="checkbox"] {
 }
 
 input[type="number"] {
-  width: 40px;
-  height: 40px;
+  width: 2.3vw;
+  height: 3.7vh;
   background: white;
-  border-radius: 10px;
+  border-radius: 5px;
   display: flex;
   justify-content: center;
   align-items: center;
   border: white;
+  font-family: "Red Hat Text", sans-serif;
+  font-size: 2vh;
 }
 
 label {
@@ -220,6 +222,10 @@ label:active:after {
   align-items: right;
 }
 
+.add-margin-top{
+  margin-top: 2vh;
+}
+
 .options-button {
   /*position: absolute;*/
   width: 20vw;
@@ -256,9 +262,9 @@ label:active:after {
 }
 
 .inline{
-  display:inline-block;
   justify-content: center;
   align-items:center;
+  display: flex; 
 }
 
 .options-panel-open {
