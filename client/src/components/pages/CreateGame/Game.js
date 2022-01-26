@@ -8,11 +8,15 @@ import CreateGame from "../GameComponents/CreateGame.js";
 import Options from "../GameComponents/Options.js";
 import PublicGames from "./PublicGames.js";
 const Game = (props) => {
+<<<<<<< HEAD
     setTimeout(()=> {console.log("genius idea");},2000);
       if(!props.userId){
         navigate("/");
       }
   /*var optionsButton = props.userId ? (
+=======
+  /*let optionsButton = props.userId ? (
+>>>>>>> d615cdb9e87a5635924189799f905747323b6c52
     <>
       <div className="options-button">
         <div className="options-text">Advanced Options</div>
@@ -23,7 +27,7 @@ const Game = (props) => {
       <div className="options-text">Advanced Options</div>
     </div>
   ); */
-  
+
   return (
     <div className="gamePage-container">
       <div className="gameJoin-container">

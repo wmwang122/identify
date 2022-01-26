@@ -31,14 +31,12 @@ const GameCodeInput = (props) => {
     //  console.log(inputText);
   };
 
-    var textBox =
-      invalid === "true" ? (
-        <div className = "invalid">
-          invalid game code, please try again
-        </div>
-      ) : (
-        <> </>
-      );
+  let textBox =
+    invalid === "true" ? (
+      <div className="invalid">invalid game code, please try again</div>
+    ) : (
+      <> </>
+    );
 
   return (
     <div className="invalidColumn">

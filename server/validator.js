@@ -19,7 +19,7 @@ let routeChecked = false;
 // poke port 5000 to see if 'npm run hotloader' was possibly called
 function checkHotLoader() {
   return new Promise((resolve, reject) => {
-    var server = net.createServer();
+    let server = net.createServer();
 
     server.once("error", (err) => {
       resolve(err.code === "EADDRINUSE");

@@ -5,7 +5,7 @@ import {Link} from "@reach/router";
 import Name from "./Name.js";
 
 const Home = (props) => {
-  var homeButton = props.userId ? (
+  let homeButton = props.userId ? (
     <>
       <Link to="/lobby">
       <div
