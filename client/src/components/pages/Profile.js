@@ -18,6 +18,7 @@ const Profile = (props) => {
   const [songsSaved, setSongsSaved] = useState(0);
   const [recentSongs, setRecentSongs] = useState([]);
   const [ownProfileId, setOwnProfileId] = useState(0);
+  const [spotifyId, setSpotifyId] = useState(null);
   useEffect(() => {
     let isMounted = true;
     if (isMounted) {
@@ -39,6 +40,7 @@ const Profile = (props) => {
       setPointsScored(user.pointsScored);
       setSongsSaved(user.songsSaved);
       setRecentSongs(user.recentSongs);
+      setSpotifyId(user.spotifyId);
     });
   }, []);
   const handlePfpEdit = (event) => {
@@ -59,18 +61,16 @@ const Profile = (props) => {
     reader.readAsDataURL(event.target.files[0]);
     reader.onload = function () {
       console.log("made it to onload");
+      console.log(reader.result);
+      console.log(props.userId);
       post("/api/pfpChange", { newPfp: reader.result, userId: props.userId }).then((res) => {
-        setPfp(res.newPfp);
-        console.log("posted");
+        setPfp(res.pfp);
+        console.log(res);
       });
     };
     reader.onerror = function (error) {
       console.log("There was an error:" + error + "Please try again or use a different picture.");
     };
-  };
-
-  const setPicture = (props) => {
-    <img src={props.pfp} className="pfp" />;
   };
 
   const handleBioChange = (event) => {
@@ -170,15 +170,20 @@ const Profile = (props) => {
   return (
     <div>
       <div className="profile-container-1">
-        <div className="pfp-container u-background-turquoise">
-          {/*added code starts*/}
+        <div className="pfp-super-container">
+          <div className="pfp-container u-background-turquoise">
+            {" "}
+            <img src={pfp} class="rounded" />
+          </div>
           <input type="file" name="file" accept="image/*" onChange={handlePfpChange} />
-          {/*           <input type="button" value="submit" onClick={setPicture}>
-            submit
-          </input> */}
-          {/*added code ends*/}
-          <img src={pfp} className="pfp" />
-          <div className="spotify-follow">Follow on Spotify!</div>
+          <div
+            className="spotify-follow"
+            onClick={() => {
+              location.href = "https://open.spotify.com/user/" + spotifyId;
+            }}
+          >
+            Follow on Spotify!
+          </div>
         </div>
         <div className="bio-container">
           <div className="profile-title">{nameField}</div>

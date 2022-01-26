@@ -81,17 +81,16 @@ const Options = (props) => {
             <div className=" row space_between"> 
             <div className="column1 column-marginright">
               <div className="row space_evenly inline">
-                {" "}
                 <div className="text"> Make Game Public </div>
                 <input
                   type="checkbox"
                   name="switch"
                   id="switch"
-                  onClick={() => handlePublic(event)}
+                  onClick={() => handlePublic()}
                 />
                 <label for="switch"></label>
               </div>
-              <div className="row space_evenly inline left-align">
+              <div className="row space_evenly inline add-margin-top ">
                 <div className="text">
                   # of Questions:
                   <div>
@@ -118,7 +117,7 @@ const Options = (props) => {
                 />
                 <label for="switch2"></label>
               </div>
-              <div className="row space_evenly inline">
+              <div className="row space_evenly inline add-margin-top">
                 <div className="text">
                   Time to Answer:
                   <input
