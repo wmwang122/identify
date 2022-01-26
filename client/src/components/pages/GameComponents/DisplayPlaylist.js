@@ -39,12 +39,12 @@ const DisplayPlaylist = (props) => {
 
   let displayImage = selected ? (
     <div className="imageSelected">
-    <img src={src} width="130vw" height="130vh"/>
+    <img src={src} className="playlist-image"/>
     selected
     </div>
   ) : (
     <div className="imageNotSelected">
-    <img src={src} width="130vw" height="130vh"/>
+    <img src={src} className="playlist-image"/>
     </div>
   );
 

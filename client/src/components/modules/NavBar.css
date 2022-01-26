@@ -4,12 +4,6 @@
   margin: 0;
 }
 
-.NavBar-title {
-  color: var(--black);
-  font-size: 50px;
-  margin: 1;
-}
-
 .NavBar-linkContainer {
   margin-left: var(--l);
 }
