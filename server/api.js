@@ -240,7 +240,6 @@ router.post("/buzz", (req, res) => {
   let flag = true;
   for (let i = 0; i < game.userData.length; i++) {
     if (game.userData[i]._id === req.body.userId) {
-      console.log(game.userData[i]);
       flag = false;
       game.userBuzz = game.userData[i];
       let newMessage = {
@@ -249,7 +248,6 @@ router.post("/buzz", (req, res) => {
       };
       game.gameLog.push(newMessage);
       socketManager.getIo().to(req.body.gameCode).emit("new log", newMessage);
-      console.log(game.gameLog);
     }
   }
   if (flag) {
@@ -300,8 +298,6 @@ router.post("/roundStart", (req, res) => {
 
 router.post("/addUserBackToGame", (req, res) => {
   let game = socketManager.games.get(req.body.gameCode);
-  console.log(req.body.gameCode + " " + req.body.userId);
-  console.log(game.userData);
   let flag = false;
   for (let i = 0; i < game.userData.length; i++) {
     if (game.userData[i]._id === req.body.userId) {
@@ -332,11 +328,10 @@ router.post("/newGame", (req, res) => {
   while (socketManager.games.get(code)) {
     code = generateCode(5);
   }
-  console.log("code is: " + code);
   socketManager.games.set(code, {
     settings: req.body.settings,
     userData: [
-      { _id: req.body.userId, name: req.body.name, score: 0, active: true, buzzed: false },
+      { _id: req.body.userId, name: req.body.name, score: 0, active: true, buzzed: false, isHost: true},
     ],
     userBuzz: false,
     gameChat: [],
@@ -383,6 +378,7 @@ router.post("/joinGame", (req, res) => {
         score: 0,
         active: true,
         buzzed: false,
+        isHost: false,
       });
       socketManager.getIo().to(req.body.gameCode).emit("new player", req.body.userId);
       console.log("player joining room " + req.body.gameCode);
@@ -481,7 +477,6 @@ router.get("/searchByGenreSpotify", (req, res) => {
     loggedInSpotifyApi.searchTracks("genre:" + req.query.genre).then((data) => {
       let num = req.query.num ? req.query.num : 10;
       data = data.body.tracks.items;
-      console.log(data);
       data = shuffle(data);
       ans = [];
       for (let i = 0; i < data.length; i++) {
@@ -602,9 +597,7 @@ router.post("/gameEnding", (req, res) => {
 });
 
 router.post("/updateUserStats", (req, res) => {
-  console.log("asdf");
   User.findOne({ _id: req.body.user._id }).then((user) => {
-    console.log(JSON.stringify(user));
     user.gamesPlayed++;
     user.songsSaved += req.body.savedSongs.length;
     user.pointsScored += req.body.user.score;

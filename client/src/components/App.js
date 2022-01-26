@@ -21,6 +21,11 @@ const App = (props) => {
   const [userId, setUserId] = useState(undefined);
   const [profileId, setProfileId] = useState(0);
   const [name, setName] = useState(undefined);
+  const [loc, setLoc] = useState("/");
+  
+  useEffect(()=>{
+    setLoc(window.location.pathname);
+  },[window]);
 
   useEffect(() => {
     get("/api/whoami").then((user) => {
@@ -66,10 +71,14 @@ const App = (props) => {
   const handleBioUpdate = (value) => {
     post("/api/bioUpdate", { content: value.v, id: userId });
   };
+  const onHowToPlay = () =>{
+    return false;
+  }
 
   return (
     <>
-      <NavBar handleLogin={handleLogin} handleLogout={handleLogout} userId={userId} />
+      {userId|| loc !== "/"?
+      (<NavBar handleLogin={handleLogin} handleLogout={handleLogout} userId={userId} />):(<></>)}
       <Router>
         <Home path="/" handleLogin={handleLogin} handleLogout={handleLogout} userId={userId} />
         {userId ? (

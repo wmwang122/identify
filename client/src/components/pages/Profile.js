@@ -49,13 +49,9 @@ const Profile = (props) => {
   }, []);
 
   const handlePfpChange = (event) => {
-    console.log("made it to handle");
     const reader = new FileReader();
     reader.readAsDataURL(event.target.files[0]);
     reader.onload = function () {
-      console.log("made it to onload");
-      console.log(reader.result);
-      console.log(props.userId);
       post("/api/pfpChange", { newPfp: reader.result, userId: props.userId }).then((res) => {
         setPfp(res.pfp);
         console.log(res);
