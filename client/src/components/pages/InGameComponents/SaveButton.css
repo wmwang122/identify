@@ -2,19 +2,25 @@
     position: relative;
     top: 10vh;
     text-align: center;
-    font-size: 4vh;
+    font-size: 3vh;
     width: 20vw;
     min-width: 40vh;
     padding: 1vh 2vw 1vh 2vw;
+    height: 7vh;
     border-radius: 5vh;
     background-color: var(--lightbrightgreen);
+    align-items:center;
   }
+
+.save-button-end:hover{
+  background-color: var(--brightgreen);
+}
   
   .save-button-end-no-hover {
     position: relative;
     top: 10vh;
     text-align: center;
-    font-size: 4vh;
+    font-size: 3vh;
     width: 20vw;
     min-width: 40vh;
     padding: 1vh 2vw 1vh 2vw;

@@ -17,7 +17,7 @@ const SaveButton = (props) => {
             </div>
           ) : (
             <div className="save-button-end u-pointer" onClick={() => handleSaveSong()}>
-              save song for later
+              Save Song for Later
             </div>
         )
     );
