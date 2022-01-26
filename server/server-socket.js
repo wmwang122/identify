@@ -6,6 +6,9 @@ const socketToUserMap = {}; // maps socket ID to user object
 const getSocketFromUserID = (userid) => userToSocketMap[userid];
 const getUserFromSocketID = (socketid) => socketToUserMap[socketid];
 const getSocketFromSocketID = (socketid) => io.sockets.connected[socketid];
+const games = new Map();
+const publicGames = [];
+
 
 const addUser = (user, socket) => {
   const oldSocket = userToSocketMap[user._id];
@@ -21,6 +24,24 @@ const addUser = (user, socket) => {
 };
 
 const removeUser = (user, socket) => {
+  if(user){
+    console.log(user.name + " is leaving!");
+    games.forEach((game, code, map)=>{
+      for(let i = 0; i < game.userData.length; i++){
+        if(game.userData[i]._id===user._id){
+          game.userData.splice(i,1);
+          break;
+        }
+      }
+      if(game.userData.length===0){
+        games.delete(code);
+        let i = publicGames.indexOf(code);
+        if(i!==-1){
+          publicGames.splice(i,1);
+        }
+      }
+    });
+  }
   if (user) delete userToSocketMap[user._id];
   delete socketToUserMap[socket.id];
 };
@@ -51,6 +72,8 @@ module.exports = {
   removeUser: removeUser,
   addUserToGame: addUserToGame,
   removeUserFromGame: removeUserFromGame,
+  games: games,
+  publicGames: publicGames,
 
   getSocketFromUserID: getSocketFromUserID,
   getUserFromSocketID: getUserFromSocketID,

@@ -127,6 +127,24 @@ const InGame = (props) => {
   useEffect(() => {
     initialize();
   }, []);
+  setTimeout(()=>{
+    console.log("loaded");
+  },2000);
+  if(trackList && roundOngoing && !audioMounted){
+    console.log("hello! initialized!");
+    myAudio = new Audio(trackList[trackNum].preview_url);
+    myAudio.currentTime = 30 - songTimeLeft;
+    myAudio.play();
+    setAudioMounted(true);
+  }
+
+  useEffect(()=>{
+    return () => {
+      if(myAudio){
+        myAudio.pause();
+      }
+    }
+  },[myAudio]);
 
   const sortUserData = () => {
     setUserData(
@@ -291,7 +309,6 @@ const InGame = (props) => {
       console.log("error");
     }
     myAudio.pause();
-    setAudioMounted(false);
   };
 
   const handleTimerEnd = async (data) => {
@@ -360,6 +377,7 @@ const InGame = (props) => {
     if (trackList && trackNum < trackList.length) {
       setRoundOngoing(true);
       myAudio.play();
+      console.log("audio started playing: " + JSON.stringify(myAudio));
     } else {
       handleGameEnd();
     }
@@ -423,6 +441,8 @@ const InGame = (props) => {
     } else if (!audioMounted && !userBuzz) {
       if (myAudio) {
         myAudio.currentTime = 30 - songTimeLeft;
+        myAudio.play();
+        setAudioMounted(true);
       }
     }
   }, [trackNum, trackList, roundOngoing, userBuzz]);

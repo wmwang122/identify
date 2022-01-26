@@ -23,6 +23,7 @@ const SpotifyWebApi = require("spotify-web-api-node");
 //initialize socket
 const socketManager = require("./server-socket");
 const game = require("./models/game");
+const { publicGames } = require("./server-socket");
 
 const spotifyApi = new SpotifyWebApi({
   clientId: process.env.SPOTIFY_API_ID,
@@ -30,8 +31,8 @@ const spotifyApi = new SpotifyWebApi({
   redirectUri: process.env.CALLBACK_URI,
 });
 
-const games = new Map();
-const publicGames = [];
+//const games = new Map();
+//const publicGames = [];
 function shuffle(array) {
   let currentIndex = array.length,
     randomIndex;
@@ -48,6 +49,19 @@ function shuffle(array) {
 
   return array;
 }
+
+setInterval(function(){
+  socketManager.games.forEach((game, code, map) => {
+    if(game.userData.length === 0){
+      game.delete(code);
+      let i = socketManager.publicGames.indexOf(code);
+      if(i!==-1){
+        publicGames.splice(i,1);
+        socketManager.getIo().emit("public game delete", code);
+      }
+    }
+  });
+},5000);
 
 const generateCode = (length) => {
   var code = "";
@@ -206,7 +220,7 @@ router.get("/userLookup", (req, res) => {
 });
 
 router.get("/getGameData", (req, res) => {
-  ans = games.get(req.query.code);
+  ans = socketManager.games.get(req.query.code);
   if (ans) {
     res.send(ans);
   } else {
@@ -215,7 +229,7 @@ router.get("/getGameData", (req, res) => {
 });
 
 router.post("/buzz", (req, res) => {
-  let game = games.get(req.body.gameCode);
+  let game = socketManager.games.get(req.body.gameCode);
   let flag = true;
   for (let i = 0; i < game.userData.length; i++) {
     if (game.userData[i]._id === req.body.userId) {
@@ -239,14 +253,14 @@ router.post("/buzz", (req, res) => {
 });
 
 router.post("/clearBuzz", (req, res) => {
-  let game = games.get(req.body.gameCode);
+  let game = socketManager.games.get(req.body.gameCode);
   game.userBuzz = null;
   console.log("cleared buzz");
   res.send({});
 });
 
 router.post("/submitted", (req, res) => {
-  let game = games.get(req.body.gameCode);
+  let game = socketManager.games.get(req.body.gameCode);
   for (let i = 0; i < game.userData.length; i++) {
     if (game.userData[i]._id === req.body.user._id) {
       game.userData[i].score += req.body.sub ? (req.body.early ? 15 : 10) : -5;
@@ -274,14 +288,14 @@ router.post("/submitted", (req, res) => {
 });
 
 router.post("/roundStart", (req, res) => {
-  let game = games.get(req.body.gameCode);
+  let game = socketManager.games.get(req.body.gameCode);
   game.roundOngoing = true;
   socketManager.getIo().to(req.body.gameCode).emit("starting", {});
   res.send({});
 });
 
 router.post("/addUserBackToGame", (req, res) => {
-  let game = games.get(req.body.gameCode);
+  let game = socketManager.games.get(req.body.gameCode);
   console.log(req.body.gameCode + " " + req.body.userId);
   console.log(game.userData);
   let flag = false;
@@ -311,11 +325,11 @@ router.post("/addUserBackToGame", (req, res) => {
 
 router.post("/newGame", (req, res) => {
   let code = generateCode(5);
-  while (games.get(code)) {
+  while (socketManager.games.get(code)) {
     code = generateCode(5);
   }
   console.log("code is: " + code);
-  games.set(code, {
+  socketManager.games.set(code, {
     settings: req.body.settings,
     userData: [
       { _id: req.body.userId, name: req.body.name, score: 0, active: true, buzzed: false },
@@ -335,7 +349,7 @@ router.post("/newGame", (req, res) => {
   socketManager.addUserToGame(req.body.userId, code);
   if (req.body.settings.isPublic) {
     console.log("public game made");
-    publicGames.push(code);
+    socketManager.publicGames.push(code);
     socketManager.getIo().emit("new public game", code);
   }
   //socketManager.getIo().to(code).emit("new player", req.body.userId);
@@ -343,12 +357,12 @@ router.post("/newGame", (req, res) => {
 });
 
 router.get("/getPublicCodes", (req, res) => {
-  res.send(publicGames);
+  res.send(socketManager.publicGames);
 });
 
 router.post("/joinGame", (req, res) => {
-  if (games.get(req.body.gameCode)) {
-    let game = games.get(req.body.gameCode);
+  if (socketManager.games.get(req.body.gameCode)) {
+    let game = socketManager.games.get(req.body.gameCode);
     socketManager.addUserToGame(req.body.userId, req.body.gameCode);
     let flag = true;
     for (let i = 0; i < game.userData.length; i++) {
@@ -380,7 +394,7 @@ router.post("/joinGame", (req, res) => {
 });
 
 router.post("/chatSubmit", (req, res) => {
-  let game = games.get(req.body.gameCode);
+  let game = socketManager.games.get(req.body.gameCode);
   let message = {
     _id: req.body.userId,
     name: req.body.name,
@@ -392,13 +406,13 @@ router.post("/chatSubmit", (req, res) => {
 });
 
 router.post("/increaseTrackNum", (req, res) => {
-  let game = games.get(req.body.gameCode);
+  let game = socketManager.games.get(req.body.gameCode);
   game.trackNum++;
   res.send({});
 });
 
 router.post("/songEnded", (req, res) => {
-  let game = games.get(req.body.gameCode);
+  let game = socketManager.games.get(req.body.gameCode);
   game.roundOngoing = false;
   game.trackNum++;
   /*newMessage = {
@@ -409,7 +423,7 @@ router.post("/songEnded", (req, res) => {
 });
 
 router.post("/everyoneBuzzed", (req, res) => {
-  let game = games.get(req.body.gameCode);
+  let game = socketManager.games.get(req.body.gameCode);
   game.roundOngoing = false;
   game.trackNum++;
   /*newMessage = {
@@ -419,7 +433,7 @@ router.post("/everyoneBuzzed", (req, res) => {
   res.send({});
 });
 router.post("/gameTimerUpdate", (req, res) => {
-  let game = games.get(req.body.gameCode);
+  let game = socketManager.games.get(req.body.gameCode);
   game.songTimeLeft = req.body.time;
   res.send({});
 });
@@ -537,42 +551,43 @@ router.get("/getPopularSongs", (req, res) => {
 });
 
 router.post("/addSong", (req, res) => {
-  let game = games.get(req.body.gameCode);
+  let game = socketManager.games.get(req.body.gameCode);
   game.trackList.push(req.body.song);
   socketManager.getIo().to(req.body.gameCode).emit("added song", req.body.song);
   res.send({});
 });
 
 router.post("/testPlaylistsInitialize", (req, res) => {
-  let game = games.get(req.body.gameCode);
+  let game = socketManager.games.get(req.body.gameCode);
   game.trackList = req.body.data;
   res.send({});
 });
 router.post("/updateSongTimeLeft", (req, res) => {
-  let game = games.get(req.body.gameCode);
+  let game = socketManager.games.get(req.body.gameCode);
+  //console.log("game.songTimeLeft: "+game.songTimeLeft,"req.body.songTimeLeft: " + req.body.songTimeLeft);
   game.songTimeLeft = req.body.songTimeLeft;
   res.send({});
 });
 
 router.post("/setEndingMessage", (req, res) => {
-  let game = games.get(req.body.gameCode);
+  let game = socketManager.games.get(req.body.gameCode);
   game.endingMessage = req.body.message;
   res.send({});
 });
 
 router.post("/gameEnding", (req, res) => {
-  let game = games.get(req.body.gameCode);
+  let game = socketManager.games.get(req.body.gameCode);
   if (game && game.settings.isPublic) {
-    for (let i = 0; i < publicGames.length; i++) {
-      if (publicGames[i] === req.body.gameCode) {
-        publicGames.splice(i, 1);
+    for (let i = 0; i < socketManager.publicGames.length; i++) {
+      if (socketManager.publicGames[i] === req.body.gameCode) {
+        socketManager.publicGames.splice(i, 1);
         socketManager.getIo().emit("public game end", req.body.gameCode);
         break;
       }
     }
   }
   socketManager.getIo().to(req.body.gameCode).emit("game end", {});
-  games.delete(req.body.gameCode);
+  socketManager.games.delete(req.body.gameCode);
   res.send({});
 });
 
@@ -584,6 +599,12 @@ router.post("/updateUserStats", (req, res) => {
     user.songsSaved += req.body.savedSongs.length;
     user.pointsScored += req.body.user.score;
     for (let i = 0; i < req.body.savedSongs.length; i++) {
+      for(let j = 0; j < user.recentSongs.length; j++){
+        if(user.recentSongs[j].id === req.body.savedSongs[i].id){
+          user.recentSongs.splice(j,1);
+          break;
+        }
+      }
       if (user.recentSongs.length < 15) {
         user.recentSongs.push(req.body.trackList[req.body.savedSongs[i]]);
       } else {

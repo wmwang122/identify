@@ -76,11 +76,7 @@ const App = (props) => {
         ) : (
           <Redirect from="/profile" to="/" />
         )}
-        {userId ? (
           <Game path="/lobby" userId={userId} name={name} />
-        ) : (
-          <Redirect from="/lobby" to="/" />
-        )}
         <Profile path="/profile" userId={userId} onSubmit={handleBioUpdate} profileId={profileId} />
         <Profile path="/profile/:profileId" userId={userId} onSubmit={handleBioUpdate} />
         <NotFound default />

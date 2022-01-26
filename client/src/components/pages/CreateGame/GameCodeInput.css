@@ -9,6 +9,13 @@
     background-color: rgba(134, 231, 184, 0.7);
 }
 
+.join-game-input {
+    width: 10vw;
+    height: 3.5vh;
+    font-size: 3vh;
+    font-family: "Red Hat Text", sans-serif;
+}
+
 .searchButton {
   background-color: #f0ffe8;
   border-radius: 10px;
