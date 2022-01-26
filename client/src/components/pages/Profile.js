@@ -13,10 +13,10 @@ const Profile = (props) => {
   const [bioEditOn, toggleBioEdit] = useState(false);
   const [nameEditOn, setNameEditOn] = useState(false);
   const [nameValue, setNameValue] = useState("");
-  const [gamesPlayed,setGamesPlayed] = useState(0);
-  const [pointsScored,setPointsScored] = useState(0);
-  const [songsSaved,setSongsSaved] = useState(0);
-  const [recentSongs,setRecentSongs] = useState([]);
+  const [gamesPlayed, setGamesPlayed] = useState(0);
+  const [pointsScored, setPointsScored] = useState(0);
+  const [songsSaved, setSongsSaved] = useState(0);
+  const [recentSongs, setRecentSongs] = useState([]);
   const [ownProfileId, setOwnProfileId] = useState(0);
   useEffect(() => {
     let isMounted = true;
@@ -31,16 +31,16 @@ const Profile = (props) => {
     };
   }, []);
   useEffect(() => {
-    get("/api/getProfile",{profileId: props.profileId}).then((user) => {
-        setUserName(user.name);
-        setBio(user.bio);
-        setPfp(user.pfp);
-        setGamesPlayed(user.gamesPlayed);
-        setPointsScored(user.pointsScored);
-        setSongsSaved(user.songsSaved);
-        setRecentSongs(user.recentSongs);
+    get("/api/getProfile", { profileId: props.profileId }).then((user) => {
+      setUserName(user.name);
+      setBio(user.bio);
+      setPfp(user.pfp);
+      setGamesPlayed(user.gamesPlayed);
+      setPointsScored(user.pointsScored);
+      setSongsSaved(user.songsSaved);
+      setRecentSongs(user.recentSongs);
     });
-  },[]);
+  }, []);
   const handlePfpEdit = (event) => {
     const image_input = document.querySelector("#image_input");
     image_input.addEventListener("change", function () {
@@ -127,9 +127,13 @@ const Profile = (props) => {
   ) : (
     <>
       <div>{userName}</div>
-      {ownProfileId && ownProfileId.toString()===props.profileId?(<div className="name-edit u-pointer" onClick={() => handleUsernameChange()}>
-        ✎
-      </div>):(<></>)}
+      {ownProfileId && ownProfileId.toString() === props.profileId ? (
+        <div className="name-edit u-pointer" onClick={() => handleUsernameChange()}>
+          ✎
+        </div>
+      ) : (
+        <></>
+      )}
     </>
   );
   const bioField = bioEditOn ? (
@@ -142,18 +146,26 @@ const Profile = (props) => {
   ) : (
     <div className="bio-subContainer">
       <div className="bio-Content">{bio}</div>
-      {ownProfileId && ownProfileId.toString()===props.profileId?(<div className="editBio-button u-background-turquoise u-pointer" onClick={handleBioEdit}>
-        Edit Bio
-      </div>):(<></>)}
+      {ownProfileId && ownProfileId.toString() === props.profileId ? (
+        <div className="editBio-button u-background-turquoise u-pointer" onClick={handleBioEdit}>
+          Edit Bio
+        </div>
+      ) : (
+        <></>
+      )}
     </div>
   );
 
   let songDisplay = [];
-  for(let i = recentSongs.length-1; i >=0; i--){
-      songDisplay.push(<div className="profile-songInfo-wrapper"><SongInfo song={recentSongs[i]} /></div>);
+  for (let i = recentSongs.length - 1; i >= 0; i--) {
+    songDisplay.push(
+      <div className="profile-songInfo-wrapper">
+        <SongInfo song={recentSongs[i]} />
+      </div>
+    );
   }
-  if(songDisplay.length === 0){
-      songDisplay.push(<div className="profile-no-songs-saved">No songs saved yet!</div>);
+  if (songDisplay.length === 0) {
+    songDisplay.push(<div className="profile-no-songs-saved">No songs saved yet!</div>);
   }
   return (
     <div>
@@ -166,38 +178,33 @@ const Profile = (props) => {
           </input> */}
           {/*added code ends*/}
           <img src={pfp} className="pfp" />
+          <div className="spotify-follow">Follow on Spotify!</div>
         </div>
         <div className="bio-container">
           <div className="profile-title">{nameField}</div>
           {bioField}
         </div>
       </div>
-      <div className = "profile-lower-container">
-      <div className = "stats-container">
-          <div className = "profile-stats-text">
-            User Statistics
+      <div className="profile-lower-container">
+        <div className="stats-container">
+          <div className="profile-stats-text">User Statistics</div>
+          <div className="profile-stats">
+            <div className="profile-stat">
+              <span className="profile-stat-title">Games Played: </span> {gamesPlayed}
+            </div>
+            <div className="profile-stat">
+              <span className="profile-stat-title">Points Scored: </span> {pointsScored}
+            </div>
+            <div className="profile-stat">
+              <span className="profile-stat-title">Songs Saved: </span> {songsSaved}
+            </div>
           </div>
-          <div className = "profile-stats">
-              <div className = "profile-stat">
-                <span className = "profile-stat-title">Games Played: </span> {gamesPlayed}
-              </div>
-              <div className = "profile-stat">
-                <span className = "profile-stat-title">Points Scored: </span> {pointsScored}
-              </div>
-              <div className = "profile-stat">
-                <span className = "profile-stat-title">Songs Saved: </span> {songsSaved}
-              </div>
-          </div>
+        </div>
+        <div>
+          <div className="profile-recentSongs-text">Recently Saved Songs</div>
+          <div className="profile-songList">{songDisplay}</div>
+        </div>
       </div>
-      <div>
-          <div className = "profile-recentSongs-text">
-              Recently Saved Songs
-          </div>
-          <div className = "profile-songList">
-            {songDisplay}
-          </div>
-      </div>
-    </div>
     </div>
   );
 }; //TODO
