@@ -162,18 +162,24 @@ const Profile = (props) => {
         <div className="pfp-super-container">
           <div className="pfp-container u-background-turquoise">
             {" "}
-            <label for="pfpUpload">
-              <img src={pfp} className="rounded" onClick={handlePfpChange} />
-            </label>
+            {ownProfileId && ownProfileId.toString() === props.profileId ? (
+              <>
+                <label for="pfpUpload">
+                  <img src={pfp} className="rounded" onClick={handlePfpChange} />
+                </label>
+                <input
+                  type="file"
+                  name="file"
+                  id="pfpUpload"
+                  className="imageUpload"
+                  accept="image/*"
+                  onChange={handlePfpChange}
+                />{" "}
+              </>
+            ) : (
+              <img src={pfp} className="rounded-no-hover" />
+            )}
           </div>
-          <input
-            type="file"
-            name="file"
-            id="pfpUpload"
-            className="imageUpload"
-            accept="image/*"
-            onChange={handlePfpChange}
-          />
         </div>
         <div className="bio-container">
           <div className="profile-title">{nameField}</div>

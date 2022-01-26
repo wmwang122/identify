@@ -608,10 +608,10 @@ router.post("/updateUserStats", (req, res) => {
           break;
         }
       }
-      if (user.recentSongs.length < 15) {
+      if (user.recentSongs.length < 6) {
         user.recentSongs.push(req.body.trackList[req.body.savedSongs[i]]);
       } else {
-        user.recentSongs.splice(0, 1);
+        user.recentSongs.splice(0, user.recentSongs.length-5);
         user.recentSongs.push(req.body.trackList[req.body.savedSongs[i]]);
       }
     }

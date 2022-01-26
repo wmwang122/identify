@@ -153,7 +153,7 @@ textarea[type="text"] {
 
 .recentSongs-container {
   background-color: var(--turqoise);
-  width: 108vh;
+  width: 200vh;
   margin: 5vh;
   padding: 2vh;
   border-radius: 5vh;
@@ -186,7 +186,7 @@ textarea[type="text"] {
 }
 
 .stats-container {
-  width: 75vh;
+  width: 45vh;
   background-color: var(--turqoise);
   border-radius: 5vh;
   margin: 5vh;
@@ -231,11 +231,21 @@ textarea[type="text"] {
   z-index: 4;
 }
 
+.rounded-no-hover {
+  border-radius: 50%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  position: absolute;
+  object-fit: cover;
+  width: 30vh;
+  height: 30vh;
+  z-index: 4;
+}
+
 .rounded:hover {
   opacity: 0.7;
 }
-input[type="file"] {
-  position: fixed;
-  right: 100%;
-  bottom: 100%;
-}
+/* input[type="file"] {
+  display: none;
+} */
