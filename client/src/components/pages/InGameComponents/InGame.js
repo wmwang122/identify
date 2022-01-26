@@ -661,7 +661,7 @@ const InGame = (props) => {
       </div>
       {gameEnded ? (
         <GameEndScreen
-          leaderboard={userData.slice(0, Math.min(3, userData.length))}
+          leaderboard={userData?userData.slice(0, Math.min(3, userData.length)):[]}
           savedSongs={savedSongs}
           trackList={trackList}
         />
