@@ -98,8 +98,8 @@ const Options = (props) => {
                       type="number"
                       id="questions"
                       name="questions"
-                      min="0"
-                      max="10000"
+                      min="1"
+                      max="25"
                       onChange={() => handleQuestions(event)}
                     ></input>
                   </div>

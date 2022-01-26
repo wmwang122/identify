@@ -4,7 +4,7 @@
   width: 30vh;
   text-align: center;
   vertical-align: middle;
-  line-height: 200px;
+  line-height: 30vh;
   border-radius: 50vh;
   font-size: 6.5vh;
   margin-top: 3vh;
@@ -18,12 +18,12 @@
 
 .inGame-container {
   display: flex;
-  padding-top: 2rem;
-  padding-left: 4rem;
-  justify-content: space-around;
+  padding-top: 4vh;
+  padding-left: 4vw;
+  justify-content: space-between;
 }
 .inGame-container-left {
-  width: 12vw;
+  width: 14vw;
   margin-right: 1vw;
   display: flex;
   flex-direction: column;
@@ -74,7 +74,7 @@
   padding-bottom: 3vh;
   padding-right: 6vh;
   padding-left: 6vh;
-  border-radius: 30px;
+  border-radius: 5vh;
 }
 
 .upper-padding{
@@ -91,8 +91,8 @@
 }
 
 .song-info {
-  font-size: 20px;
-  padding: 20px 0 20px 0;
+  font-size: 2vh;
+  padding: 2vh 0 2vh 0;
 }
 
 .inGame-buzzer-text {

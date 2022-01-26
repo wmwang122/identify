@@ -10,8 +10,8 @@
 .name_image{
     display: flex;
     flex-direction: column;
-    margin-right: 20px;
-    margin-left: 20px;
+    margin-right: 1.8vw;
+    margin-left: 1.8vw;
     justify-content: space-between;
     height: 25vh;
     width: 20vh;
@@ -32,4 +32,8 @@
 .imageSelected{
     text-align: center;
     font-size: 2.5vh;
+}
+
+.playlist-image{
+    height: 20vh;
 }
