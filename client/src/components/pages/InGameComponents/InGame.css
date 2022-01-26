@@ -1,7 +1,7 @@
 .game-buzzer {
   position: relative;
-  height: 24vh;
-  width: 13.6vw;
+  height: 30vh;
+  width: 30vh;
   text-align: center;
   vertical-align: middle;
   line-height: 200px;
@@ -66,7 +66,7 @@
   text-align: center;
   background-color: var(--lightbrightgreen);
   padding-top: 3vh;
-  padding-bottom: 3vh;
+  padding-bottom: vh;
   padding-right: 5vh;
   padding-left: 5vh;
   border-radius: 30px;

@@ -8,7 +8,7 @@ const Scoreboard = (props) => {
 
   return (
     <div>
-      <div className="scoreboard-header"> Scoreboard </div>
+      <div className="scoreboard-header"> Scores </div>
         {props.data?props.data.map((user) => (
           <GamePlayer user={user} />
         )):<></>}

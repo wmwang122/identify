@@ -607,8 +607,8 @@ const InGame = (props) => {
       {!trackList || trackNum === trackList.length
         ? "end game"
         : trackNum == 0
-        ? "start round"
-        : "proceed to next round"}
+        ? "Start Round"
+        : "Proceed to Next Round"}
     </div>
   );
   let countdownState = userBuzz ? "" : "u-hidden";
