@@ -7,7 +7,7 @@
 }
 
 .center {
-  align-items: center; 
+  align-items: center;
 }
 
 .popup {
@@ -22,31 +22,28 @@
   width: 50vw;
   border-radius: 20px;
   z-index: 5;
-  text-align:center;
+  text-align: center;
 }
 
 .showPlaylists {
   width: 80%;
-  display: inline-block; 
+  display: inline-block;
   margin-top: 1vh;
 }
 
 .showGenres {
   display: inline-block;
-  width:70%;
+  width: 70%;
   margin-top: 1vh;
 }
 
 .showSearch {
-  display:inline-block;
+  display: inline-block;
   width: 90%;
-  align-items:center;
+  align-items: center;
   justify-content: center;
   margin-top: 1vh;
 }
-
-
-
 
 .options-button2 {
   background-color: rgba(134, 231, 184, 0.7);
@@ -68,8 +65,8 @@
   border-radius: 5vh;
   /*position: absolute;*/
 }
-.options-button2:hover{
-  background-color: rgba(134,231,184,1);
+.options-button2:hover {
+  background-color: rgba(134, 231, 184, 1);
   font-weight: 400;
 }
 
@@ -199,11 +196,11 @@ label:active:after {
 
 .column1 {
   display: flex;
-  flex-direction: column; 
-  align-items:flex-start;
+  flex-direction: column;
+  align-items: flex-start;
 }
 
-.column-marginright{
+.column-marginright {
   margin-right: 2vw;
 }
 .left-align {
@@ -212,7 +209,7 @@ label:active:after {
 
 .space_between {
   justify-content: space-between;
-  display:flex;
+  display: flex;
 }
 
 .space_evenly {
@@ -223,7 +220,7 @@ label:active:after {
   align-items: right;
 }
 
-.add-margin-top{
+.add-margin-top {
   margin-top: 2vh;
 }
 
@@ -253,7 +250,7 @@ label:active:after {
   text-align: center;
   margin-bottom: 1vh;
 }
-.options-description{
+.options-description {
   font-size: 2.5vh;
 }
 
@@ -261,10 +258,10 @@ label:active:after {
   display: none;
 }
 
-.inline{
+.inline {
   justify-content: center;
-  align-items:center;
-  display: flex; 
+  align-items: center;
+  display: flex;
 }
 
 .options-panel-open {
@@ -309,19 +306,16 @@ body {
   box-sizing: border-box;
 }
 
-
-
 .showChoices {
-  display:inline-block;
+  display: inline-block;
   width: 90%;
   margin-top: 1vh;
 }
 
-
 .spacing1 {
-    background-color: #d0ffb7;
-    width: 5vh;
-    height: 5vh;
+  background-color: #d0ffb7;
+  width: 5vh;
+  height: 5vh;
 }
 
 .cancel-submit {
@@ -342,11 +336,10 @@ body {
   /*position: absolute;*/
 }
 
-.cancel-submit:hover{
-  background-color: #93FE97;
+.cancel-submit:hover {
+  background-color: #93fe97;
 }
 
-.cancel-submit-marginleft{
+.cancel-submit-marginleft {
   margin-left: 2vw;
 }
-
