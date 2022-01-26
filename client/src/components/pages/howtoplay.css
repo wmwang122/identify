@@ -28,7 +28,21 @@
     font-size: 5vh;
 }
 
+.howtoplay-Login-Container{
+    text-align: center;
+    width: 40vw;
+    border-color: var(--turqoise);
+    border-width: 1.5vh;
+    border-style: solid;
+    border-radius: 1.5vh;
+    padding: 1vh 1vw 1vh 1vw;
+    margin-right:2rem;
+    
+}
 .howtoplay-Image-Container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
     text-align: center;
     width: 40vw;
     border-color: var(--turqoise);
@@ -40,8 +54,13 @@
     
 }
 
-.howtoplay-Image{
+.howtoplay-Login{
     max-height: 90%;
+    max-width: 100%;
+}
+
+.howtoplay-Image{
+    max-height: 100%;
     max-width: 100%;
 }
 

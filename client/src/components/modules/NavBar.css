@@ -54,12 +54,12 @@
     font-size: 6vh;
     justify-content: flex-start;
     margin-left: 3vw;
+    font-weight: 400;
     text-decoration: none;
     text-align: center;
 }
 
 .nav-title:hover{
-  font-weight: 400;
   font-size: 6.2vh;
 }
 .nav-title a {
@@ -83,10 +83,10 @@
 
 .nav-elements{
   display: flex;
-  flex-grow: 1;
+  flex-grow: 2;
   align-items: center;
   justify-content: space-around;
-  margin-right: 10vh;
+  margin-right: 3vw;
 }
 
 
@@ -96,12 +96,18 @@
     text-align: center;
 }
 
-.fixed-width-large{
-  width: 14vw;
+.fixed-width-play{
+  width: 10vw;
   min-width: 38vh;
 }
-.fixed-width-medium{
-  width: 10vh;
+.fixed-width-instructions{
+  width: 10vw;
+}
+.fixed-width-profile{
+  width: 8vw;
+}
+.fixed-width-log{
+  width: 8vw;
 }
 
 .nav-item:hover {
