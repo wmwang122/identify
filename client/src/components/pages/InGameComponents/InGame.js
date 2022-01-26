@@ -18,6 +18,7 @@ import useUnload from "./useUnload.js";
 
 const InGame = (props) => {
   const [userData, setUserData] = useState(null);
+  const [isHost, setIsHost] = useState(false);
   const [userBuzz, setUserBuzz] = useState(null);
   const [trackList, setTrackList] = useState(null);
   const [playlistIDs, setPlaylistIDs] = useState([]);
@@ -132,6 +133,9 @@ const InGame = (props) => {
     if(userData){
       for(let i = 0; i < userData.length; i++){
         if(userData[i]._id === props.userId){
+          if(userData[i].isHost){
+            setIsHost(true);
+          }
           flag = true;
           break;
         }
@@ -636,7 +640,7 @@ const InGame = (props) => {
       <div className="inGame-container">
         <div className="inGame-container-left">
           <Scoreboard data={userData} />
-          <SelectSong handleAddSong={(song) => handleAddSong(song)} />
+          <SelectSong handleAddSong={(song) => handleAddSong(song)} active = {isHost}/>
         </div>
         <div className="inGame-vertical-line" />
         <div className="inGame-container-main">

@@ -331,7 +331,7 @@ router.post("/newGame", (req, res) => {
   socketManager.games.set(code, {
     settings: req.body.settings,
     userData: [
-      { _id: req.body.userId, name: req.body.name, score: 0, active: true, buzzed: false },
+      { _id: req.body.userId, name: req.body.name, score: 0, active: true, buzzed: false, isHost: true},
     ],
     userBuzz: false,
     gameChat: [],
@@ -378,6 +378,7 @@ router.post("/joinGame", (req, res) => {
         score: 0,
         active: true,
         buzzed: false,
+        isHost: false,
       });
       socketManager.getIo().to(req.body.gameCode).emit("new player", req.body.userId);
       console.log("player joining room " + req.body.gameCode);

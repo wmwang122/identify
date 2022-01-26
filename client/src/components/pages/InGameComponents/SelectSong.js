@@ -61,9 +61,9 @@ const SelectSong = (props) => {
 
     return (
         <>
-        <div className = "selectSong-add-music u-pointer" onClick = {() =>handleOpenSelect()}>
+        {props.active?(<div className = "selectSong-add-music u-pointer" onClick = {() =>handleOpenSelect()}>
             Add Music
-        </div>
+        </div>):<></>}
       {popUp}
       </>
     );

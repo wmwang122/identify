@@ -57,6 +57,7 @@
   /*width: 16vw;*/
   min-width: 30vh;
   max-width: 40vh;
+  width: 30vw;
   padding-top: 1vh;
   padding-bottom: 1vh;
   padding-left: 1vh;
@@ -111,6 +112,8 @@
   /*width: 16vw;*/
   min-width: 30vh;
   max-width: 40vh;
+  width: 30vw;
+  margin-left: 2vw;
   padding-top: 1vh;
   padding-bottom: 1vh;
   padding-left: 1vh;
