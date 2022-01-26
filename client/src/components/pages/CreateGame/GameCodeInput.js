@@ -35,6 +35,12 @@ const GameCodeInput = (props) => {
     //  console.log(inputText);
   };
 
+  const handleKeyPress = (event) => {
+    if(event.which === 13){
+      checkCode();
+    }
+  }
+
   let textBox =
     invalid === "true" ? (
       <div className="invalid">invalid game code, please try again</div>
@@ -50,6 +56,7 @@ const GameCodeInput = (props) => {
           type="text"
           value={inputText}
           onChange={handleInputChange}
+          onKeyPress = {handleKeyPress}
           maxLength="5"
           className="join-game-input"
         />
