@@ -12,8 +12,10 @@ const GameChat = (props) => {
 
     const renderContent = () => {
       let content = [];
-      for(let i = 0; i < props.messages.length; i++){
+      if(props.messages){
+        for(let i = 0; i < props.messages.length; i++){
           content.push((<ChatMessage message={props.messages[i]} userId={props.userId}/>));
+        }
       }
       return content
     }

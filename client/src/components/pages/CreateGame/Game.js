@@ -1,5 +1,5 @@
 import React, { Component, useEffect } from "react";
-import { Redirect, navigate } from "@reach/router";
+import { navigate } from "@reach/router";
 
 import "../../../utilities.css";
 import "./Game.css";
@@ -8,7 +8,7 @@ import CreateGame from "../GameComponents/CreateGame.js";
 import Options from "../GameComponents/Options.js";
 import PublicGames from "./PublicGames.js";
 const Game = (props) => {
-    setTimeout(()=> {console.log("genius idea");},2000);
+    setTimeout(()=> {console.log("game load");},2000);
       if(!props.userId){
         navigate("/");
       }
