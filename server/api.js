@@ -189,15 +189,22 @@ router.post("/nameChange", (req, res) => {
 });
 
 router.post("/pfpChange", (req, res) => {
-  if (req.body.id) {
-    User.findOne({ _id: req.body.id }).then((user) => {
-      user.pfp = req.body.newPfp;
+  if (req.body.userId) {
+    // User.findOne({ _id: req.body.userId })
+    if (!req.body.newPfp) {
+      user.pfp = "logo.png";
       user.save().then((value) => {
-        console.log(value.pfp);
+        res.send(value);
       });
-    });
+    } else {
+      User.findById(req.body.userId).then((user) => {
+        user.pfp = req.body.newPfp;
+        user.save().then((value) => {
+          res.send(value);
+        });
+      });
+    }
   }
-  res.send({});
 });
 router.get("/userLookup", (req, res) => {
   User.findOne({ _id: req.query._id }).then((user) => {
