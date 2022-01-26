@@ -55,7 +55,7 @@ const HowToPlay = (props) => {
       A textbox will then appear, and you can type your answer in.
       </div>
       <div className="howtoplay-Image-Container">
-        
+        <img src="howtoplay-step5.png" className="howtoplay-Image"/>
       </div>
     </div>
     <div className="howtoplay-Container">

@@ -611,7 +611,7 @@ router.post("/updateUserStats", (req, res) => {
       if (user.recentSongs.length < 6) {
         user.recentSongs.push(req.body.trackList[req.body.savedSongs[i]]);
       } else {
-        user.recentSongs.splice(0, recentSongs.length-5);
+        user.recentSongs.splice(0, user.recentSongs.length-5);
         user.recentSongs.push(req.body.trackList[req.body.savedSongs[i]]);
       }
     }
