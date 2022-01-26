@@ -552,7 +552,7 @@ const InGame = (props) => {
       <div>Song #{trackNum + 1} is playing</div>
     )
   ) : (
-    <div>There is currently no song playing</div>
+    <div className="game-info-text">There is currently no song playing.</div>
   );
   let textBox =
     userBuzz && userBuzz._id === props.userId ? (

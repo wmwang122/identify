@@ -59,6 +59,11 @@
 .inGame-title {
   font-weight: 500;
   margin-bottom: 1vh;
+  font-size: 4vh;
+}
+
+.game-info-text{
+  font-size: 3vh;
 }
 
 .inGame-header {
@@ -66,14 +71,14 @@
   text-align: center;
   background-color: var(--lightbrightgreen);
   padding-top: 3vh;
-  padding-bottom: vh;
-  padding-right: 5vh;
-  padding-left: 5vh;
+  padding-bottom: 3vh;
+  padding-right: 6vh;
+  padding-left: 6vh;
   border-radius: 30px;
 }
 
 .upper-padding{
-  padding-top: 8.5vh;
+  padding-top: 3vh;
   display: flex;
   flex-direction: column;
   align-items:center;
@@ -107,10 +112,13 @@
   display: flex;
   height: 16vh;
   width: 18vw;
-  padding: 1vh 1vw 1vh 1vw;
+  padding-top: 3vh;
+  padding-bottom: 3vh;
+  padding-right: 5vh;
+  padding-left: 6vh;
   border-radius: 6vh;
   background-color: var(--lightbrightgreen);
-  font-size: 5vh;
+  font-size: 4vh;
   text-align: center;
   justify-content: center;
   align-items: center;
@@ -143,7 +151,7 @@
 }
 
 .song-info-end {
-  font-size: 20px;
+  font-size: 2.5vh;
   padding: 20px 0 20px 0;
   text-align: center;
   width: 20vw;
