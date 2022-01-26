@@ -12,8 +12,8 @@ const Home = (props) => {
           location.href = "/lobby";
         }}
       >
-        <div className="login-back">play a game</div>
-        <div className="login-front">play a game</div>
+        <div className="login-back">Play a Game</div>
+        <div className="login-front">Play a Game</div>
       </div>
     </>
   ) : (
@@ -22,8 +22,8 @@ const Home = (props) => {
         className="login-button u-pointer u-fade-in-pop inst-delay-5"
         onClick={props.handleLogin}
       >
-        <div className="login-back">login to play</div>
-        <div className="login-front">login to play</div>
+        <div className="login-back">Login to Play</div>
+        <div className="login-front">Login to Play</div>
       </div>
       <div
         className="instruction-button u-pointer u-fade-in-pop inst-delay-5"
@@ -31,8 +31,8 @@ const Home = (props) => {
           location.href = "/howtoplay";
         }}
       >
-        <div className="instruction-back">instructions</div>
-        <div className="instruction-front">instructions</div>
+        <div className="instruction-back">Instructions</div>
+        <div className="instruction-front">Instructions</div>
       </div>
     </div>
   );
