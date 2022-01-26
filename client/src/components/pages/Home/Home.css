@@ -9,7 +9,7 @@
   align-items: center;
 }
 
-.home-logo{
+.home-logo {
   height: 40vh;
   width: 40vh;
 }
@@ -53,24 +53,28 @@
   font-size: 5vh;
   border-radius: 9vh;
   line-height: 9vh;
-  height: 9vh;
-  width: 16vw;
+  height: 11vh;
+  /*width: 16vw;*/
   min-width: 30vh;
   max-width: 40vh;
+  padding-top: 1vh;
+  padding-bottom: 1vh;
+  padding-left: 1vh;
+  padding-right: 1vh;
 }
 .login-button a {
   text-decoration: none;
 }
 
-.login-front{
+.login-front {
   position: relative;
   top: -9.1vh;
   left: 0.02vw;
   color: black;
-  opacity: 1
+  opacity: 1;
 }
 
-.login-back{
+.login-back {
   position: relative;
   bottom: 0.22vh;
   right: 0.12vw;
@@ -78,15 +82,80 @@
   color: white;
 }
 
+.instruction-front {
+  position: relative;
+  top: -9.1vh;
+  left: 0.02vw;
+  color: black;
+  opacity: 1;
+}
+
+.instruction-back {
+  position: relative;
+  bottom: 0.22vh;
+  right: 0.12vw;
+  opacity: 0;
+  color: white;
+}
+
+.instruction-button {
+  background-color: #b2ffa8;
+  border: none;
+  color: black;
+  text-align: center;
+  vertical-align: middle;
+  font-size: 5vh;
+  border-radius: 9vh;
+  line-height: 9vh;
+  height: 11vh;
+  /*width: 16vw;*/
+  min-width: 30vh;
+  max-width: 40vh;
+  padding-top: 1vh;
+  padding-bottom: 1vh;
+  padding-left: 1vh;
+  padding-right: 1vh;
+}
+.instruction-button a {
+  text-decoration: none;
+}
+
+.instruction-button:hover {
+  background-color: #aaf7a0;
+}
+
+.instruction-button:hover > .instruction-back {
+  opacity: 1;
+}
+
 .login-button:hover {
   background-color: #aaf7a0;
 }
 
-.login-button:hover > .login-back{
+.login-button:hover > .login-back {
   opacity: 1;
 }
-.inst-delay-1 {animation-delay: 0.2s;}
-.inst-delay-2 {animation-delay: 0.4s;}
-.inst-delay-3 {animation-delay: 0.6s;}
-.inst-delay-4 {animation-delay: 0.8s;}
-.inst-delay-5 {animation-delay: 1.0s;} 
+.inst-delay-1 {
+  animation-delay: 0.2s;
+}
+.inst-delay-2 {
+  animation-delay: 0.4s;
+}
+.inst-delay-3 {
+  animation-delay: 0.6s;
+}
+.inst-delay-4 {
+  animation-delay: 0.8s;
+}
+.inst-delay-5 {
+  animation-delay: 1s;
+}
+
+.login-instruction {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 1.5vh;
+  margin-bottom: 3vh;
+  min-width: 80vh;
+  align-items: center;
+}

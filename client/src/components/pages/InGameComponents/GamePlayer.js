@@ -5,25 +5,36 @@ import "./GamePlayer.css";
 
 const GamePlayer = (props) => {
   const [userName, setUserName] = useState(null);
+  const [profileId, setProfileId] = useState(null);
   useEffect(() => {
     let isMounted = true;
     if(isMounted){
-        get("/api/userLookup",{_id: props._id}).then((user) => {
+        get("/api/userLookup",{_id: props.user._id}).then((user) => {
             setUserName(user.name);
         });
     }
     return () => { isMounted = false };
   },[]);
 
+  useEffect(()=>{
+    if(!profileId){
+      get("/api/getProfileId", {_id: props.user._id}).then((id) =>{
+        setProfileId(id);
+      });
+    }
+  },[]);
+
   return (
-    <div className ={props.buzzed?"gamePlayer-buzzed":""}>
-      <div className={"gamePlayer-name"}>
-        {userName}
+      <div className ={props.user.buzzed?"gamePlayer-buzzed":""}>
+        <a href={"/profile/"+profileId} target="_blank">
+          <div className={"gamePlayer-name"}>
+            {userName}
+          </div>
+        </a>
+        <div className={"gamePlayer-score"}>
+          {props.user.score}
+        </div>
       </div>
-      <div className={"gamePlayer-score"}>
-        {props.score}
-      </div>
-    </div>
   );
 };
 

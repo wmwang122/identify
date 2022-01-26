@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Router, Redirect} from "@reach/router";
+import { Router, Redirect } from "@reach/router";
 import NotFound from "./pages/NotFound.js";
 import Game from "./pages/CreateGame/Game.js";
 import NavBar from "./modules/NavBar.js";
@@ -30,7 +30,7 @@ const App = (props) => {
       if (user.name) {
         setName(user.name);
       }
-      if (user.profileId){
+      if (user.profileId) {
         setProfileId(user.profileId);
       }
     });
@@ -59,6 +59,7 @@ const App = (props) => {
     setUserId(undefined);
     console.log("logging out");
     post("/api/logout");
+    window.location.href = "/lobby";
   };
 
   const handleBioUpdate = (value) => {
@@ -70,13 +71,21 @@ const App = (props) => {
       <NavBar handleLogin={handleLogin} handleLogout={handleLogout} userId={userId} />
       <Router>
         <Home path="/" handleLogin={handleLogin} handleLogout={handleLogout} userId={userId} />
-        {userId?(<Redirect from="/profile" to={"/profile/"+profileId}/>):(<Redirect from="/profile" to="/"/>)}
-        {userId?(<Game path="/lobby" userId={userId} name={name} />):(<Redirect from="/lobby" to="/"/>)}
-        <Profile path="/profile" userId={userId} onSubmit={handleBioUpdate} profileId={profileId}/>
+        {userId ? (
+          <Redirect from="/profile" to={"/profile/" + profileId} />
+        ) : (
+          <Redirect from="/profile" to="/" />
+        )}
+        {userId ? (
+          <Game path="/lobby" userId={userId} name={name} />
+        ) : (
+          <Redirect from="/lobby" to="/" />
+        )}
+        <Profile path="/profile" userId={userId} onSubmit={handleBioUpdate} profileId={profileId} />
         <Profile path="/profile/:profileId" userId={userId} onSubmit={handleBioUpdate} />
         <NotFound default />
         <HowToPlay path="/howtoplay" userId={userId} handleLogin={handleLogin} />
-        <InGame path="/game/:gameCode" userId={userId} name={name}/>
+        <InGame path="/game/:gameCode" userId={userId} name={name} />
       </Router>
     </>
   );

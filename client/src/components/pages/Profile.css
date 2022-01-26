@@ -1,144 +1,155 @@
 .profile-container-1 {
-    display: flex;
-    flex-wrap: nowrap;
+  display: flex;
+  flex-wrap: nowrap;
 }
 .pfp-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-left: 3vw;
-    margin-right: 4vw;
-    margin-top: 3vh;
-    border-radius: 8vh;
-    height: 43vh;
-    width: 43vh;
-    max-height: 32vw;
-    max-width: 32vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 3vw;
+  margin-right: 4vw;
+  margin-top: 3vh;
+  border-radius: 8vh;
+  height: 43vh;
+  width: 43vh;
+  max-height: 32vw;
+  max-width: 32vw;
 }
 
 .pfp {
-    height: 40vh;
-    max-height: 30vw;
+  height: 40vh;
+  max-height: 30vw;
 }
 
 .bio-container {
-    margin-top: 3vh;
+  margin-top: 3vh;
 }
 .profile-title {
-    display: flex;
-    align-items: flex-end;
-    font-size: 6vh;
-    margin-bottom: 2vh;
+  display: flex;
+  align-items: flex-end;
+  font-size: 6vh;
+  margin-bottom: 2vh;
 }
 
 .name-edit {
-    margin-left: 2vh;
-    margin-bottom: 1.2vh;
-    font-size: 3vh;
+  margin-left: 2vh;
+  margin-bottom: 1.2vh;
+  font-size: 3vh;
 }
 
-.name-edit:hover{
-    font-size: 3.5vh;
-    font-weight: 400;
+.name-edit:hover {
+  font-size: 3.5vh;
+  font-weight: 400;
 }
 
 .editBio-button {
-    font-size: 2.5vh;
-    border-radius: 5vh;
-    height: 5vh;
-    width: 6vw;
-    min-width: 13vh;
-    text-align: center;
-    vertical-align: middle;
-    line-height: 5vh;
+  font-size: 2.5vh;
+  border-radius: 5vh;
+  height: 5vh;
+  width: 6vw;
+  min-width: 13vh;
+  text-align: center;
+  vertical-align: middle;
+  line-height: 5vh;
 }
 .bio-Content {
-    height: 25vh;
-    width: 50vw;
-    font-size: 2.8vh;
-    white-space: pre-line;
-    overflow: hidden;
+  height: 25vh;
+  width: 50vw;
+  font-size: 2.8vh;
+  white-space: pre-line;
+  overflow: hidden;
 }
 
 .bio-subContainer {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
-textarea[type=text]{
-    width: 50vw;
-    height: 25vh;
-    resize: none;
-    font-size: 2.8vh;
-    font-family: "Red Hat Text", sans-serif;
-    font-weight: 300;
-    border: none;
-    outline: none;
-    background-color: rgba(255,255,255,0.8);
+textarea[type="text"] {
+  width: 50vw;
+  height: 25vh;
+  resize: none;
+  font-size: 2.8vh;
+  font-family: "Red Hat Text", sans-serif;
+  font-weight: 300;
+  border: none;
+  outline: none;
+  background-color: rgba(255, 255, 255, 0.8);
 }
 .submitBioEdit-button {
-    font-size: 2.5vh;
-    border-radius: 5vh;
-    height: 5vh;
-    width: 5vw;
-    min-width: 10vh;
-    text-align: center;
-    vertical-align: middle;
-    line-height: 5vh;
+  font-size: 2.5vh;
+  border-radius: 5vh;
+  height: 5vh;
+  width: 5vw;
+  min-width: 10vh;
+  text-align: center;
+  vertical-align: middle;
+  line-height: 5vh;
 }
 
-#display_image{
-    width: 300px;
-    height: 169px;
-    border: 1px solid black;
-    background-position: center;
-    background-size: cover;
- }
-
- .inputNameValue{
-     height: 8vh;
-     font-size: 6vh;
-     font-family: "Red Hat Text", sans-serif;
-     border: none;
-    outline: none;
-    font-weight: 300;
-    background-color: rgba(255,255,255,0.8);
- }
-
- .profile-lower-container{
-     display: flex;
- }
-
- .profile-stats-text{
-    font-size: 6vh;
-    margin: 4vh 2vw 1vh 3vw;
- }
-.profile-stat{
-    font-size: 3.5vh;
-    margin-top: 0.5vh;
-    margin-left: 3vw;
+#display_image {
+  width: 300px;
+  height: 169px;
+  border: 1px solid black;
+  background-position: center;
+  background-size: cover;
 }
- .profile-stat-title{
-    font-weight: 500;
- }
 
- .profile-recentSongs-text{
-    font-size: 6vh;
-    margin: 4vh 2vw 1vh 3vw;
- }
+.inputNameValue {
+  height: 8vh;
+  font-size: 6vh;
+  font-family: "Red Hat Text", sans-serif;
+  border: none;
+  outline: none;
+  font-weight: 300;
+  background-color: rgba(255, 255, 255, 0.8);
+}
 
- .profile-songList{
-     margin-left: 3vw;
-     display: flex;
-     flex-wrap: wrap;
-     padding-bottom: 5vh;
- }
+.profile-lower-container {
+  display: flex;
+}
 
- .profile-songInfo-wrapper{
-     margin-right: 3vw;
-     margin-bottom: 2vh;
- }
+.profile-stats-text {
+  font-size: 6vh;
+  margin: 4vh 2vw 1vh 3vw;
+}
+.profile-stat {
+  font-size: 3.5vh;
+  margin-top: 0.5vh;
+  margin-left: 3vw;
+}
+.profile-stat-title {
+  font-weight: 500;
+}
 
- .stats-container{
-     width: 40%;
- }
+.profile-recentSongs-text {
+  font-size: 6vh;
+  margin: 4vh 2vw 1vh 3vw;
+}
+
+.profile-songList {
+  margin-left: 3vw;
+  display: flex;
+  flex-wrap: wrap;
+  padding-bottom: 5vh;
+}
+
+.profile-songInfo-wrapper {
+  margin-right: 3vw;
+  margin-bottom: 2vh;
+}
+
+.stats-container {
+  width: 40%;
+}
+
+.profile-no-songs-saved {
+  font-size: 3vh;
+}
+
+.spotify-follow {
+  font-weight: 500;
+  font-size: 3.5vh;
+  margin-top: 0.5vh;
+  margin-left: 3vw;
+}

@@ -17,9 +17,23 @@ const Home = (props) => {
       </div>
     </>
   ) : (
-    <div className="login-button u-pointer u-fade-in-pop inst-delay-5" onClick={props.handleLogin}>
-      <div className="login-back">login to play</div>
-      <div className="login-front">login to play</div>
+    <div className="login-instruction">
+      <div
+        className="login-button u-pointer u-fade-in-pop inst-delay-5"
+        onClick={props.handleLogin}
+      >
+        <div className="login-back">login to play</div>
+        <div className="login-front">login to play</div>
+      </div>
+      <div
+        className="instruction-button u-pointer u-fade-in-pop inst-delay-5"
+        onClick={() => {
+          location.href = "/howtoplay";
+        }}
+      >
+        <div className="instruction-back">instructions</div>
+        <div className="instruction-front">instructions</div>
+      </div>
     </div>
   );
   return (
