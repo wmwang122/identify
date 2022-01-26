@@ -70,6 +70,7 @@
 }
 .options-button2:hover{
   background-color: rgba(134,231,184,1);
+  font-weight: 400;
 }
 
 /*.input{
@@ -249,7 +250,6 @@ label:active:after {
 
 .options-text {
   font-size: 4vh;
-  font-weight: 400;
   text-align: center;
   margin-bottom: 1vh;
 }

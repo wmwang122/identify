@@ -1,0 +1,14 @@
+
+.scoreboard-header {
+    font-size: 4vh;
+    text-align: center;
+    background-color: var(--lightbrightgreen);
+    padding: 2vh 1vw 2vh 1vw;
+    border-radius: 2vh;
+    margin-bottom:2vh;
+    margin-right:4vh;
+    width: 14vw;
+
+    align-items: center;
+
+}

@@ -2,9 +2,11 @@
     background-color:var(--brightgreen);
     margin: 1vh 1vw 1vh 1vw;
     padding: 2vh 2vw 2vh 2vw;
-    width: 24.6vw;
+    width: 26.3vw;
     border-radius: 3vh;
 }
 
 .public-game-container:hover{
-    background-color:#93ff96;}
+    background-color:#93ff96;
+    font-weight: 400;
+}

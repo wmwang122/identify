@@ -507,7 +507,7 @@ const InGame = (props) => {
   );
   let textBox =
     userBuzz && userBuzz._id === props.userId ? (
-      <div>
+      <div >
         <InputAnswer submit={(sub) => handleOnSubmit(sub)} />
       </div>
     ) : (
@@ -572,7 +572,7 @@ const InGame = (props) => {
   let buzzTextState = userBuzz ? "u-hidden" : "";
   let gameMainComponent =
     roundOngoing || trackNum === 0 || !trackList || trackList.length === 0 ? (
-      <>
+      <div className="upper-padding">
         <div className="song-info">{songInfo}</div>
         <div className={"game-buzzer u-noSelect " + buzzerState} onClick={() => handleBuzz()}>
           <div className="inGame-buzzer-text-container">
@@ -580,16 +580,20 @@ const InGame = (props) => {
             <div className={countdownState + " inGame-buzzer-text"}>{countdownTimer}</div>
           </div>
         </div>
-      </>
+      </div>
     ) : (
-      <>
-        <div className="song-info-end">
-          {endingMessage}
-          <span className="song-name-end">{trackList[trackNum - 1].name}</span>
+      <div className="upper-padding">
+        <div>
+          <div className="song-info-end">
+            {endingMessage}
+            <span className="song-name-end">{trackList[trackNum - 1].name}</span>
+          </div>
+          <SongInfo song={trackList[trackNum - 1]} />
         </div>
-        <SongInfo song={trackList[trackNum - 1]} />
-        <SaveButton handle={() => handleSaveSong()} />
-      </>
+        <div className="save-button">
+          <SaveButton handle={() => handleSaveSong()} />{" "}
+        </div>
+      </div>
     );
 
   return (

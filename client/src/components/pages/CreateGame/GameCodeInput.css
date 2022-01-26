@@ -39,6 +39,7 @@
 
 .enterCode-button:hover {
     background-color:#73e3ad;
+    font-weight: 400;
 }
 
 .enterGameCode{

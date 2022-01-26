@@ -17,11 +17,11 @@ const InputAnswer = (props) => {
   }
 
   return (
-    <div>
-      <input type="text" value={inputText} onChange={handleInputChange} onKeyPress={handleKeyPress} autoFocus = "autofocus"/>
-      <button onClick={() => props.submit(inputText)} className="enterText-button">
+    <div className="answer-inline">
+      <input type="text" value={inputText} onChange={handleInputChange} onKeyPress={handleKeyPress} autoFocus = "autofocus" className="enter-Text-input"/>
+      <div onClick={() => props.submit(inputText)} className="enterText-button u-pointer">
         submit
-      </button>
+      </div>
       {/* <div> {checkCode(inputText)} </div> */}
   </div>
   );
