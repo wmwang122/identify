@@ -2,6 +2,7 @@ import React, { Component, useEffect, useState } from "react";
 import "../../../utilities.css";
 import {get, post} from "../../../utilities.js";
 import "./GameChat.css";
+import "./InputAnswer.css";
 
 const ChatSubmit = (props) => {
     const [value, setValue] = useState("");
@@ -24,23 +25,23 @@ const ChatSubmit = (props) => {
         }
     }
   return (
-    <div>
+    <div className="answer-inline">
         <input
         type="text"
         placeholder={props.defaultText}
         value={value}
         onChange={handleChange}
         onKeyPress={handleKeyPress}
-        className=""
+        className="enter-Text-input"
       />
-      <button
+      <div
         type="submit"
-        className=""
+        className="enterText-button u-pointer"
         value="Submit"
         onClick={handleSubmit}
       >
         Submit
-      </button>
+      </div>
     </div>
   );
 };

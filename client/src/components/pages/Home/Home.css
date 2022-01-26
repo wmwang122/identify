@@ -51,7 +51,7 @@
   text-align: center;
   vertical-align: middle;
   font-size: 5vh;
-  border-radius: 9vh;
+  border-radius: 5vh;
   line-height: 9vh;
   height: 11vh;
   /*width: 16vw;*/
@@ -59,9 +59,11 @@
   max-width: 40vh;
   width: 30vw;
   padding-top: 1vh;
-  padding-bottom: 1vh;
-  padding-left: 1vh;
-  padding-right: 1vh;
+  padding-bottom: 2vh;
+  padding-left: 4vh;
+  padding-right: 4vh;
+  justify-content: center;
+  align-items: center;
 }
 .login-button a {
   text-decoration: none;
@@ -106,7 +108,7 @@
   text-align: center;
   vertical-align: middle;
   font-size: 5vh;
-  border-radius: 9vh;
+  border-radius: 5vh;
   line-height: 9vh;
   height: 11vh;
   /*width: 16vw;*/
@@ -116,8 +118,8 @@
   margin-left: 2vw;
   padding-top: 1vh;
   padding-bottom: 1vh;
-  padding-left: 1vh;
-  padding-right: 1vh;
+  padding-left: 5vh;
+  padding-right: 5vh;
 }
 .instruction-button a {
   text-decoration: none;

@@ -16,7 +16,11 @@
     text-align: center;
     background-color: var(--lightbrightgreen);
     padding: 2vh 1vw 2vh 1vw;
-    border-radius: 4vh;
+    border-radius: 2vh;
+}
+
+.selectSong-add-music:hover{
+  background-color: var(--brightgreen);
 }
 
 .selectSong-add-music:hover{
@@ -94,4 +98,6 @@
 .displayInLine {
   display: inline-block;
 }
+
+
 
