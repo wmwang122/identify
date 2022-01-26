@@ -27,7 +27,6 @@ const Profile = (props) => {
     if (isMounted) {
       get("/api/whoami").then((user) => {
         setOwnProfileId(user.profileId);
-        console.log(JSON.stringify(user));
       });
     }
     return () => {
@@ -180,6 +179,16 @@ const Profile = (props) => {
               <img src={pfp} className="rounded-no-hover" />
             )}
           </div>
+          <div className="spotify-text">
+            <div className="follow-text">Follow on Spotify:</div>
+            <img
+              src="/spotify.png"
+              className="spotify-follow"
+              onClick={() => {
+                location.href = "https://open.spotify.com/user/" + spotifyId;
+              }}
+            />
+          </div>
         </div>
         <div className="bio-container">
           <div className="profile-title">{nameField}</div>
@@ -199,16 +208,6 @@ const Profile = (props) => {
                 <span className="profile-stat-title">Songs Saved: </span> {songsSaved}
               </div>
             </div>
-          </div>
-          <div className="spotify-text">
-            <div className="follow-text">Follow on Spotify:</div>
-            <img
-              src="/spotify.png"
-              className="spotify-follow"
-              onClick={() => {
-                location.href = "https://open.spotify.com/user/" + spotifyId;
-              }}
-            />
           </div>
         </div>
       </div>

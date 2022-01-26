@@ -64,7 +64,7 @@ const HowToPlay = (props) => {
         You will earn 10 points per correct answer and lose 5 points for each incorrect answer. If you buzz before the 15 second mark, you will receive 15 points.
       </div>
       <div className="howtoplay-Image-Container">
-        
+        <img src="howtoplay-step6.png" className="howtoplay-Image"/>
       </div>
     </div>
     </>
