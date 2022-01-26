@@ -43,7 +43,7 @@ const HowToPlay = (props) => {
     <div className="howtoplay-Container">
     <div className="howtoplay-number-container">4</div>
       <div className="howtoplay-Text">
-        Once the game starts, songs will play one by one. Click buzz or press spacebar when you know the answer.
+        Once the game starts, songs will play one by one. Click buzz when you know the answer.
       </div>
       <div className="howtoplay-Image-Container">
         <img src="howtoplay-step4.png" className="howtoplay-Image"/>
