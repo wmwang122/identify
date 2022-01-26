@@ -1,19 +1,17 @@
 import React, { Component, useEffect } from "react";
 import "../../../utilities.css";
 import "./Home.css";
-import {Link} from "@reach/router";
+import { Link } from "@reach/router";
 import Name from "./Name.js";
 
 const Home = (props) => {
   let homeButton = props.userId ? (
     <>
       <Link to="/lobby">
-      <div
-        className="login-button u-pointer u-fade-in-pop inst-delay-5"
-      >
-        <div className="login-back">play a game</div>
-        <div className="login-front">play a game</div>
-      </div>
+        <div className="login-button u-pointer u-fade-in-pop inst-delay-5">
+          <div className="login-back">play a game</div>
+          <div className="login-front">play a game</div>
+        </div>
       </Link>
     </>
   ) : (

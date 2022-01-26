@@ -36,13 +36,14 @@
   align-items: flex-end;
   font-size: 6vh;
   margin-bottom: 2vh;
-  max-width: 30vh;
+  max-width: 60vh;
 }
 .pfp-super-container {
   display: flex;
   align-items: center;
   position: relative;
   justify-content: center;
+  flex-direction: column;
 }
 
 .name-edit {
@@ -164,8 +165,14 @@ textarea[type="text"] {
 .spotify-follow {
   font-weight: 500;
   font-size: 3.5vh;
-  margin-top: 0.5vh;
-  margin-left: 3vw;
+  margin-top: 1vh;
+  background-color: rgba(134, 231, 184, 0.7);
+  border-radius: 5vh;
+  padding: 1.5vh;
+}
+
+.spotify-follow:hover {
+  background-color: rgba(134, 231, 184, 1);
 }
 
 img.rounded {

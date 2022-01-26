@@ -40,6 +40,7 @@ const Profile = (props) => {
       setPointsScored(user.pointsScored);
       setSongsSaved(user.songsSaved);
       setRecentSongs(user.recentSongs);
+      setSpotifyId(user.spotifyId);
     });
   }, []);
   const handlePfpEdit = (event) => {
@@ -175,14 +176,14 @@ const Profile = (props) => {
             <img src={pfp} class="rounded" />
           </div>
           <input type="file" name="file" accept="image/*" onChange={handlePfpChange} />
-        </div>
-        <div
-          className="spotify-follow"
-          onClick={() => {
-            location.href = "https://open.spotify.com/user/" + spotifyId;
-          }}
-        >
-          Follow on Spotify!
+          <div
+            className="spotify-follow"
+            onClick={() => {
+              location.href = "https://open.spotify.com/user/" + spotifyId;
+            }}
+          >
+            Follow on Spotify!
+          </div>
         </div>
         <div className="bio-container">
           <div className="profile-title">{nameField}</div>
