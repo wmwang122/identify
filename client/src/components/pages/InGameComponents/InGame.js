@@ -170,6 +170,7 @@ const InGame = (props) => {
 
   useEffect(() => {
     socket.on("new message", (message) => {
+      console.log(`heard message: ${message}`)
       setGameChat([...gameChat, message]);
     });
     return () => {

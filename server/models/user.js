@@ -12,6 +12,7 @@ const UserSchema = new mongoose.Schema({
   profileId: Number,
   recentSongs: [Object],
   friends: [String],
+  pendingFriends: [String],
 });
 
 // compile model from schema
