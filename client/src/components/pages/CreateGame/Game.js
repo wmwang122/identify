@@ -1,4 +1,6 @@
 import React, { Component, useEffect } from "react";
+import { Redirect, navigate } from "@reach/router";
+
 import "../../../utilities.css";
 import "./Game.css";
 import GameCodeInput from "./GameCodeInput.js";
@@ -6,7 +8,11 @@ import CreateGame from "../GameComponents/CreateGame.js";
 import Options from "../GameComponents/Options.js";
 import PublicGames from "./PublicGames.js";
 const Game = (props) => {
-  /*let optionsButton = props.userId ? (
+    setTimeout(()=> {console.log("genius idea");},2000);
+      if(!props.userId){
+        navigate("/");
+      }
+  /*var optionsButton = props.userId ? (
     <>
       <div className="options-button">
         <div className="options-text">Advanced Options</div>
