@@ -254,7 +254,7 @@ router.post("/buzz", (req, res) => {
 
 router.post("/clearBuzz", (req, res) => {
   let game = socketManager.games.get(req.body.gameCode);
-  game.userBuzz = null;
+  game.userBuzz = false;
   console.log("cleared buzz");
   res.send({});
 });
@@ -331,7 +331,7 @@ router.post("/newGame", (req, res) => {
     userData: [
       { _id: req.body.userId, name: req.body.name, score: 0, active: true, buzzed: false },
     ],
-    userBuzz: null,
+    userBuzz: false,
     gameChat: [],
     gameLog: [],
     hostName: req.body.hostName,
@@ -340,6 +340,7 @@ router.post("/newGame", (req, res) => {
     trackNum: 0,
     endingMessage: "",
     songTimeLeft: 30,
+    buzzTimeLeft: req.body.settings.time?req.body.settings.time:10,
     roundOngoing: false,
     //musicType: req.body.settings.musicType,
   }); //maps gamecode to an array of game settings
@@ -563,6 +564,11 @@ router.post("/updateSongTimeLeft", (req, res) => {
   let game = socketManager.games.get(req.body.gameCode);
   //console.log("game.songTimeLeft: "+game.songTimeLeft,"req.body.songTimeLeft: " + req.body.songTimeLeft);
   game.songTimeLeft = req.body.songTimeLeft;
+  res.send({});
+});
+router.post("/updateBuzzTimeLeft", (req, res) => {
+  let game = socketManager.games.get(req.body.gameCode);
+  game.buzzTimeLeft = req.body.buzzTimeLeft;
   res.send({});
 });
 
