@@ -18,7 +18,7 @@ const GameCodeInput = (props) => {
   };
 
   const checkCode = () => {
-    post("/api/joinGame", { gameCode: inputText, userId: props.userId, name: props.name}).then((gameInfo) => {
+    post("/api/joinGame", { gameCode: inputText.toUpperCase(), userId: props.userId, name: props.name}).then((gameInfo) => {
       console.log(gameInfo.status);
       if (gameInfo.status !== "game not found") {
         navigate(`/game/${gameInfo.gameCode}`, { state: gameInfo });
@@ -31,20 +31,18 @@ const GameCodeInput = (props) => {
     //  console.log(inputText);
   };
 
-    var textBox =
-      invalid === "true" ? (
-        <div className = "invalid">
-          invalid game code, please try again
-        </div>
-      ) : (
-        <> </>
-      );
+  let textBox =
+    invalid === "true" ? (
+      <div className="invalid">invalid game code, please try again</div>
+    ) : (
+      <> </>
+    );
 
   return (
     <div className="invalidColumn">
       <div className="gameCodeinline">
         <div className="submitText">code: </div>
-        <input type="text" value={inputText} onChange={handleInputChange} />
+        <input type="text" value={inputText} onChange={handleInputChange} className="join-game-input"/>
         <div onClick={checkCode} className="enterCode-button u-pointer">
           <div className="submitText">submit</div>
         </div>

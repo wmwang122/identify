@@ -24,6 +24,18 @@ const PublicGames = (props) => {
     };
   });
 
+  useEffect(()=>{
+    socket.on("public game delete", (code) => {
+      let i = publicCodes.indexOf(code);
+      if(i!==-1){
+        publicCodes.splice(i,1);
+      }
+    });
+    return () => {
+      socket.off("public game delete");
+    };
+  });
+
   useEffect(()=> {
     socket.on("public game end", (code) => {
       for(let i = 0; i < publicCodes.length; i++){

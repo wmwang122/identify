@@ -1,10 +1,11 @@
 import React, { Component, useEffect } from "react";
 import "../../../utilities.css";
 import "./Home.css";
+import { Link } from "@reach/router";
 import Name from "./Name.js";
 
 const Home = (props) => {
-  var homeButton = props.userId ? (
+  let homeButton = props.userId ? (
     <>
       <div
         className="login-button u-pointer u-fade-in-pop inst-delay-5"

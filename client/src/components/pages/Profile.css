@@ -1,6 +1,6 @@
 .profile-container-1 {
-  display: flex;
   flex-wrap: nowrap;
+  display: flex;
 }
 .pfp-container {
   display: flex;
@@ -10,10 +10,17 @@
   margin-right: 4vw;
   margin-top: 3vh;
   border-radius: 8vh;
-  height: 43vh;
-  width: 43vh;
+  height: 35vh;
+  width: 35vh;
   max-height: 32vw;
   max-width: 32vw;
+}
+
+.pfp-mega-container {
+  display: flex;
+  position: relative;
+  align-items: center;
+  justify-content: center;
 }
 
 .pfp {
@@ -29,6 +36,14 @@
   align-items: flex-end;
   font-size: 6vh;
   margin-bottom: 2vh;
+  max-width: 60vh;
+}
+.pfp-super-container {
+  display: flex;
+  align-items: center;
+  position: relative;
+  justify-content: center;
+  flex-direction: column;
 }
 
 .name-edit {
@@ -150,6 +165,19 @@ textarea[type="text"] {
 .spotify-follow {
   font-weight: 500;
   font-size: 3.5vh;
-  margin-top: 0.5vh;
-  margin-left: 3vw;
+  margin-top: 1vh;
+  background-color: rgba(134, 231, 184, 0.7);
+  border-radius: 5vh;
+  padding: 1.5vh;
+}
+
+.spotify-follow:hover {
+  background-color: rgba(134, 231, 184, 1);
+}
+
+img.rounded {
+  border-radius: 50%;
+  object-fit: cover;
+  width: 30vh;
+  height: 30vh;
 }
