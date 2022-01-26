@@ -68,7 +68,8 @@ const App = (props) => {
 
   return (
     <>
-      <NavBar handleLogin={handleLogin} handleLogout={handleLogout} userId={userId} />
+      {userId|| window.location.pathname === "/howtoplay" && window.location.pathname !== "/"?
+      (<NavBar handleLogin={handleLogin} handleLogout={handleLogout} userId={userId} />):(<></>)}
       <Router>
         <Home path="/" handleLogin={handleLogin} handleLogout={handleLogout} userId={userId} />
         {userId ? (

@@ -14,8 +14,6 @@ const NavBar = (props) => {
     </ul>
   );
   return (
-    <>
-      {props.userId ? (
         <div className="nav-list-container">
           <div className="nav-title-container">
             <Link to="/" className="nav-title">
@@ -35,10 +33,6 @@ const NavBar = (props) => {
             {toggleState}
           </div>
         </div>
-      ) : (
-        <> </>
-      )}
-    </>
   );
 };
 
