@@ -62,7 +62,7 @@
   font-size: 4vh;
 }
 
-.game-info-text{
+.game-info-text {
   font-size: 3vh;
   text-align: center;
 }
@@ -78,16 +78,14 @@
   border-radius: 5vh;
 }
 
-.upper-padding{
+.upper-padding {
   padding-top: 3vh;
   display: flex;
   flex-direction: column;
-  align-items:center;
+  align-items: center;
 }
 
-
-
-.save-button{
+.save-button {
   padding-top: 6vh;
 }
 
@@ -119,7 +117,7 @@
   padding-left: 6vh;
   border-radius: 6vh;
   background-color: var(--lightbrightgreen);
-  font-size: 4vh;
+  font-size: 3.8vh;
   text-align: center;
   justify-content: center;
   align-items: center;
@@ -191,5 +189,5 @@
 }
 
 .game-ending-timer {
-    visibility: hidden;
+  visibility: hidden;
 }
