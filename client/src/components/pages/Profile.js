@@ -5,7 +5,6 @@ import "./Profile.css";
 import { get, post } from "../../utilities.js";
 import SongInfo from "./InGameComponents/SongInfo.js";
 const Profile = (props) => {
-  console.log("testing");
   const [userName, setUserName] = useState("");
   const [bio, setBio] = useState("");
   const [pfp, setPfp] = useState("logo.png");
