@@ -23,7 +23,7 @@ const InGame = (props) => {
   const [trackList, setTrackList] = useState(null);
   const [playlistIDs, setPlaylistIDs] = useState([]);
   const [trackNum, setTrackNum] = useState(0);
-  const [myAudio, setMyAudio] = useState(null);
+  const [myAudio, setMyAudio] = useStateWithCallbackLazy(null);
   const [resetTimer, setResetTimer] = useState(false);
   const [roundOngoing, setRoundOngoing] = useState(null);
   const [canBuzz, setCanBuzz] = useState(false);
@@ -40,27 +40,25 @@ const InGame = (props) => {
   const [gameEnded, setGameEnded] = useState(false);
   const [startingTime, setStartingTime] = useState(null);
   const [startingTimeLoaded, setStartingTimeLoaded] = useState(false);
-  const [roundOngoingLoaded, setRoundOngoingLoaded] = useState(false);
+  const [roundOngoingLoaded, setRoundOngoingLoaded] = useState(null);
   const [buzzStartingTimeLoaded, setBuzzStartingTimeLoaded] = useState(false);
   const [userBuzzLoaded, setUserBuzzLoaded] = useState(false);
   const [trackListLoaded, setTrackListLoaded] = useState(false);
-  const [closeGame, setCloseGame] = useState(0);
 
   let val = window.location.href;
   let gameCode = props.gameCode;
+  var getUserDataInterval = undefined;
   //let saveMessage = "save song for later";
   useEffect(()=>{
-    var getUserDataInterval = setInterval(function(){
-      get("/api/getGameData", {code: gameCode}).then((data)=>{
-        if(!data || !data.userData || data.userData.length===0){
-          console.log("navigate1");
-          clearInterval(getUserDataInterval);
-          navigate("/lobby");
-        }
-        console.log(data.userData);
-        setUserData(data.userData);
-      });
-    },2000);
+      getUserDataInterval = setInterval(function(){
+        get("/api/getGameData", {code: gameCode}).then((data)=>{
+          if((!data || !data.userData || data.userData.length===0)){
+            clearInterval(getUserDataInterval);
+            navigate("/lobby");
+          }
+          setUserData(data.userData);
+        });
+      },2000);
   },[]);
   const handleBuzz = async (event) => {
     setCanBuzz(false);
@@ -78,6 +76,7 @@ const InGame = (props) => {
         roundNum: trackNum + 1,
       });
       myAudio.pause();
+      console.log("pause 1");
     }
   };
 
@@ -110,7 +109,6 @@ const InGame = (props) => {
       setTrackList(data.trackList);
       setEndingMessage(data.endingMessage);
       setRoundOngoing(data.roundOngoing);
-      setRoundOngoing(data.roundOngoing);
       setStartingTime(data.songTimeLeft);
       setBuzzStartingTime(data.buzzTimeLeft);
       gameCode = val.substring(val.length - 5, val.length);
@@ -129,6 +127,12 @@ const InGame = (props) => {
       setBuzzStartingTimeLoaded(true);
     }
   }, [buzzStartingTime]);
+
+  useEffect(()=>{
+    if(!audioMounted){
+      setCanBuzz(false);
+    }
+  },[audioMounted]);
 
   useEffect(()=> {
     let flag = false;
@@ -149,7 +153,7 @@ const InGame = (props) => {
     }
   },[userData]);
   useEffect(() => {
-    if (roundOngoing) {
+    if (roundOngoing !== null) {
       setRoundOngoingLoaded(true);
     }
   }, [roundOngoing]);
@@ -186,6 +190,7 @@ const InGame = (props) => {
     return () => {
       if(myAudio){
         myAudio.pause();
+        console.log("pause 2");
       }
     }
   },[myAudio]);
@@ -360,6 +365,7 @@ const InGame = (props) => {
       console.log("error");
     }
     myAudio.pause();
+    console.log("pause 3");
   };
 
   const handleTimerEnd = async (data) => {
@@ -397,6 +403,7 @@ const InGame = (props) => {
           }
         }
         if (!stillExistsUser) {
+          console.log("pause 4");
           myAudio.pause();
           post("/api/everyoneBuzzed", {
             gameCode: gameCode,
@@ -504,8 +511,9 @@ const InGame = (props) => {
   };
 
   useEffect(() => {
-    if (!roundOngoing) {
+    if (roundOngoingLoaded && !roundOngoing) {
       if (myAudio) {
+        console.log("pause 5");
         myAudio.pause();
       }
       if (trackList) {
@@ -516,17 +524,12 @@ const InGame = (props) => {
           console.log("no more songs");
         } else {
           setMyAudio(new Audio(trackList[trackNum].preview_url));
+          setAudioMounted(true);
+          console.log("audio set");
         }
       }
-      setAudioMounted(true);
-    } else if (!audioMounted && !userBuzz) {
-      if (myAudio) {
-        myAudio.currentTime = 30 - songTimeLeft;
-        myAudio.play();
-        setAudioMounted(true);
-      }
-    }
-  }, [trackNum, trackList, roundOngoing, userBuzz]);
+    } 
+  }, [trackNum, trackList, roundOngoing, userBuzz, roundOngoingLoaded]);
 
   useEffect(() => {
     if (myAudio) {
@@ -550,15 +553,15 @@ const InGame = (props) => {
     setStartingTime(30);
   };
 
-  let songInfo = roundOngoing ? (
+  let songInfo = audioMounted ? (roundOngoing ? (
     userBuzz ? (
-      <div>{userBuzz.name} has buzzed!</div>
+      <div className="game-info-text">{userBuzz.name} has buzzed!</div>
     ) : (
-      <div>Song #{trackNum + 1} is playing</div>
+      <div className="game-info-text">Song #{(trackNum + 1)+(trackList?"/"+trackList.length:"")} is playing</div>
     )
   ) : (
     <div className="game-info-text">There is currently no song playing.</div>
-  );
+  )):(<div className="game-info-text">Audio not loaded. Please wait for the next round!</div>);
   let textBox =
     userBuzz && userBuzz._id === props.userId ? (
       <div >
@@ -596,11 +599,6 @@ const InGame = (props) => {
     ) : (
       <></>
     );
-
-  useEffect(() => {
-    console.log("oops!");
-    setCloseGame(closeGame + 1);
-  }, [roundOngoing]);
   //time={30} should be changed at some point to account for reloading
   let gameTimeButton = roundOngoing ? (
     <div className="inGame-time-left">

@@ -11,11 +11,6 @@
   
 }
 
-.column {
-  display: flex;
-  flex-direction: column;
-}
-
 .row {
   display: flex;
   flex-direction:row;
@@ -57,8 +52,13 @@
 .actual-buttons {
   display: flex;
   flex-direction: row;
+  width: 50vw;
   flex-wrap: wrap;
   justify-content: space-evenly;
+}
+
+.button-padding-bottom{
+  margin-bottom: 1vh;
 }
 
 .createGame-panel{

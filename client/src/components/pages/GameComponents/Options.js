@@ -94,7 +94,7 @@ const Options = (props) => {
                 <div className="row space_evenly inline">
                   <div className="text"> Make Game Public </div>
                   <input type="checkbox" name="switch" id="switch" onClick={() => handlePublic()} />
-                  <label for="switch"></label>
+                  <label for="switch" className="optionsHandle"></label>
                 </div>
                 <div className="row space_evenly inline add-margin-top ">
                   <div className="text">
@@ -121,7 +121,7 @@ const Options = (props) => {
                     id="switch2"
                     onClick={() => handleWantsOwnPlaylist(event)}
                   />
-                  <label for="switch2"></label>
+                  <label for="switch2" className="optionsHandle"></label>
                 </div>
                 <div className="row space_evenly inline add-margin-top">
                   <div className="text">

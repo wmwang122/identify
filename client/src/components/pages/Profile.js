@@ -4,7 +4,6 @@ import "../../utilities.css";
 import "./Profile.css";
 import { get, post } from "../../utilities.js";
 import SongInfo from "./InGameComponents/SongInfo.js";
-
 const Profile = (props) => {
   const [userName, setUserName] = useState("");
   const [bio, setBio] = useState("");
@@ -165,7 +164,7 @@ const Profile = (props) => {
             {ownProfileId && ownProfileId.toString() === props.profileId ? (
               <>
                 <label for="pfpUpload">
-                  <img src={pfp} className="rounded" onClick={handlePfpChange} />
+                  <img src={pfp} className="rounded u-pointer" onClick={handlePfpChange} />
                 </label>
                 <input
                   type="file"

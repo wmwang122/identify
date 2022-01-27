@@ -592,8 +592,10 @@ router.post("/gameEnding", (req, res) => {
     }
   }
   socketManager.getIo().to(req.body.gameCode).emit("game end", {});
-  socketManager.games.delete(req.body.gameCode);
   res.send({});
+  setTimeout(()=>{
+    socketManager.games.delete(req.body.gameCode);
+  },60000);
 });
 
 router.post("/updateUserStats", (req, res) => {
