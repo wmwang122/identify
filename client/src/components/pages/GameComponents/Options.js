@@ -102,16 +102,6 @@ const Options = (props) => {
                 <label for="switch" className="optionsHandle"></label>
               </div>
               <div className="column1">
-                <div className="row space_evenly inline">
-                  <div className="text"> Choose Music </div>
-                  <input
-                    type="checkbox"
-                    name="switch"
-                    id="switch2"
-                    onClick={() => handleWantsOwnPlaylist(event)}
-                  />
-                  <label for="switch2"></label>
-                </div>
                 <div className="row space_evenly inline add-margin-top">
                   <div className="text">
                     Time to Answer:
