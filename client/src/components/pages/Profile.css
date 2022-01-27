@@ -162,21 +162,20 @@ textarea[type="text"] {
   align-items: left;
 }
 
-.stats-title{ 
+.stats-title {
   font-size: 5vh;
   justify-content: center;
   align-items: center;
   font-weight: 400;
   margin-bottom: 1vh;
-
 }
 
-.center-this{
+.center-this {
   display: flex;
-  align-items:center; 
+  align-items: center;
 }
 
-.profile-stats{
+.profile-stats {
   display: flex;
   flex-direction: column;
 }
@@ -220,7 +219,7 @@ textarea[type="text"] {
   justify-content: center;
   display: flex;
   flex-direction: column;
-  align-items:center;
+  align-items: center;
 
   border-radius: 5vh;
   margin: 5vh;
@@ -250,7 +249,7 @@ textarea[type="text"] {
   flex-direction: row;
   align-items: center;
   height: 8vh;
-  justify-content:center;
+  justify-content: center;
   align-content: center;
 }
 
@@ -259,8 +258,6 @@ textarea[type="text"] {
   margin-right: 1vh;
   margin-left: 3vw;
 }
-
-
 
 .rounded {
   border-radius: 50%;
@@ -286,9 +283,17 @@ textarea[type="text"] {
   display: none;
 } */
 
-@media (max-aspect-ratio: 8/5){
-  .spotify-and-text{
+@media (max-aspect-ratio: 8/5) {
+  .spotify-and-text {
     display: none;
   }
 }
 
+@media (max-aspect-ratio: 707/662) {
+  .pfp-super-container {
+    display: none;
+  }
+  .bio-Content {
+    width: fit-content;
+  }
+}
