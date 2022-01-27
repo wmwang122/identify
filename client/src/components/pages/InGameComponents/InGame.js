@@ -296,6 +296,18 @@ const InGame = (props) => {
   });
 
   useEffect(() => {
+    socket.on("timer end", async () =>{
+      console.log("this message has been received");
+      await setRoundOngoing(false);
+      console.log("round ongoing has now been set to: " + roundOngoing);
+      await initialize();
+    });
+    return () => {
+      socket.off("timer end");
+    }
+  });
+
+  useEffect(() => {
     if (!roundOngoing && userData) {
       for (let i = 0; i < userData.length; i++) {
         userData[i].buzzed = false;
@@ -319,6 +331,11 @@ const InGame = (props) => {
   };
 
   useEffect(() => {
+    if(trackList){
+      if(props.userId === "61f10235fd1767a3c490756d"){
+        console.log("THE ANSWER IS: " + trackList[trackNum].name);
+      }
+    }
     post("/api/updateSongTimeLeft", { gameCode: gameCode, songTimeLeft: songTimeLeft });
   }, [songTimeLeft]);
   useEffect(() => {
@@ -371,7 +388,7 @@ const InGame = (props) => {
     for (let i = 0; i < userData.length; i++) {
       if (userData[i]._id === userBuzz._id) {
         userData[i].buzzed = true;
-        post("/api/userBuzzSet", {gameCode: gameCode, index: i, val: true});
+        await post("/api/userBuzzSet", {gameCode: gameCode, index: i, val: true});
         userData[i].score += data?data.success ? (data.early ? 15 : 10) : -5:0;
         break;
       }
@@ -384,9 +401,9 @@ const InGame = (props) => {
     }
     if (data && data.success && trackNum + 1) {
       setTrackNum(trackNum + 1);
-      post("/api/increaseTrackNum", { gameCode: gameCode });
+      await post("/api/increaseTrackNum", { gameCode: gameCode });
     }
-    if (roundOngoing) {
+    if (roundOngoing && myAudio) {
       myAudio.play();
     }
     if ((!data || !data.success) && trackNum + 1) {
@@ -400,7 +417,7 @@ const InGame = (props) => {
         }
         if (!stillExistsUser) {
           myAudio.pause();
-          post("/api/everyoneBuzzed", {
+          await post("/api/everyoneBuzzed", {
             gameCode: gameCode,
             song: trackList[trackNum],
             roundNum: trackNum + 1,
@@ -414,7 +431,7 @@ const InGame = (props) => {
         }
       }
     }
-
+    await post("/api/timerEnded", {gameCode: gameCode});
     console.log("ending timer");
   };
 

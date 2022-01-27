@@ -423,6 +423,13 @@ router.post("/songEnded", (req, res) => {
   res.send({});
 });
 
+router.post("/timerEnded", (req,res) => {
+  let game = socketManager.games.get(req.body.gameCode);
+  game.roundOngoing = false;
+  //socketManager.getIo.to(req.body.gameCode).emit("timer end", {});
+  res.send({});
+});
+
 router.post("/everyoneBuzzed", (req, res) => {
   let game = socketManager.games.get(req.body.gameCode);
   game.roundOngoing = false;
@@ -566,7 +573,7 @@ router.post("/testPlaylistsInitialize", (req, res) => {
 });
 router.post("/updateSongTimeLeft", (req, res) => {
   let game = socketManager.games.get(req.body.gameCode);
-  //console.log("game.songTimeLeft: "+game.songTimeLeft,"req.body.songTimeLeft: " + req.body.songTimeLeft);
+  console.log("game.songTimeLeft: "+game.songTimeLeft,"req.body.songTimeLeft: " + req.body.songTimeLeft);
   game.songTimeLeft = req.body.songTimeLeft;
   res.send({});
 });
