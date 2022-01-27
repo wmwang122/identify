@@ -604,13 +604,22 @@ const InGame = (props) => {
       {gameTimer}
     </div>
   ) : (
+    <>
     <div className={"u-pointer inGame-next-button"} onClick={() => handleRoundStart()}>
       {!trackList || trackNum === trackList.length
-        ? "end game"
+        ? "End Game"
         : trackNum == 0
         ? "Start Round"
         : "Proceed to Next Round"}
     </div>
+    <div className={"u-pointer inGame-next-button-small"} onClick={() => handleRoundStart()}>
+      {!trackList || trackNum === trackList.length
+        ? "End"
+        : trackNum == 0
+        ? "Start"
+        : "Next"}
+    </div>
+    </>
   );
 
 
@@ -642,8 +651,10 @@ const InGame = (props) => {
       <div className="upper-padding">
         <div>
           <div className="song-info-end">
-            {endingMessage}
-            <span className="song-name-end">{trackList[trackNum - 1].name}</span>
+            <div className="song-ending-message">
+              {endingMessage}
+              <span className="song-name-end">{trackList[trackNum - 1].name}</span>
+            </div>
           </div>
           <SongInfo song={trackList[trackNum - 1]} />
         </div>
@@ -672,14 +683,18 @@ const InGame = (props) => {
         <br></br>
         <div className="inGame-container-right">
           {gameTimeButton}
-          <GameLog messages={gameLog} />
+          <div className="inGame-gameLog-container">
+            <GameLog messages={gameLog} />
+          </div>
         </div>
-        <GameChat
-          userId={props.userId}
-          messages={gameChat}
-          gameCode={props.gameCode}
-          name={props.name}
-        />{" "}
+        <div className = "inGame-gameChat-container">
+          <GameChat
+            userId={props.userId}
+            messages={gameChat}
+            gameCode={props.gameCode}
+            name={props.name}
+          />
+        </div>
       </div>
       {gameEnded ? (
         <GameEndScreen

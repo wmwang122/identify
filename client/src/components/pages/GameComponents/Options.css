@@ -54,9 +54,7 @@
   justify-content: center;
   text-decoration: none;
   display: flex;
-  min-width: 35vh;
   height: 13vh;
-  width: 22vw;
   margin-left: 2vw;
   margin-right: 2vw;
   padding-top: 2vh;
@@ -208,6 +206,33 @@ label:active:after {
   text-align: center;
   margin-bottom: 1vh;
 }
+
+.options-text-small {
+  font-size: 4vh;
+  text-align: center;
+  margin-bottom: 1vh;
+}
+
+@media (max-aspect-ratio: 199/200){
+  .options-text{
+    display: none;
+  }
+  .options-button2{
+    width: 40vw;
+    display: none;
+  }
+}
+
+@media (min-aspect-ratio: 199/200){
+  .options-text-small{
+    display: none;
+  }
+  .options-button2{
+    min-width: 35vh;
+    width: 22vw;
+  }
+}
+
 .options-description {
   font-size: 2.5vh;
 }

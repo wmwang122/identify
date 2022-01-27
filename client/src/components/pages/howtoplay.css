@@ -27,11 +27,11 @@
 
 .howtoplay-Text {
   display: flex;
-  width: 40vw;
   margin-left: 0;
   margin-right: 2vw;
   font-size: 5vh;
 }
+
 
 .howtoplay-number-container {
   width: 10vw;
@@ -49,13 +49,13 @@
 
 .howtoplay-Login-Container {
   text-align: center;
-  width: 40vw;
   border-color: var(--turqoise);
   border-width: 1.5vh;
   border-style: solid;
   border-radius: 1.5vh;
   padding: 1vh 1vw 1vh 1vw;
   margin-right: 2rem;
+  width: 40vw;
   background-color: var(--lightgreen);
 }
 .howtoplay-Image-Container {
@@ -63,14 +63,33 @@
   justify-content: center;
   align-items: center;
   text-align: center;
-  width: 40vw;
   border-color: var(--turqoise);
   border-width: 1.5vh;
   border-style: solid;
   border-radius: 1.5vh;
   padding: 1vh 1vw 1vh 1vw;
   margin-right: 2rem;
+  width: 40vw;
   background-color: var(--lightgreen);
+}
+
+@media (min-aspect-ratio: 2/3){
+  .howtoplay-Text{
+    width: 40vw;
+  }
+}
+
+@media (max-aspect-ratio: 2/3) {
+  .howtoplay-Image-Container{
+    display: none;
+  }
+  .howtoplay-Login-Container{
+    display: none;
+  }
+  .howtoplay-Text{
+    width: 50vw;
+    font-size: 3vh;
+  }
 }
 
 .howtoplay-Login {

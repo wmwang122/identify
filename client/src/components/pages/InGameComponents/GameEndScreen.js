@@ -33,6 +33,9 @@ const GameEndScreen = (props) => {
           <div className="gameEnd-leaderboard-title">
               Final Rankings
           </div>
+          <div className="gameEnd-leaderboard-title-small">
+              Ranks
+          </div>
           <div className="gameEnd-leaderboard-content">
               {leaderboard}
           </div>
@@ -46,6 +49,11 @@ const GameEndScreen = (props) => {
           <div className="gameEnd-button u-pointer">
             <Link to="/lobby">
                 leave game
+            </Link>
+          </div>
+          <div className="gameEnd-button-small u-pointer">
+            <Link to="/lobby">
+                leave
             </Link>
           </div>
       </div>

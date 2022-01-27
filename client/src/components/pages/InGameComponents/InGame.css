@@ -122,8 +122,28 @@
   justify-content: center;
   align-items: center;
 }
+.inGame-next-button-small {
+  display: flex;
+  height: 10vh;
+  width: 18vw;
+  padding-top: 3vh;
+  padding-bottom: 3vh;
+  padding-right: 5vh;
+  padding-left: 6vh;
+  border-radius: 6vh;
+  background-color: var(--lightbrightgreen);
+  font-size: 3.8vh;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+}
 
 .inGame-next-button:hover {
+  font-weight: 400;
+  background-color: var(--brightgreen);
+}
+
+.inGame-next-button-small:hover {
   font-weight: 400;
   background-color: var(--brightgreen);
 }
@@ -190,4 +210,43 @@
 
 .game-ending-timer {
   visibility: hidden;
+}
+
+@media (min-aspect-ratio: 2/3){
+  .inGame-next-button-small{
+    display: none;
+  }
+}
+
+@media (max-aspect-ratio: 2/3){
+  .inGame-container-left {
+    display: none;
+  }
+  .inGame-gameChat-container{
+    display: none;
+  }
+  .inGame-vertical-line{
+    display: none;
+  }
+  .inGame-container-main{
+    width: 60vw;
+  }
+  .inGame-container-right{
+    width: 30vw;
+  }
+  .inGame-next-button{
+    display: none;
+  }
+  .inGame-time-left-text{
+    display: none;
+  }
+  .song-ending-message{
+    display: none;
+  }
+}
+
+@media (max-aspect-ratio: 1/2){
+  .inGame-gameLog-container{
+    display: none;
+  }
 }

@@ -176,3 +176,9 @@
     display: none;
   }
 }
+
+@media(max-aspect-ratio: 2/3){
+  .home-instructions{
+    display: none;
+  }
+}

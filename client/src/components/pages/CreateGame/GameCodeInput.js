@@ -50,7 +50,7 @@ const GameCodeInput = (props) => {
   return (
     <div className="invalidColumn">
       <div className="gameCodeinline">
-        <div className="submitText">code: </div>
+        <div className="submitTextCode">code: </div>
         <input
           type="text"
           value={inputText}

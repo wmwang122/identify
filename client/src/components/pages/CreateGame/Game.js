@@ -47,6 +47,27 @@ const Game = (props) => {
           </div>
         </div>
       </div>
+      <div className="gameJoin-container-small">
+        <div className="createGame-panel">
+          <div className="create-game-text">Create</div>
+          <div className="actual-buttons">
+            <div className="button-padding-bottom">
+                <CreateGame userId={props.userId} name={props.name} />
+            </div>
+                <Options userId={props.userId} name={props.name} />
+          </div>
+        </div>
+        <div className="joinGame-container">
+          <div className="joinGame-panel">
+            <div className="join-game-box">
+              <div className="join-game-text"> Join</div>
+              <div>
+                <GameCodeInput userId={props.userId} name={props.name} />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
       <div className="publicGames">
         <PublicGames userId={props.userId} name={props.name} />{" "}
       </div>

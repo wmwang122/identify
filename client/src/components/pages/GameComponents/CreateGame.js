@@ -43,6 +43,9 @@ const CreateGame = (props) => {
       <div className="create-text">
         Quick Create
       </div>
+      <div className="create-text-small">
+        Create
+      </div>
     </div>
   );
 };

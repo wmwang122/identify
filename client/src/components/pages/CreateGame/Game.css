@@ -83,6 +83,22 @@
   display: flex;
 }
 
+.gameJoin-container-small{
+  display: flex;
+}
+
+@media (max-aspect-ratio: 4/3){
+  .gameJoin-container{
+    display: none;
+  }
+}
+
+@media (min-aspect-ratio:4/3){
+  .gameJoin-container-small{
+    display: none;
+  }
+}
+
 .joinGame-panel{
   background-color: var(--brightgreen);
   padding: 2vh 2vw 2vh 2vw;

@@ -159,6 +159,7 @@
   padding-bottom: 1.5vh;
   padding-left: 1vh;
   padding-right: 1vh;
+  font-size: 2vh;
 }
 .navbar-drop-elt2{
   padding-top: 1.5vh;
@@ -167,6 +168,7 @@
   padding-right: 1vh;
   border-bottom-left-radius: 3vh;
   border-bottom-right-radius: 3vh;
+  font-size: 2vh;
 }
 .navbar-drop-elt:hover{
   background-color: rgba(0,0,0,0.1);

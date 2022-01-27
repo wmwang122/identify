@@ -243,6 +243,7 @@ const Options = (props) => {
     <>
       <div className="options-button2 u-pointer" onClick={PopUp}>
         <div className="options-text">Advanced Options</div>
+        <div className="options-text-small">Options</div>
       </div>
       {PopUpBox}
     </>
