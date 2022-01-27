@@ -1,3 +1,5 @@
+/*help from https://www.w3schools.com/howto/howto_css_dropdown_navbar.asp*/
+
 .NavBar-container {
   background-color: var(--turqoise);
   padding: var(--s) var(--s);
@@ -89,17 +91,16 @@
 }
 
 .fixed-width-play{
-  width: 10vw;
-  min-width: 38vh;
+  width: 8vw;
 }
 .fixed-width-instructions{
-  width: 10vw;
+  width: 14vw;
 }
 .fixed-width-profile{
   width: 8vw;
 }
 .fixed-width-log{
-  width: 8vw;
+  width: 10vw;
 }
 
 .nav-item:hover {
@@ -113,3 +114,78 @@
     color: black;
 }
 
+.navbar-dropdown {
+  float: left;
+  overflow: hidden;
+}
+
+.navbar-dropbutton{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 12vh;
+  width: 12vw;
+  min-width: 20vh;
+}
+.navbar-dropbutton:hover{
+  background-color: rgba(0,0,0,0.2);
+}
+
+.navbar-dropdown .navbar-dropbutton {
+  font-size: 3.5vh;
+  font-weight: 300;
+  border: none;
+  outline: none;
+  padding: 14px 16px;
+  font-family: inherit;
+  margin: 0;
+}
+
+.navbar-drop-content {
+  display: none;
+  position: absolute;
+  width: 12vw;
+  min-width: 20vh;
+  background-color: var(--lightbrightgreen);
+  /* background-color:  */
+  /* box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2); */
+  z-index: 1;
+  border-bottom-left-radius: 3vh;
+  border-bottom-right-radius: 3vh;
+}
+
+.navbar-drop-elt{
+  padding-top: 1.5vh;
+  padding-bottom: 1.5vh;
+  padding-left: 1vh;
+  padding-right: 1vh;
+}
+.navbar-drop-elt2{
+  padding-top: 1.5vh;
+  padding-bottom: 1.5vh;
+  padding-left: 1vh;
+  padding-right: 1vh;
+  border-bottom-left-radius: 3vh;
+  border-bottom-right-radius: 3vh;
+}
+.navbar-drop-elt:hover{
+  background-color: rgba(0,0,0,0.1);
+}
+.navbar-drop-elt2:hover{
+  background-color: rgba(0,0,0,0.1);
+}
+
+.navbar-dropdown:hover .navbar-drop-content {
+  display: block;
+}
+
+@media (min-aspect-ratio: 8/5){
+  .navbar-dropdown{
+    display: none;
+  }
+}
+@media (max-aspect-ratio: 8/5){
+  .nav-elements .nav-item{
+    display: none;
+  }
+}

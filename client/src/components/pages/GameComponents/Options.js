@@ -144,7 +144,7 @@ const Options = (props) => {
           {giveChoices}
           <div className="row center inline">
             <div className="cancel-submit u-pointer" onClick={() => handleCancel()}>
-              Cancel
+              cancel
             </div>
             <div
               onClick={() => submitGameOptions(event)}

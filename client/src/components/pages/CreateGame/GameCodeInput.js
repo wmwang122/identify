@@ -63,6 +63,9 @@ const GameCodeInput = (props) => {
           <div className="submitText">submit</div>
         </div>
       </div>
+      <div onClick={checkCode} className="enterCode-button2 u-pointer">
+          <div className="submitText">submit</div>
+        </div>
       {textBox}
     </div>
   );

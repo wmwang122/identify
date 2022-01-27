@@ -76,7 +76,6 @@ const InGame = (props) => {
         roundNum: trackNum + 1,
       });
       myAudio.pause();
-      console.log("pause 1");
     }
   };
 
@@ -147,7 +146,6 @@ const InGame = (props) => {
         }
       }
       if(!flag){
-        console.log("navigate2");
         navigate("/lobby");
       }
     }
@@ -190,7 +188,7 @@ const InGame = (props) => {
     return () => {
       if(myAudio){
         myAudio.pause();
-        console.log("pause 2");
+        clearInterval(getUserDataInterval);
       }
     }
   },[myAudio]);
@@ -365,7 +363,6 @@ const InGame = (props) => {
       console.log("error");
     }
     myAudio.pause();
-    console.log("pause 3");
   };
 
   const handleTimerEnd = async (data) => {
@@ -395,7 +392,6 @@ const InGame = (props) => {
     if ((!data || !data.success) && trackNum + 1) {
       if (userData.length > 0) {
         let stillExistsUser = false;
-        console.log(userData);
         for (let i = 0; i < userData.length; i++) {
           if (!userData[i].buzzed) {
             stillExistsUser = true;
@@ -403,7 +399,6 @@ const InGame = (props) => {
           }
         }
         if (!stillExistsUser) {
-          console.log("pause 4");
           myAudio.pause();
           post("/api/everyoneBuzzed", {
             gameCode: gameCode,
@@ -445,32 +440,25 @@ const InGame = (props) => {
   };
 
   const handleOnSubmit = (value) => {
-        console.log("inside answer checker");
         let trackName = trackList[trackNum].name.toLowerCase();
         console.log(trackName);
 
         if (trackName.indexOf("(") !== -1) {
           let index = trackName.indexOf("(");
           trackName = trackName.slice(0, index).trim();
-          console.log("parenthesess found " + trackName);
-          console.log(trackName.length);
 
         }
 
         if (trackName.indexOf("-") !== -1) {
           let index = trackName.indexOf("-");
           trackName = trackName.slice(0, index).trim();
-          console.log("- found" + trackName);
-          console.log(trackName.length);
         }
 
         let userAnswer = value.toLowerCase();
         let length = trackName.length;
         userAnswer = userAnswer.slice(0, length);
-        console.log("spliced user answer: " + userAnswer);
 
         let success = userAnswer === trackName;
-        console.log("successful? " + success);
     
    // let success = value.toLowerCase() === trackList[trackNum].name.toLowerCase();
     let early = (songTimeLeft > 15);
@@ -513,7 +501,6 @@ const InGame = (props) => {
   useEffect(() => {
     if (roundOngoingLoaded && !roundOngoing) {
       if (myAudio) {
-        console.log("pause 5");
         myAudio.pause();
       }
       if (trackList) {
@@ -530,6 +517,17 @@ const InGame = (props) => {
       }
     } 
   }, [trackNum, trackList, roundOngoing, userBuzz, roundOngoingLoaded]);
+
+  useEffect(()=>{
+    if(trackList){
+      for(let i = 0; i < trackList.length; i++){
+        if(!trackList[i].preview_url){
+          trackList.splice(i,1);
+          i--;
+        }
+      }
+    }
+  },[trackList]);
 
   useEffect(() => {
     if (myAudio) {

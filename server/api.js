@@ -509,7 +509,9 @@ router.get("/getSongsFromPlaylists", async (req, res) => {
       for (let i = 0; i < playlistArray.length; i++) {
         const result = await loggedInSpotifyApi.getPlaylist(playlistArray[i]);
         for (let j = 0; j < result.body.tracks.items.length; j++) {
-          trackList.push(result.body.tracks.items[j].track);
+          if(result.body.tracks.items[j].track.preview_url){
+            trackList.push(result.body.tracks.items[j].track);
+          }
         }
       }
       trackList = shuffle(trackList);

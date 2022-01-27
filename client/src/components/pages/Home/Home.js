@@ -36,6 +36,40 @@ const Home = (props) => {
         <div className="instruction-front">Instructions</div>
       </div>
     </div>
+    
+  );
+  let homeButtonSmall = props.userId ? (
+    <>
+      <div
+        className="login-button u-pointer u-fade-in-pop inst-delay-5"
+        onClick={() => {
+          location.href = "/lobby";
+        }}
+      >
+        <div className="login-back">Play</div>
+        <div className="login-front">Play</div>
+      </div>
+    </>
+  ) : (
+    <div className="login-instruction">
+      <div
+        className="login-button u-pointer u-fade-in-pop inst-delay-5"
+        onClick={props.handleLogin}
+      >
+        <div className="login-back">Login</div>
+        <div className="login-front">Login</div>
+      </div>
+      <div
+        className="instruction-button u-pointer u-fade-in-pop inst-delay-5"
+        onClick={() => {
+          location.href = "/howtoplay";
+        }}
+      >
+        <div className="instruction-back">Help</div>
+        <div className="instruction-front">Help</div>
+      </div>
+    </div>
+    
   );
   return (
     <div className="u-flex u-flex-alignCenter u-flex-alignVertical">
@@ -57,7 +91,12 @@ const Home = (props) => {
           <div className="home-circle u-background-lightbrightgreen">4</div>win
         </div>
       </div>
-      {homeButton}
+      <div className = "homeButton">
+        {homeButton}
+      </div>
+      <div className = "homeButtonSmall">
+        {homeButtonSmall}
+      </div>
     </div>
   );
 };

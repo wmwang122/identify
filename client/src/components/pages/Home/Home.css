@@ -164,3 +164,15 @@
   min-width: 80vh;
   align-items: center;
 }
+
+@media (max-aspect-ratio: 7/5){
+  .homeButton{
+    display: none;
+  }
+}
+
+@media (min-aspect-ratio: 7/5){
+  .homeButtonSmall{
+    display: none;
+  }
+}

@@ -14,6 +14,16 @@ const NavBar = (props) => {
       Login
     </ul>
   );
+
+  let toggleStateSettings = props.userId ? (
+    <div className="navbar-drop-elt2 u-pointer" onClick={props.handleLogout}>
+      Logout
+    </div>
+  ) : (
+    <div className="navbar-drop-elt2 u-pointer" onClick={props.handleLogin}>
+      Login
+    </div>
+  );
   return (
         <div className="nav-list-container">
           <div className="nav-title-container">
@@ -23,7 +33,7 @@ const NavBar = (props) => {
           </div>
           <div className="nav-elements">
             {props.userId?<ul className="nav-item fixed-width-play">
-              <Link to="/lobby">Play a Game</Link>
+              <Link to="/lobby">Play</Link>
             </ul>:<></>}
             <ul className="nav-item fixed-width-instructions">
               <Link to="/howtoplay">Instructions</Link>
@@ -33,6 +43,29 @@ const NavBar = (props) => {
             </ul>:<></>}
             {toggleState}
           </div>
+          <div className = "navbar-dropdown">
+              <div className = "navbar-dropbutton">Pages
+                <i className="fa fa-caret-down"></i>
+              </div>
+              <div className = "navbar-drop-content">
+              <Link to="/lobby">
+                <div className = "navbar-drop-elt">
+                  Play
+                </div>
+                </Link>
+                <Link to ="/howtoplay">
+                <div className = "navbar-drop-elt">
+                Instructions
+                </div>
+                </Link>
+                <Link to="/profile">
+                <div className = "navbar-drop-elt">
+                Profile
+                </div>
+                </Link>
+                {toggleStateSettings}
+              </div>
+            </div>
         </div>
   );
 };
