@@ -66,6 +66,17 @@ const Options = (props) => {
     <></>
   );
 
+  let giveChoices = wantsOwnPlaylist ? (
+    <>
+      {" "}
+      {choosePlaylists}
+      {chooseGenre}
+      {chooseSearch}{" "}
+    </>
+  ) : (
+    <> </>
+  );
+
   //          <SelectSong handleAddSong={(song) => handleAddSong(song)} />
   //  const handleAddSong = (newSong) => {
   //  post("/api/addSong", { song: newSong, gameCode: gameCode });
@@ -130,9 +141,7 @@ const Options = (props) => {
           </div>
           <div className="selectMusic">{showSelectMusic}</div>
 
-          {choosePlaylists}
-          {chooseGenre}
-          {chooseSearch}
+          {giveChoices}
           <div className="row center inline">
             <div className="cancel-submit u-pointer" onClick={() => handleCancel()}>
               Cancel
