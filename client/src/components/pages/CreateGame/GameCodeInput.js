@@ -32,7 +32,6 @@ const GameCodeInput = (props) => {
         setInputText("");
       }
     });
-    //  console.log(inputText);
   };
 
   const handleKeyPress = (event) => {

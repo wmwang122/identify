@@ -1,7 +1,9 @@
 .save-button-end {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     position: relative;
     top: 10vh;
-    text-align: center;
     font-size: 3vh;
     width: 20vw;
     min-width: 40vh;
