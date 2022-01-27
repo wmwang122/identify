@@ -4,7 +4,6 @@ import "../../utilities.css";
 import "./Profile.css";
 import { get, post } from "../../utilities.js";
 import SongInfo from "./InGameComponents/SongInfo.js";
-
 const Profile = (props) => {
   const [userName, setUserName] = useState("");
   const [bio, setBio] = useState("");
@@ -136,7 +135,8 @@ const Profile = (props) => {
       <div className="bio-Content">{bio}</div>
       {ownProfileId && ownProfileId.toString() === props.profileId ? (
         <div className="editBio-button u-background-turquoise u-pointer" onClick={handleBioEdit}>
-          Edit Bio
+            Edit Bio
+            
         </div>
       ) : (
         <></>
@@ -180,10 +180,11 @@ const Profile = (props) => {
             )}
           </div>
           <div className="spotify-text">
-            <div className="follow-text">Follow on Spotify:</div>
+            <div className="follow-me-text"> Follow on Spotify: </div>
+
             <img
               src="/spotify.png"
-              className="spotify-follow"
+              className="spotify-follow u-pointer"
               onClick={() => {
                 location.href = "https://open.spotify.com/user/" + spotifyId;
               }}
@@ -196,17 +197,16 @@ const Profile = (props) => {
         </div>
         <div className="spotify-and-text">
           <div className="stats-container">
-            <div className="profile-stats-text">User Statistics</div>
-            <div className="profile-stats">
-              <div className="profile-stat">
-                <span className="profile-stat-title">Games Played: </span> {gamesPlayed}
-              </div>
-              <div className="profile-stat">
-                <span className="profile-stat-title">Points Scored: </span> {pointsScored}
-              </div>
-              <div className="profile-stat">
-                <span className="profile-stat-title">Songs Saved: </span> {songsSaved}
-              </div>
+            <div className="stats-title"> User Stats</div>
+
+            <div className="profile-stat">
+              <span>Games Played: </span> {gamesPlayed}
+            </div>
+            <div className="profile-stat">
+              <span>Points Scored: </span> {pointsScored}
+            </div>
+            <div className="profile-stat">
+              <span>Songs Saved: </span> {songsSaved}
             </div>
           </div>
         </div>

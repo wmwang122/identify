@@ -1,17 +1,21 @@
 .profile-container-1 {
-  flex-wrap: nowrap;
   display: flex;
+  flex-direction: row;
+  align-items: start;
+  justify-content: space-evenly;
+  margin-left: 13vw;
+  margin-right: 15vw;
 }
 .pfp-container {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-left: 3vw;
-  margin-right: 4vw;
-  margin-top: 3vh;
+  margin-left: 5vw;
+  margin-right: 3vw;
+  margin-top: 4.5vh;
   border-radius: 8vh;
-  height: 35vh;
-  width: 35vh;
+  height: 34.5vh;
+  width: 34.5vh;
   max-height: 32vw;
   max-width: 32vw;
 }
@@ -32,18 +36,20 @@
 }
 
 .bio-container {
-  margin-top: 3vh;
+  margin-top: 3.9vh;
 }
 .profile-title {
   display: flex;
   align-items: flex-end;
   font-size: 6vh;
   max-width: 60vh;
+  font-weight: 400;
 }
 .pfp-super-container {
   display: flex;
   position: relative;
   flex-direction: column;
+  align-items: center;
 }
 
 .name-edit {
@@ -68,12 +74,13 @@
   line-height: 5vh;
 }
 .bio-Content {
-  height: 25vh;
+  height: 24.3vh;
   width: 40vw;
   font-size: 2.8vh;
   white-space: pre-line;
   overflow: hidden;
   background-color: var(--lightbrightgreen);
+  margin-top: 1.5vh;
   margin-bottom: 3vh;
   border-radius: 3vh;
   padding: 2vh;
@@ -102,7 +109,7 @@
 
 textarea[type="text"] {
   width: 40vw;
-  height: 25vh;
+  height: 24.3vh;
   resize: none;
   font-size: 2.8vh;
   font-family: "Red Hat Text", sans-serif;
@@ -151,29 +158,47 @@ textarea[type="text"] {
 
 .profile-stats-text {
   font-size: 5vh;
-  margin: 1vh 2vw 1vh 2vw;
+  display: flex;
+  align-items: left;
+}
 
+.stats-title{ 
+  font-size: 5vh;
+  justify-content: center;
+  align-items: center;
+  font-weight: 400;
+  margin-bottom: 1vh;
+
+}
+
+.center-this{
+  display: flex;
+  align-items:center; 
+}
+
+.profile-stats{
+  display: flex;
+  flex-direction: column;
 }
 
 .recentSongs-container {
   background-color: var(--lightbrightgreen);
   width: 88vw;
-  margin: 5vh;
-  padding: 2vh;
   border-radius: 5vh;
+  margin-top: 1vh;
 }
 
 .profile-stat {
   font-size: 3.5vh;
-  margin-top: 0.5vh;
-  margin-left: 3vw;
 }
 .profile-stat-title {
-  font-weight: 500;
+  font-weight: 400;
+  margin-bottom: 4vh;
 }
 
 .profile-recentSongs-text {
-  font-size: 6vh;
+  font-weight: 400;
+  font-size: 3vw;
   margin: 4vh 2vw 1vh 3vw;
 }
 
@@ -190,11 +215,17 @@ textarea[type="text"] {
 }
 
 .stats-container {
-  width: 45vh;
+  width: 22vw;
   background-color: var(--lightbrightgreen);
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+  align-items:center;
+
   border-radius: 5vh;
   margin: 5vh;
   padding: 2vh;
+  height: 33vh;
   padding-bottom: 4vh;
 }
 
@@ -216,17 +247,20 @@ textarea[type="text"] {
 
 .spotify-text {
   display: flex;
-  vertical-align: middle;
+  flex-direction: row;
   align-items: center;
   height: 8vh;
+  justify-content:center;
+  align-content: center;
+}
+
+.follow-me-text {
+  font-size: 3vh;
+  margin-right: 1vh;
   margin-left: 3vw;
 }
 
-.follow-text {
-  font-size: 4vh;
-  margin-right: 1vw;
-  color: black;
-}
+
 
 .rounded {
   border-radius: 50%;
