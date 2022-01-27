@@ -145,16 +145,19 @@ textarea[type="text"] {
 
 .profile-lower-container {
   display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .profile-stats-text {
-  font-size: 6vh;
-  margin: 1vh 2vw 1vh 3vw;
+  font-size: 5vh;
+  margin: 1vh 2vw 1vh 2vw;
+
 }
 
 .recentSongs-container {
   background-color: var(--lightbrightgreen);
-  width: 85vw;
+  width: 88vw;
   margin: 5vh;
   padding: 2vh;
   border-radius: 5vh;
@@ -222,6 +225,7 @@ textarea[type="text"] {
 .follow-text {
   font-size: 4vh;
   margin-right: 1vw;
+  color: black;
 }
 
 .rounded {

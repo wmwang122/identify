@@ -70,50 +70,7 @@
   font-weight: 400;
 }
 
-/*.input{
-display: inLine;
-}
-
-.text {
-font-size: 22px;
-font: "Red Hat Text", sans-serif;
-font-weight: 400;
-}
-
-.label{
-    display: inline-block;
-}
-
-.form-control {
-  font-family: "Red Hat Text", sans-serif;
-  font-size: 20px;
-}
-
-
-:root {
-  --form-control-color: #b2fad7;
-}
-
-*,
-*:before,
-*:after {
-  box-sizing: border-box;
-}
-
-.title {
-font-size:60px;
-}
-
-.checkboxes {
-
-  display: inline-block;
-
-  padding-right: 10px;
-
-  white-space: nowrap;
-
-}*/
-
+/* code for toggle: https://codepen.io/miladxdev/pen/vYejzJQ */
 input[type="checkbox"] {
   width: 0;
   height: 0;
