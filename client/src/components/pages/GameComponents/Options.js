@@ -89,19 +89,40 @@ const Options = (props) => {
         <div className="popup">
           <div className="title column space_between">Advanced Options</div>
           <div className="row space_between inline">
-            <div className=" row space_between"> 
-            <div className="column1 column-marginright">
-              <div className="row space_evenly inline">
-                <div className="text"> Make Game Public </div>
-                <input
-                  type="checkbox"
-                  name="switch"
-                  id="switch"
-                  onClick={() => handlePublic()}
-                />
-                <label for="switch" className="optionsHandle"></label>
+            <div className=" row space_between">
+              <div className="column1 column-marginright">
+                <div className="row space_evenly inline">
+                  <div className="text"> Make Game Public </div>
+                  <input type="checkbox" name="switch" id="switch" onClick={() => handlePublic()} />
+                  <label for="switch" className="optionsHandle"></label>
+                </div>
+                <div className="row space_evenly inline add-margin-top ">
+                  <div className="text">
+                    # of Questions:
+                    <div>
+                      <input
+                        type="number"
+                        id="questions"
+                        name="questions"
+                        min="1"
+                        max="25"
+                        onChange={() => handleQuestions(event)}
+                      ></input>
+                    </div>
+                  </div>
+                </div>
               </div>
               <div className="column1">
+                <div className="row space_evenly inline">
+                  <div className="text"> Choose Music </div>
+                  <input
+                    type="checkbox"
+                    name="switch"
+                    id="switch2"
+                    onClick={() => handleWantsOwnPlaylist(event)}
+                  />
+                  <label for="switch2" className="optionsHandle"></label>
+                </div>
                 <div className="row space_evenly inline add-margin-top">
                   <div className="text">
                     Time to Answer:
@@ -117,32 +138,6 @@ const Options = (props) => {
                 </div>
               </div>
             </div>
-            <div className="column1">
-              <div className="row space_evenly inline">
-                <div className="text"> Choose Music </div>
-                <input
-                  type="checkbox"
-                  name="switch"
-                  id="switch2"
-                  onClick={() => handleWantsOwnPlaylist(event)}
-                />
-                <label for="switch2" className="optionsHandle"></label>
-              </div>
-              <div className="row space_evenly inline add-margin-top">
-                <div className="text">
-                  Time to Answer:
-                  <input
-                    type="number"
-                    id="time"
-                    name="time"
-                    min="0"
-                    max="10000"
-                    onChange={() => handleTime(event)}
-                  ></input>
-                </div>
-              </div>
-              </div>
-              </div>
           </div>
           <div className="selectMusic">{showSelectMusic}</div>
 
