@@ -183,7 +183,7 @@ textarea[type="text"] {
 
 .recentSongs-container {
   background-color: var(--lightbrightgreen);
-  width: 88vw;
+  width: 90vw;
   border-radius: 5vh;
   margin-top: 1vh;
 }
@@ -210,8 +210,8 @@ textarea[type="text"] {
 }
 
 .profile-songInfo-wrapper {
-  margin-right: 3vw;
-  margin-bottom: 2vh;
+  margin-right: 1.6vw;
+  margin-bottom: 0.5vh;
 }
 
 .stats-container {
@@ -285,3 +285,10 @@ textarea[type="text"] {
 /* input[type="file"] {
   display: none;
 } */
+
+@media (max-aspect-ratio: 8/5){
+  .spotify-and-text{
+    display: none;
+  }
+}
+
