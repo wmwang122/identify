@@ -133,28 +133,29 @@ input[type="number"] {
   font-size: 2vh;
 }
 
-label {
+.optionsHandle {
   display: block;
-  width: 125px;
-  height: 60px;
+  width: 9vw;
+  height: 9.5vh;
+  max-width: 18vh;
   background-color: white;
-  border-radius: 100px;
+  border-radius: 10vh;
   position: relative;
   cursor: pointer;
   transition: 0.5s;
-  box-shadow: 0 0 20px #477a8550;
+  box-shadow: 0 0 3vh #477a8550;
   border: black;
 }
 
-label::after {
+.optionsHandle::after {
   content: "";
-  width: 45px;
-  height: 45px;
+  width: 7.5vh;
+  height: 7.5vh;
   background-color: #e8f5f7;
   position: absolute;
-  border-radius: 70px;
-  top: 8px;
-  left: 8px;
+  border-radius: 10vh;
+  top: 1vh;
+  left: 0.5vw;
   transition: 0.5s;
 }
 
