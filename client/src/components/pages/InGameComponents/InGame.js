@@ -519,6 +519,7 @@ const InGame = (props) => {
 
   const handleGameEnd = () => {
     console.log("game has ended");
+    sortUserData();
     setGameEnded(true);
     post("/api/gameEnding", { gameCode: gameCode });
   };
