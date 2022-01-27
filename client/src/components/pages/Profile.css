@@ -230,10 +230,6 @@ textarea[type="text"] {
 
 .rounded {
   border-radius: 50%;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  position: absolute;
   object-fit: cover;
   width: 30vh;
   height: 30vh;
@@ -242,9 +238,6 @@ textarea[type="text"] {
 
 .rounded-no-hover {
   border-radius: 50%;
-  top: 42%;
-  left: 48%;
-  transform: translate(-50%, -50%);
   position: absolute;
   object-fit: cover;
   width: 30vh;

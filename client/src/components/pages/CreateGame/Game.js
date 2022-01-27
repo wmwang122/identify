@@ -29,17 +29,11 @@ const Game = (props) => {
       <div className="gameJoin-container">
         <div className="createGame-panel">
           <div className="create-game-text">Create a New Game</div>
-          <div className="row">
-            <div className="column">
-              <div className="actual-buttons">
+          <div className="actual-buttons">
+            <div className="button-padding-bottom">
                 <CreateGame userId={props.userId} name={props.name} />
-              </div>
             </div>
-            <div classsName="column">
-              <div className="actual-buttons">
                 <Options userId={props.userId} name={props.name} />
-              </div>
-            </div>
           </div>
         </div>
         <div className="joinGame-container">
