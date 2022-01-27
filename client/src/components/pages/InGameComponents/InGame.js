@@ -455,7 +455,9 @@ const InGame = (props) => {
   const handleRoundStartedByUser = (data) => {
     if (trackList && trackNum < trackList.length) {
       setRoundOngoing(true);
-      myAudio.play();
+      if(myAudio){
+        myAudio.play();
+      }
       console.log("audio started playing: " + JSON.stringify(myAudio));
     } else {
       handleGameEnd();
