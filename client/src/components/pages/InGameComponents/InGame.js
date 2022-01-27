@@ -75,7 +75,9 @@ const InGame = (props) => {
         name: props.name,
         roundNum: trackNum + 1,
       });
-      myAudio.pause();
+      if(myAudio){
+        myAudio.pause();
+      }
     }
   };
 
@@ -379,7 +381,9 @@ const InGame = (props) => {
     if (!found) {
       console.log("error");
     }
-    myAudio.pause();
+    if(myAudio){
+      myAudio.pause();
+    }
   };
 
   const handleTimerEnd = async (data) => {
@@ -416,7 +420,9 @@ const InGame = (props) => {
           }
         }
         if (!stillExistsUser) {
-          myAudio.pause();
+          if(myAudio){
+            myAudio.pause();
+          }
           await post("/api/everyoneBuzzed", {
             gameCode: gameCode,
             song: trackList[trackNum],
