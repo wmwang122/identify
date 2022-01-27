@@ -127,7 +127,6 @@ const Options = (props) => {
                 </div>
               </div>
             </div>
-<<<<<<< HEAD
             <div className="column1">
               <div className="row space_evenly inline">
                 <div className="text"> Choose Music </div>
@@ -154,8 +153,6 @@ const Options = (props) => {
               </div>
               </div>
               </div>
-=======
->>>>>>> 007f040103f0258bf829e4299bd164085ebb2fe1
           </div>
           <div className="selectMusic">{showSelectMusic}</div>
 
